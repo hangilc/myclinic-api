@@ -1,0 +1,6 @@
+class {{ class_name }}:
+    def __init__(self, {{ params| join(', ') }}):
+        {% for name in names -%}
+        self.{{ name }} = {{ name }}
+        {% endfor %}
+

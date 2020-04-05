@@ -1,0 +1,12 @@
+*.class
+*.jar
+target
+.idea
+*.iml
+__pycache__
+/*-dev-env.*
+venv/
+work/
+
+
+

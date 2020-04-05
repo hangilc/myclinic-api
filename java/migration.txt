@@ -1,0 +1,8 @@
+-- fix visit_payment
+drop index visit_id on visit_payment -- drop index (visit_id)
+create table tmp_visit_payment like visit_payment;
+insert into tmp_visit_payment select * from visit_payment group by visit_id, paytime, amount;
+rename table visit_payment to visit_payment_backup, tmp_visit_payment to visit_payment;
+alter table visit_payment add primary key (visit_id, paytime);
+
+

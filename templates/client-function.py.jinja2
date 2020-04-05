@@ -1,0 +1,11 @@
+def {{ name }}({{ params|join(', ') }}):
+    {% if req_params -%}
+    params = { {{ req_params }} }
+    {% endif -%}
+    {% if req_body -%}
+    {{ req_body }}
+    {% endif -%}
+    r = requests.{{ method }}(url + '{{ url }}'{{ kwargs }})
+    return r.json()
+
+

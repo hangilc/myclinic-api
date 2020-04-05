@@ -1,0 +1,50 @@
+from sqlalchemy import Column, String, Integer, Float, Date, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+import datetime
+import re
+
+
+Base = declarative_base()
+
+
+def confirm_int(value):
+    if not isinstance(value, int):
+        raise Exception("int expected")
+    return value
+
+
+def confirm_str(value):
+    if not isinstance(value, str):
+        raise Exception("string expected")
+    return value
+
+
+def confirm_float(value):
+    if not isinstance(value, float):
+        raise Exception("float expected")
+    return value
+
+
+def cvt_to_date_string(src):
+    if isinstance(src, datetime.date):
+        return src.strftime("%Y-%m-%d")
+    else:
+        return src
+
+
+def cvt_to_datetime_string(src):
+    if isinstance(src, datetime.datetime):
+        return src.strftime("%Y-%m-%d %H:%M:%S")
+    else:
+        return src
+
+
+_re_trailing_zero = re.compile(r"\.0*$")
+
+
+def cvt_to_int(src):
+    if isinstance(src, str):
+        src = _re_trailing_zero.sub("", src)
+    return int(src)
+
+

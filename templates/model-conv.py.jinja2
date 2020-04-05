@@ -1,0 +1,16 @@
+    def to_dict(self):
+        d = dict()
+        {% for field in fields -%}
+        d["{{ field.json_name }}"] = {{ field.json_expr }}
+        {% endfor -%}
+        return d
+
+    @staticmethod
+    def from_dict(d):
+        m = {{ class_name }}()
+        {% for field in fields -%}
+        if "{{ field.json_name }}" in d:
+            m.{{ field.model_name }} = {{ field.expr }}
+        {% endfor -%}
+        return m
+

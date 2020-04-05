@@ -1,0 +1,742 @@
+[
+  {
+    "name": "ChargeCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Charge"
+      }
+    ]
+  },
+  {
+    "name": "ChargeDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Charge"
+      }
+    ]
+  },
+  {
+    "name": "ChargeUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Charge"
+      },
+      {
+        "name": "updated",
+        "type": "Charge"
+      }
+    ]
+  },
+  {
+    "name": "ConductCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Conduct"
+      }
+    ]
+  },
+  {
+    "name": "ConductDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Conduct"
+      }
+    ]
+  },
+  {
+    "name": "ConductDrugCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "ConductDrug"
+      }
+    ]
+  },
+  {
+    "name": "ConductDrugDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "ConductDrug"
+      }
+    ]
+  },
+  {
+    "name": "ConductDrugUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "ConductDrug"
+      },
+      {
+        "name": "updated",
+        "type": "ConductDrug"
+      }
+    ]
+  },
+  {
+    "name": "ConductKizaiCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "ConductKizai"
+      }
+    ]
+  },
+  {
+    "name": "ConductKizaiDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "ConductKizai"
+      }
+    ]
+  },
+  {
+    "name": "ConductKizaiUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "ConductKizai"
+      },
+      {
+        "name": "updated",
+        "type": "ConductKizai"
+      }
+    ]
+  },
+  {
+    "name": "ConductShinryouCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "ConductShinryou"
+      }
+    ]
+  },
+  {
+    "name": "ConductShinryouDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "ConductShinryou"
+      }
+    ]
+  },
+  {
+    "name": "ConductShinryouUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "ConductShinryou"
+      },
+      {
+        "name": "updated",
+        "type": "ConductShinryou"
+      }
+    ]
+  },
+  {
+    "name": "ConductUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Conduct"
+      },
+      {
+        "name": "updated",
+        "type": "Conduct"
+      }
+    ]
+  },
+  {
+    "name": "DiseaseAdjCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "DiseaseAdj"
+      }
+    ]
+  },
+  {
+    "name": "DiseaseAdjDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "DiseaseAdj"
+      }
+    ]
+  },
+  {
+    "name": "DiseaseAdjUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "DiseaseAdj"
+      },
+      {
+        "name": "updated",
+        "type": "DiseaseAdj"
+      }
+    ]
+  },
+  {
+    "name": "DiseaseCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Disease"
+      }
+    ]
+  },
+  {
+    "name": "DiseaseDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Disease"
+      }
+    ]
+  },
+  {
+    "name": "DiseaseUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Disease"
+      },
+      {
+        "name": "updated",
+        "type": "Disease"
+      }
+    ]
+  },
+  {
+    "name": "DrugCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Drug"
+      }
+    ]
+  },
+  {
+    "name": "DrugDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Drug"
+      }
+    ]
+  },
+  {
+    "name": "DrugUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Drug"
+      },
+      {
+        "name": "updated",
+        "type": "Drug"
+      }
+    ]
+  },
+  {
+    "name": "GazouLabelCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "GazouLabel"
+      }
+    ]
+  },
+  {
+    "name": "GazouLabelDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "GazouLabel"
+      }
+    ]
+  },
+  {
+    "name": "GazouLabelUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "GazouLabel"
+      },
+      {
+        "name": "updated",
+        "type": "GazouLabel"
+      }
+    ]
+  },
+  {
+    "name": "KouhiCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Kouhi"
+      }
+    ]
+  },
+  {
+    "name": "KouhiDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Kouhi"
+      }
+    ]
+  },
+  {
+    "name": "KouhiUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Kouhi"
+      },
+      {
+        "name": "updated",
+        "type": "Kouhi"
+      }
+    ]
+  },
+  {
+    "name": "KoukikoureiCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Koukikourei"
+      }
+    ]
+  },
+  {
+    "name": "KoukikoureiDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Koukikourei"
+      }
+    ]
+  },
+  {
+    "name": "KoukikoureiUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Koukikourei"
+      },
+      {
+        "name": "updated",
+        "type": "Koukikourei"
+      }
+    ]
+  },
+  {
+    "name": "PatientCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Patient"
+      }
+    ]
+  },
+  {
+    "name": "PatientDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Patient"
+      }
+    ]
+  },
+  {
+    "name": "PatientUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Patient"
+      },
+      {
+        "name": "updated",
+        "type": "Patient"
+      }
+    ]
+  },
+  {
+    "name": "PaymentCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Payment"
+      }
+    ]
+  },
+  {
+    "name": "PaymentDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Payment"
+      }
+    ]
+  },
+  {
+    "name": "PaymentUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Payment"
+      },
+      {
+        "name": "updated",
+        "type": "Payment"
+      }
+    ]
+  },
+  {
+    "name": "PharmaDrugCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "PharmaDrug"
+      }
+    ]
+  },
+  {
+    "name": "PharmaDrugDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "PharmaDrug"
+      }
+    ]
+  },
+  {
+    "name": "PharmaDrugUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "PharmaDrug"
+      },
+      {
+        "name": "updated",
+        "type": "PharmaDrug"
+      }
+    ]
+  },
+  {
+    "name": "PharmaQueueCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "PharmaQueue"
+      }
+    ]
+  },
+  {
+    "name": "PharmaQueueDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "PharmaQueue"
+      }
+    ]
+  },
+  {
+    "name": "PharmaQueueUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "PharmaQueue"
+      },
+      {
+        "name": "updated",
+        "type": "PharmaQueue"
+      }
+    ]
+  },
+  {
+    "name": "PracticeLogDTO",
+    "type": "record",
+    "fields": [
+      {
+        "name": "serialId",
+        "type": "int"
+      },
+      {
+        "name": "createdAt",
+        "type": "string"
+      },
+      {
+        "name": "kind",
+        "type": "string"
+      },
+      {
+        "name": "body",
+        "type": "string"
+      },
+      {
+        "name": "mapper",
+        "type": "ObjectMapper"
+      }
+    ]
+  },
+  {
+    "name": "RoujinCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Roujin"
+      }
+    ]
+  },
+  {
+    "name": "RoujinDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Roujin"
+      }
+    ]
+  },
+  {
+    "name": "RoujinUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Roujin"
+      },
+      {
+        "name": "updated",
+        "type": "Roujin"
+      }
+    ]
+  },
+  {
+    "name": "ShahokokuhoCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Shahokokuho"
+      }
+    ]
+  },
+  {
+    "name": "ShahokokuhoDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Shahokokuho"
+      }
+    ]
+  },
+  {
+    "name": "ShahokokuhoUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Shahokokuho"
+      },
+      {
+        "name": "updated",
+        "type": "Shahokokuho"
+      }
+    ]
+  },
+  {
+    "name": "ShinryouCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Shinryou"
+      }
+    ]
+  },
+  {
+    "name": "ShinryouDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Shinryou"
+      }
+    ]
+  },
+  {
+    "name": "ShinryouUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Shinryou"
+      },
+      {
+        "name": "updated",
+        "type": "Shinryou"
+      }
+    ]
+  },
+  {
+    "name": "TextCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Text"
+      }
+    ]
+  },
+  {
+    "name": "TextDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Text"
+      }
+    ]
+  },
+  {
+    "name": "TextUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Text"
+      },
+      {
+        "name": "updated",
+        "type": "Text"
+      }
+    ]
+  },
+  {
+    "name": "VisitCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Visit"
+      }
+    ]
+  },
+  {
+    "name": "VisitDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Visit"
+      }
+    ]
+  },
+  {
+    "name": "VisitUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Visit"
+      },
+      {
+        "name": "updated",
+        "type": "Visit"
+      }
+    ]
+  },
+  {
+    "name": "WqueueCreated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "created",
+        "type": "Wqueue"
+      }
+    ]
+  },
+  {
+    "name": "WqueueDeleted",
+    "type": "record",
+    "fields": [
+      {
+        "name": "deleted",
+        "type": "Wqueue"
+      }
+    ]
+  },
+  {
+    "name": "WqueueUpdated",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prev",
+        "type": "Wqueue"
+      },
+      {
+        "name": "updated",
+        "type": "Wqueue"
+      }
+    ]
+  }
+]

@@ -1,0 +1,38 @@
+@app.route("/json/{{ url }}", methods=["{{ method }}"])
+def {{ fun_name }}():
+    {% for arg in args -%}
+    {{ arg }}
+    {% endfor -%}
+    {% if no_database -%}
+        {% if is_streaming -%}
+    kwargs = impl.{{ fun_name }}({{ param_names|join(', ') }})
+    return send_file(**kwargs)
+        {% else -%}
+    return jsonify(impl.{{ fun_name }}({{ param_names|join(', ') }}))
+        {% endif -%} {# if is_streaming #}
+    {% else -%} {# if database access is required #}
+    session = Session()
+    {% if "POST" in method -%}
+    session.myclinic = MyclinicContext()
+    {% endif -%}
+    try:
+        result = jsonify(impl.{{ fun_name }}({{ param_names|join(', ') }}))
+        {% if "POST" in method -%}
+        session.flush()
+        enter_myclinic_logs(session)
+        {% endif -%}
+        session.commit()
+        {% if "POST" in method -%}
+        emit_myclinic_logs(session)
+        {% endif -%}
+        return result
+    except Exception as e:
+        session.rollback()
+        raise ImplementationError(str(e))
+    finally:
+        {% if "POST" in method -%}
+        del session.myclinic
+        {% endif -%}
+        session.close()
+    {% endif -%} {# if no_databse else #}
+

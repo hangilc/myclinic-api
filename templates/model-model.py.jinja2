@@ -1,0 +1,9 @@
+class {{ class_name }}(Base):
+    __tablename__ = "{{ tablename }}"
+    {% for f in fields -%}
+    {{ f }}
+    {% endfor %}
+
+    def __repr__(self):
+        return "<{{ class_name }}({{ names|append('=\'%s\'')|join(', ') }})>" % ({{ names|prepend('self.')|join(', ') }})
+

@@ -1,0 +1,2253 @@
+[
+  {
+    "name": "BatchEnterByNamesRequest",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shinryouNames",
+        "type": {
+          "type": "array",
+          "items": "string"
+        }
+      },
+      {
+        "name": "conducts",
+        "type": {
+          "type": "array",
+          "items": "EnterConductByNamesRequest"
+        }
+      }
+    ]
+  },
+  {
+    "name": "BatchEnterRequest",
+    "type": "record",
+    "fields": [
+      {
+        "name": "drugs",
+        "type": {
+          "type": "array",
+          "items": "DrugWithAttr"
+        }
+      },
+      {
+        "name": "shinryouList",
+        "type": {
+          "type": "array",
+          "items": "ShinryouWithAttr"
+        }
+      },
+      {
+        "name": "conducts",
+        "type": {
+          "type": "array",
+          "items": "ConductEnterRequest"
+        }
+      }
+    ]
+  },
+  {
+    "name": "BatchEnterResult",
+    "type": "record",
+    "fields": [
+      {
+        "name": "drugIds",
+        "type": {
+          "type": "array",
+          "items": "int"
+        }
+      },
+      {
+        "name": "shinryouIds",
+        "type": {
+          "type": "array",
+          "items": "int"
+        }
+      },
+      {
+        "name": "conductIds",
+        "type": {
+          "type": "array",
+          "items": "int"
+        }
+      }
+    ]
+  },
+  {
+    "mysqlTable": "shoubyoumei_master_arch",
+    "name": "ByoumeiMaster",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shoubyoumeicode",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "validFrom",
+        "isPrimaryKey": true,
+        "type": "string"
+      },
+      {
+        "name": "validUpto",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit_charge",
+    "name": "Charge",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visitId",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "charge",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "name": "ChargeOptional",
+    "type": "record",
+    "fields": [
+      {
+        "name": "charge",
+        "type": "Charge"
+      }
+    ]
+  },
+  {
+    "name": "ClinicInfo",
+    "type": "record",
+    "fields": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "postalCode",
+        "type": "string"
+      },
+      {
+        "name": "address",
+        "type": "string"
+      },
+      {
+        "name": "tel",
+        "type": "string"
+      },
+      {
+        "name": "fax",
+        "type": "string"
+      },
+      {
+        "name": "todoufukencode",
+        "type": "string"
+      },
+      {
+        "name": "tensuuhyoucode",
+        "type": "string"
+      },
+      {
+        "name": "kikancode",
+        "type": "string"
+      },
+      {
+        "name": "homepage",
+        "type": "string"
+      },
+      {
+        "name": "doctorName",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit_conduct_drug",
+    "name": "ConductDrug",
+    "type": "record",
+    "fields": [
+      {
+        "name": "conductDrugId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true,
+        "mysqlColName": "id"
+      },
+      {
+        "name": "conductId",
+        "type": "int",
+        "mysqlColName": "visit_conduct_id"
+      },
+      {
+        "name": "iyakuhincode",
+        "type": "int"
+      },
+      {
+        "name": "amount",
+        "type": "double"
+      }
+    ]
+  },
+  {
+    "name": "ConductDrugFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "conductDrug",
+        "type": "ConductDrug"
+      },
+      {
+        "name": "master",
+        "type": "IyakuhinMaster"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit_conduct",
+    "name": "Conduct",
+    "type": "record",
+    "fields": [
+      {
+        "name": "conductId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true,
+        "mysqlColName": "id"
+      },
+      {
+        "name": "visitId",
+        "type": "int"
+      },
+      {
+        "name": "kind",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "name": "ConductEnterRequest",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visitId",
+        "type": "int"
+      },
+      {
+        "name": "kind",
+        "type": "int"
+      },
+      {
+        "name": "gazouLabel",
+        "type": "string"
+      },
+      {
+        "name": "shinryouList",
+        "type": {
+          "type": "array",
+          "items": "ConductShinryou"
+        }
+      },
+      {
+        "name": "drugs",
+        "type": {
+          "type": "array",
+          "items": "ConductDrug"
+        }
+      },
+      {
+        "name": "kizaiList",
+        "type": {
+          "type": "array",
+          "items": "ConductKizai"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ConductFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "conduct",
+        "type": "Conduct"
+      },
+      {
+        "name": "gazouLabel",
+        "type": "GazouLabel"
+      },
+      {
+        "name": "conductShinryouList",
+        "type": {
+          "type": "array",
+          "items": "ConductShinryouFull"
+        }
+      },
+      {
+        "name": "conductDrugs",
+        "type": {
+          "type": "array",
+          "items": "ConductDrugFull"
+        }
+      },
+      {
+        "name": "conductKizaiList",
+        "type": {
+          "type": "array",
+          "items": "ConductKizaiFull"
+        }
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit_conduct_kizai",
+    "name": "ConductKizai",
+    "type": "record",
+    "fields": [
+      {
+        "name": "conductKizaiId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true,
+        "mysqlColName": "id"
+      },
+      {
+        "name": "conductId",
+        "type": "int",
+        "mysqlColName": "visit_conduct_id"
+      },
+      {
+        "name": "kizaicode",
+        "type": "int"
+      },
+      {
+        "name": "amount",
+        "type": "double"
+      }
+    ]
+  },
+  {
+    "name": "ConductKizaiFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "conductKizai",
+        "type": "ConductKizai"
+      },
+      {
+        "name": "master",
+        "type": "KizaiMaster"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit_conduct_shinryou",
+    "name": "ConductShinryou",
+    "type": "record",
+    "fields": [
+      {
+        "name": "conductShinryouId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true,
+        "mysqlColName": "id"
+      },
+      {
+        "name": "conductId",
+        "type": "int",
+        "mysqlColName": "visit_conduct_id"
+      },
+      {
+        "name": "shinryoucode",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "name": "ConductShinryouFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "conductShinryou",
+        "type": "ConductShinryou"
+      },
+      {
+        "name": "master",
+        "type": "ShinryouMaster"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "disease_adj",
+    "name": "DiseaseAdj",
+    "type": "record",
+    "fields": [
+      {
+        "name": "diseaseAdjId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "diseaseId",
+        "type": "int"
+      },
+      {
+        "name": "shuushokugocode",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "name": "DiseaseAdjFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "diseaseAdj",
+        "type": "DiseaseAdj"
+      },
+      {
+        "name": "master",
+        "type": "ShuushokugoMaster"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "disease",
+    "name": "Disease",
+    "type": "record",
+    "fields": [
+      {
+        "name": "diseaseId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "patientId",
+        "type": "int"
+      },
+      {
+        "name": "shoubyoumeicode",
+        "type": "int"
+      },
+      {
+        "name": "startDate",
+        "type": "string"
+      },
+      {
+        "name": "endDate",
+        "type": "string"
+      },
+      {
+        "name": "endReason",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "DiseaseExample",
+    "type": "record",
+    "fields": [
+      {
+        "name": "label",
+        "type": "string"
+      },
+      {
+        "name": "byoumei",
+        "type": "string"
+      },
+      {
+        "name": "adjList",
+        "type": {
+          "type": "array",
+          "items": "string"
+        }
+      }
+    ]
+  },
+  {
+    "name": "DiseaseFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "disease",
+        "type": "Disease"
+      },
+      {
+        "name": "master",
+        "type": "ByoumeiMaster"
+      },
+      {
+        "name": "adjList",
+        "type": {
+          "type": "array",
+          "items": "DiseaseAdjFull"
+        }
+      }
+    ]
+  },
+  {
+    "name": "DiseaseModify",
+    "type": "record",
+    "fields": [
+      {
+        "name": "disease",
+        "type": "Disease"
+      },
+      {
+        "name": "shuushokugocodes",
+        "type": {
+          "type": "array",
+          "items": "int"
+        }
+      }
+    ]
+  },
+  {
+    "name": "DiseaseModifyEndReason",
+    "type": "record",
+    "fields": [
+      {
+        "name": "diseaseId",
+        "type": "int"
+      },
+      {
+        "name": "endDate",
+        "type": "string"
+      },
+      {
+        "name": "endReason",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "DiseaseNew",
+    "type": "record",
+    "fields": [
+      {
+        "name": "disease",
+        "type": "Disease"
+      },
+      {
+        "name": "adjList",
+        "type": {
+          "type": "array",
+          "items": "DiseaseAdj"
+        }
+      }
+    ]
+  },
+  {
+    "mysqlTable": "drug_attr",
+    "name": "DrugAttr",
+    "type": "record",
+    "fields": [
+      {
+        "name": "drugId",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "tekiyou",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit_drug",
+    "name": "Drug",
+    "type": "record",
+    "fields": [
+      {
+        "name": "drugId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "visitId",
+        "type": "int"
+      },
+      {
+        "name": "iyakuhincode",
+        "type": "int",
+        "mysqlColName": "d_iyakuhincode"
+      },
+      {
+        "name": "amount",
+        "type": "double",
+        "mysqlColName": "d_amount"
+      },
+      {
+        "name": "usage",
+        "type": "string",
+        "mysqlColName": "d_usage"
+      },
+      {
+        "name": "days",
+        "type": "int",
+        "mysqlColName": "d_days"
+      },
+      {
+        "name": "category",
+        "type": "int",
+        "mysqlColName": "d_category"
+      },
+      {
+        "name": "prescribed",
+        "type": "int",
+        "mysqlColName": "d_prescribed"
+      }
+    ]
+  },
+  {
+    "name": "DrugFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "drug",
+        "type": "Drug"
+      },
+      {
+        "name": "master",
+        "type": "IyakuhinMaster"
+      }
+    ]
+  },
+  {
+    "name": "DrugFullWithAttr",
+    "type": "record",
+    "fields": [
+      {
+        "name": "drug",
+        "type": "DrugFull"
+      },
+      {
+        "name": "attr",
+        "type": "DrugAttr"
+      }
+    ]
+  },
+  {
+    "name": "DrugWithAttr",
+    "type": "record",
+    "fields": [
+      {
+        "name": "drug",
+        "type": "Drug"
+      },
+      {
+        "name": "attr",
+        "type": "DrugAttr"
+      }
+    ]
+  },
+  {
+    "name": "EnterConductByNamesRequest",
+    "type": "record",
+    "fields": [
+      {
+        "name": "kind",
+        "type": "int"
+      },
+      {
+        "name": "gazouLabel",
+        "type": "string"
+      },
+      {
+        "name": "shinryouNames",
+        "type": {
+          "type": "array",
+          "items": "string"
+        }
+      },
+      {
+        "name": "kizaiList",
+        "type": {
+          "type": "array",
+          "items": "EnterConductKizaiByNamesRequest"
+        }
+      }
+    ]
+  },
+  {
+    "name": "EnterConductKizaiByNamesRequest",
+    "type": "record",
+    "fields": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "amount",
+        "type": "double"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit_gazou_label",
+    "name": "GazouLabel",
+    "type": "record",
+    "fields": [
+      {
+        "name": "conductId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "mysqlColName": "visit_conduct_id"
+      },
+      {
+        "name": "label",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "Hoken",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shahokokuho",
+        "type": "Shahokokuho"
+      },
+      {
+        "name": "koukikourei",
+        "type": "Koukikourei"
+      },
+      {
+        "name": "roujin",
+        "type": "Roujin"
+      },
+      {
+        "name": "kouhi1",
+        "type": "Kouhi"
+      },
+      {
+        "name": "kouhi2",
+        "type": "Kouhi"
+      },
+      {
+        "name": "kouhi3",
+        "type": "Kouhi"
+      }
+    ]
+  },
+  {
+    "name": "HokenList",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shahokokuhoListDTO",
+        "type": {
+          "type": "array",
+          "items": "Shahokokuho"
+        }
+      },
+      {
+        "name": "koukikoureiListDTO",
+        "type": {
+          "type": "array",
+          "items": "Koukikourei"
+        }
+      },
+      {
+        "name": "roujinListDTO",
+        "type": {
+          "type": "array",
+          "items": "Roujin"
+        }
+      },
+      {
+        "name": "kouhiListDTO",
+        "type": {
+          "type": "array",
+          "items": "Kouhi"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Hotline",
+    "type": "record",
+    "fields": [
+      {
+        "name": "hotlineId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "message",
+        "type": "string"
+      },
+      {
+        "name": "sender",
+        "type": "string"
+      },
+      {
+        "name": "recipient",
+        "type": "string"
+      },
+      {
+        "name": "postedAt",
+        "type": "string",
+        "mysqlColName": "m_datetime"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "intraclinic_comment",
+    "name": "IntraclinicComment",
+    "type": "record",
+    "fields": [
+      {
+        "name": "id",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "type": "string"
+      },
+      {
+        "name": "postId",
+        "type": "int"
+      },
+      {
+        "name": "createdAt",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "intraclinic_post",
+    "name": "IntraclinicPost",
+    "type": "record",
+    "fields": [
+      {
+        "name": "id",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "content",
+        "type": "string"
+      },
+      {
+        "name": "createdAt",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "IntraclinicPostFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "post",
+        "type": "IntraclinicPost"
+      },
+      {
+        "name": "comments",
+        "type": {
+          "type": "array",
+          "items": "IntraclinicComment"
+        }
+      }
+    ]
+  },
+  {
+    "name": "IntraclinicPostFullPage",
+    "type": "record",
+    "fields": [
+      {
+        "name": "totalPages",
+        "type": "int"
+      },
+      {
+        "name": "posts",
+        "type": {
+          "type": "array",
+          "items": "IntraclinicPostFull"
+        }
+      }
+    ]
+  },
+  {
+    "name": "IntraclinicPostPage",
+    "type": "record",
+    "fields": [
+      {
+        "name": "totalPages",
+        "type": "int"
+      },
+      {
+        "name": "posts",
+        "type": {
+          "type": "array",
+          "items": "IntraclinicPost"
+        }
+      }
+    ]
+  },
+  {
+    "mysqlTable": "intraclinic_tag",
+    "name": "IntraclinicTag",
+    "type": "record",
+    "fields": [
+      {
+        "name": "tagId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true,
+        "mysqlColName": "id"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "IntraclinicTagPost",
+    "type": "record",
+    "fields": [
+      {
+        "name": "tagId",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "postId",
+        "isPrimaryKey": true,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "name": "IyakuhincodeName",
+    "type": "record",
+    "fields": [
+      {
+        "name": "iyakuhincode",
+        "type": "int"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "iyakuhin_master_arch",
+    "name": "IyakuhinMaster",
+    "type": "record",
+    "fields": [
+      {
+        "name": "iyakuhincode",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "validFrom",
+        "isPrimaryKey": true,
+        "type": "string"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "yomi",
+        "type": "string"
+      },
+      {
+        "name": "unit",
+        "type": "string"
+      },
+      {
+        "name": "yakka",
+        "type": "double"
+      },
+      {
+        "name": "madoku",
+        "type": "string"
+      },
+      {
+        "name": "kouhatsu",
+        "type": "string"
+      },
+      {
+        "name": "zaikei",
+        "type": "string"
+      },
+      {
+        "name": "validUpto",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "tokuteikizai_master_arch",
+    "name": "KizaiMaster",
+    "type": "record",
+    "fields": [
+      {
+        "name": "kizaicode",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "validFrom",
+        "isPrimaryKey": true,
+        "type": "string"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "yomi",
+        "type": "string"
+      },
+      {
+        "name": "unit",
+        "type": "string"
+      },
+      {
+        "name": "kingaku",
+        "type": "double"
+      },
+      {
+        "name": "validUpto",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "kouhi",
+    "name": "Kouhi",
+    "type": "record",
+    "fields": [
+      {
+        "name": "kouhiId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "patientId",
+        "type": "int"
+      },
+      {
+        "name": "futansha",
+        "type": "int"
+      },
+      {
+        "name": "jukyuusha",
+        "type": "int"
+      },
+      {
+        "name": "validFrom",
+        "type": "string"
+      },
+      {
+        "name": "validUpto",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "hoken_koukikourei",
+    "name": "Koukikourei",
+    "type": "record",
+    "fields": [
+      {
+        "name": "koukikoureiId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "patientId",
+        "type": "int"
+      },
+      {
+        "name": "hokenshaBangou",
+        "type": "string"
+      },
+      {
+        "name": "hihokenshaBangou",
+        "type": "string"
+      },
+      {
+        "name": "futanWari",
+        "type": "int"
+      },
+      {
+        "name": "validFrom",
+        "type": "string"
+      },
+      {
+        "name": "validUpto",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "Meisai",
+    "type": "record",
+    "fields": [
+      {
+        "name": "sections",
+        "type": {
+          "type": "array",
+          "items": "MeisaiSection"
+        }
+      },
+      {
+        "name": "totalTen",
+        "type": "int"
+      },
+      {
+        "name": "futanWari",
+        "type": "int"
+      },
+      {
+        "name": "charge",
+        "type": "int"
+      },
+      {
+        "name": "hoken",
+        "type": "Hoken"
+      }
+    ]
+  },
+  {
+    "name": "MeisaiSection",
+    "type": "record",
+    "fields": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "label",
+        "type": "string"
+      },
+      {
+        "name": "items",
+        "type": {
+          "type": "array",
+          "items": "SectionItem"
+        }
+      },
+      {
+        "name": "sectionTotalTen",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "patient",
+    "name": "Patient",
+    "type": "record",
+    "fields": [
+      {
+        "name": "patientId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "lastName",
+        "type": "string"
+      },
+      {
+        "name": "firstName",
+        "type": "string"
+      },
+      {
+        "name": "lastNameYomi",
+        "type": "string"
+      },
+      {
+        "name": "firstNameYomi",
+        "type": "string"
+      },
+      {
+        "name": "birthday",
+        "type": "string",
+        "mysqlColName": "birth_day"
+      },
+      {
+        "name": "sex",
+        "type": "string"
+      },
+      {
+        "name": "address",
+        "type": "string"
+      },
+      {
+        "name": "phone",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "PatientHoken",
+    "type": "record",
+    "fields": [
+      {
+        "name": "patientDTO",
+        "type": "Patient"
+      },
+      {
+        "name": "hokenDTO",
+        "type": "Hoken"
+      }
+    ]
+  },
+  {
+    "name": "PatientHokenList",
+    "type": "record",
+    "fields": [
+      {
+        "name": "patientDTO",
+        "type": "Patient"
+      },
+      {
+        "name": "hokenListDTO",
+        "type": "HokenList"
+      }
+    ]
+  },
+  {
+    "name": "PatientIdTime",
+    "type": "record",
+    "fields": [
+      {
+        "name": "patientId",
+        "type": "int"
+      },
+      {
+        "name": "time",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit_payment",
+    "name": "Payment",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visitId",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "amount",
+        "type": "int"
+      },
+      {
+        "name": "paytime",
+        "isPrimaryKey": true,
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "PaymentVisitPatient",
+    "type": "record",
+    "fields": [
+      {
+        "name": "payment",
+        "type": "Payment"
+      },
+      {
+        "name": "visit",
+        "type": "Visit"
+      },
+      {
+        "name": "patient",
+        "type": "Patient"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "pharma_drug",
+    "name": "PharmaDrug",
+    "type": "record",
+    "fields": [
+      {
+        "name": "iyakuhincode",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "sideeffect",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "PharmaDrugName",
+    "type": "record",
+    "fields": [
+      {
+        "name": "iyakuhincode",
+        "type": "int"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "yomi",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "pharma_queue",
+    "name": "PharmaQueue",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visitId",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "pharmaState",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "name": "PharmaQueueFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visitId",
+        "type": "int"
+      },
+      {
+        "name": "patient",
+        "type": "Patient"
+      },
+      {
+        "name": "pharmaQueue",
+        "type": "PharmaQueue"
+      },
+      {
+        "name": "wqueue",
+        "type": "Wqueue"
+      }
+    ]
+  },
+  {
+    "name": "PracticeConfig",
+    "type": "record",
+    "fields": [
+      {
+        "name": "kouhatsuKasan",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "presc_example",
+    "name": "PrescExample",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prescExampleId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "iyakuhincode",
+        "type": "int",
+        "mysqlColName": "m_iyakuhincode"
+      },
+      {
+        "name": "masterValidFrom",
+        "type": "string",
+        "mysqlColName": "m_master_valid_from"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "mysqlColName": "m_amount"
+      },
+      {
+        "name": "usage",
+        "type": "string",
+        "mysqlColName": "m_usage"
+      },
+      {
+        "name": "days",
+        "type": "int",
+        "mysqlColName": "m_days"
+      },
+      {
+        "name": "category",
+        "type": "int",
+        "mysqlColName": "m_category"
+      },
+      {
+        "name": "comment",
+        "type": "string",
+        "mysqlColName": "m_comment"
+      }
+    ]
+  },
+  {
+    "name": "PrescExampleFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "prescExample",
+        "type": "PrescExample"
+      },
+      {
+        "name": "master",
+        "type": "IyakuhinMaster"
+      }
+    ]
+  },
+  {
+    "name": "ReferItem",
+    "type": "record",
+    "fields": [
+      {
+        "name": "hospital",
+        "type": "string"
+      },
+      {
+        "name": "section",
+        "type": "string"
+      },
+      {
+        "name": "doctor",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "ResolvedStockDrug",
+    "type": "record",
+    "fields": [
+      {
+        "name": "queryIyakuhincode",
+        "type": "int"
+      },
+      {
+        "name": "resolvedIyakuhincode",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "hoken_roujin",
+    "name": "Roujin",
+    "type": "record",
+    "fields": [
+      {
+        "name": "roujinId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "patientId",
+        "type": "int"
+      },
+      {
+        "name": "shichouson",
+        "type": "int"
+      },
+      {
+        "name": "jukyuusha",
+        "type": "int"
+      },
+      {
+        "name": "futanWari",
+        "type": "int"
+      },
+      {
+        "name": "validFrom",
+        "type": "string"
+      },
+      {
+        "name": "validUpto",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "SectionItem",
+    "type": "record",
+    "fields": [
+      {
+        "name": "label",
+        "type": "string"
+      },
+      {
+        "name": "tanka",
+        "type": "int"
+      },
+      {
+        "name": "count",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "hoken_shahokokuho",
+    "name": "Shahokokuho",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shahokokuhoId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "patientId",
+        "type": "int"
+      },
+      {
+        "name": "hokenshaBangou",
+        "type": "int"
+      },
+      {
+        "name": "hihokenshaKigou",
+        "type": "string"
+      },
+      {
+        "name": "hihokenshaBangou",
+        "type": "string"
+      },
+      {
+        "name": "honnin",
+        "type": "int"
+      },
+      {
+        "name": "kourei",
+        "type": "int"
+      },
+      {
+        "name": "validFrom",
+        "type": "string"
+      },
+      {
+        "name": "validUpto",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "shinryou_attr",
+    "name": "ShinryouAttr",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shinryouId",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "tekiyou",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit_shinryou",
+    "name": "Shinryou",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shinryouId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "visitId",
+        "type": "int"
+      },
+      {
+        "name": "shinryoucode",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "name": "ShinryouFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shinryou",
+        "type": "Shinryou"
+      },
+      {
+        "name": "master",
+        "type": "ShinryouMaster"
+      }
+    ]
+  },
+  {
+    "name": "ShinryouFullWithAttr",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shinryou",
+        "type": "ShinryouFull"
+      },
+      {
+        "name": "attr",
+        "type": "ShinryouAttr"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "shinryoukouoi_master_arch",
+    "name": "ShinryouMaster",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shinryoucode",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "validFrom",
+        "isPrimaryKey": true,
+        "type": "string"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "tensuu",
+        "type": "int"
+      },
+      {
+        "name": "tensuuShikibetsu",
+        "type": "string"
+      },
+      {
+        "name": "shuukeisaki",
+        "type": "string"
+      },
+      {
+        "name": "houkatsukensa",
+        "type": "string"
+      },
+      {
+        "name": "oushinkubun",
+        "type": "string"
+      },
+      {
+        "name": "kensaGroup",
+        "type": "string"
+      },
+      {
+        "name": "validUpto",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "ShinryouWithAttr",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shinryou",
+        "type": "Shinryou"
+      },
+      {
+        "name": "attr",
+        "type": "ShinryouAttr"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "shouki",
+    "name": "Shouki",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visitId",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "shouki",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "shuushokugo_master",
+    "name": "ShuushokugoMaster",
+    "type": "record",
+    "fields": [
+      {
+        "name": "shuushokugocode",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "StringResult",
+    "type": "record",
+    "fields": [
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit_text",
+    "name": "Text",
+    "type": "record",
+    "fields": [
+      {
+        "name": "textId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "visitId",
+        "type": "int"
+      },
+      {
+        "name": "content",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "TextVisit",
+    "type": "record",
+    "fields": [
+      {
+        "name": "text",
+        "type": "Text"
+      },
+      {
+        "name": "visit",
+        "type": "Visit"
+      }
+    ]
+  },
+  {
+    "name": "TextVisitPage",
+    "type": "record",
+    "fields": [
+      {
+        "name": "totalPages",
+        "type": "int"
+      },
+      {
+        "name": "page",
+        "type": "int"
+      },
+      {
+        "name": "textVisits",
+        "type": {
+          "type": "array",
+          "items": "TextVisit"
+        }
+      }
+    ]
+  },
+  {
+    "name": "TextVisitPatient",
+    "type": "record",
+    "fields": [
+      {
+        "name": "text",
+        "type": "Text"
+      },
+      {
+        "name": "visit",
+        "type": "Visit"
+      },
+      {
+        "name": "patient",
+        "type": "Patient"
+      }
+    ]
+  },
+  {
+    "name": "TextVisitPatientPage",
+    "type": "record",
+    "fields": [
+      {
+        "name": "totalPages",
+        "type": "int"
+      },
+      {
+        "name": "page",
+        "type": "int"
+      },
+      {
+        "name": "textVisitPatients",
+        "type": {
+          "type": "array",
+          "items": "TextVisitPatient"
+        }
+      }
+    ]
+  },
+  {
+    "name": "TodaysVisitsWithLogInfo",
+    "type": "record",
+    "fields": [
+      {
+        "name": "serverId",
+        "type": "string"
+      },
+      {
+        "name": "serialId",
+        "type": "int"
+      },
+      {
+        "name": "visits",
+        "type": {
+          "type": "array",
+          "items": "VisitFull2Patient"
+        }
+      }
+    ]
+  },
+  {
+    "name": "UserInfo",
+    "type": "record",
+    "fields": [
+      {
+        "name": "user",
+        "type": "string"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "type": {
+          "type": "array",
+          "items": "string"
+        }
+      }
+    ]
+  },
+  {
+    "name": "VisitChargePatient",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visit",
+        "type": "Visit"
+      },
+      {
+        "name": "charge",
+        "type": "Charge"
+      },
+      {
+        "name": "patient",
+        "type": "Patient"
+      }
+    ]
+  },
+  {
+    "name": "VisitDrug",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visit",
+        "type": "Visit"
+      },
+      {
+        "name": "drugs",
+        "type": {
+          "type": "array",
+          "items": "DrugFull"
+        }
+      }
+    ]
+  },
+  {
+    "name": "VisitDrugPage",
+    "type": "record",
+    "fields": [
+      {
+        "name": "page",
+        "type": "int"
+      },
+      {
+        "name": "totalPages",
+        "type": "int"
+      },
+      {
+        "name": "visitDrugs",
+        "type": {
+          "type": "array",
+          "items": "VisitDrug"
+        }
+      }
+    ]
+  },
+  {
+    "mysqlTable": "visit",
+    "name": "Visit",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visitId",
+        "isPrimaryKey": true,
+        "type": "int",
+        "isAutoInc": true
+      },
+      {
+        "name": "patientId",
+        "type": "int"
+      },
+      {
+        "name": "visitedAt",
+        "type": "string",
+        "mysqlColName": "v_datetime"
+      },
+      {
+        "name": "shahokokuhoId",
+        "type": "int"
+      },
+      {
+        "name": "koukikoureiId",
+        "type": "int"
+      },
+      {
+        "name": "roujinId",
+        "type": "int"
+      },
+      {
+        "name": "kouhi1Id",
+        "type": "int",
+        "mysqlColName": "kouhi_1_id"
+      },
+      {
+        "name": "kouhi2Id",
+        "type": "int",
+        "mysqlColName": "kouhi_2_id"
+      },
+      {
+        "name": "kouhi3Id",
+        "type": "int",
+        "mysqlColName": "kouhi_3_id"
+      }
+    ]
+  },
+  {
+    "name": "VisitFull2",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visit",
+        "type": "Visit"
+      },
+      {
+        "name": "texts",
+        "type": {
+          "type": "array",
+          "items": "Text"
+        }
+      },
+      {
+        "name": "shinryouList",
+        "type": {
+          "type": "array",
+          "items": "ShinryouFull"
+        }
+      },
+      {
+        "name": "drugs",
+        "type": {
+          "type": "array",
+          "items": "DrugFull"
+        }
+      },
+      {
+        "name": "conducts",
+        "type": {
+          "type": "array",
+          "items": "ConductFull"
+        }
+      },
+      {
+        "name": "hoken",
+        "type": "Hoken"
+      },
+      {
+        "name": "charge",
+        "type": "Charge"
+      }
+    ]
+  },
+  {
+    "name": "VisitFull2Page",
+    "type": "record",
+    "fields": [
+      {
+        "name": "totalPages",
+        "type": "int"
+      },
+      {
+        "name": "page",
+        "type": "int"
+      },
+      {
+        "name": "visits",
+        "type": {
+          "type": "array",
+          "items": "VisitFull2"
+        }
+      }
+    ]
+  },
+  {
+    "name": "VisitFull2Patient",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visitFull",
+        "type": "VisitFull2"
+      },
+      {
+        "name": "patient",
+        "type": "Patient"
+      }
+    ]
+  },
+  {
+    "name": "VisitFull2PatientPage",
+    "type": "record",
+    "fields": [
+      {
+        "name": "totalPages",
+        "type": "int"
+      },
+      {
+        "name": "page",
+        "type": "int"
+      },
+      {
+        "name": "visitPatients",
+        "type": {
+          "type": "array",
+          "items": "VisitFull2Patient"
+        }
+      }
+    ]
+  },
+  {
+    "name": "VisitFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visit",
+        "type": "Visit"
+      },
+      {
+        "name": "texts",
+        "type": {
+          "type": "array",
+          "items": "Text"
+        }
+      },
+      {
+        "name": "shinryouList",
+        "type": {
+          "type": "array",
+          "items": "ShinryouFull"
+        }
+      },
+      {
+        "name": "drugs",
+        "type": {
+          "type": "array",
+          "items": "DrugFull"
+        }
+      },
+      {
+        "name": "conducts",
+        "type": {
+          "type": "array",
+          "items": "ConductFull"
+        }
+      }
+    ]
+  },
+  {
+    "name": "VisitFullPage",
+    "type": "record",
+    "fields": [
+      {
+        "name": "totalPages",
+        "type": "int"
+      },
+      {
+        "name": "page",
+        "type": "int"
+      },
+      {
+        "name": "visits",
+        "type": {
+          "type": "array",
+          "items": "VisitFull"
+        }
+      }
+    ]
+  },
+  {
+    "name": "VisitIdVisitedAt",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visitId",
+        "type": "int"
+      },
+      {
+        "name": "visitedAt",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "VisitPatient",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visit",
+        "type": "Visit"
+      },
+      {
+        "name": "patient",
+        "type": "Patient"
+      }
+    ]
+  },
+  {
+    "name": "VisitTextDrug",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visit",
+        "type": "Visit"
+      },
+      {
+        "name": "texts",
+        "type": {
+          "type": "array",
+          "items": "Text"
+        }
+      },
+      {
+        "name": "drugs",
+        "type": {
+          "type": "array",
+          "items": "DrugFull"
+        }
+      }
+    ]
+  },
+  {
+    "name": "VisitTextDrugPage",
+    "type": "record",
+    "fields": [
+      {
+        "name": "totalPages",
+        "type": "int"
+      },
+      {
+        "name": "page",
+        "type": "int"
+      },
+      {
+        "name": "visitTextDrugs",
+        "type": {
+          "type": "array",
+          "items": "VisitTextDrug"
+        }
+      }
+    ]
+  },
+  {
+    "mysqlTable": "wqueue",
+    "name": "Wqueue",
+    "type": "record",
+    "fields": [
+      {
+        "name": "visitId",
+        "isPrimaryKey": true,
+        "type": "int"
+      },
+      {
+        "name": "waitState",
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "name": "WqueueFull",
+    "type": "record",
+    "fields": [
+      {
+        "name": "wqueue",
+        "type": "Wqueue"
+      },
+      {
+        "name": "visit",
+        "type": "Visit"
+      },
+      {
+        "name": "patient",
+        "type": "Patient"
+      }
+    ]
+  }
+]
