@@ -12,6 +12,13 @@ class Pharmacy:
     def __repr__(self):
         return f"<Pharmacy name={self.name}, fax={self.fax}, addr={self.addr}>"
 
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "fax": self.fax,
+            "addr": self.addr
+        }
+
 
 def pharmacy_list_file():
     return os.getenv("MYCLINIC_PHARMACY_LIST")
@@ -58,7 +65,10 @@ def read_pharmacy_list(path: str) -> List[Pharmacy]:
     return result
 
 
+def get_pharmacy_list():
+    return read_pharmacy_list(pharmacy_list_file())
+
+
 if __name__ == "__main__":
-    pharmacies = read_pharmacy_list(pharmacy_list_file())
-    for p in pharmacies:
-        print(p)
+    for pharmacy_entry in get_pharmacy_list():
+        print(pharmacy_entry)

@@ -4,6 +4,19 @@ from db_session import Session
 from model import *
 from sqlalchemy.sql import func
 import re
+import json
+import sys
+import os
+import yaml
+import pharmacy
+import impl
+
+
+class Presc:
+    def __init__(self, visit, presc_content, fax):
+        self.visit = visit
+        self.presc_content = presc_content
+        self.fax = fax
 
 
 def ensure_date(at: Union[str, datetime.datetime, datetime.date]) -> str:
@@ -76,11 +89,54 @@ def probe_presc_physical_mail(content: str) -> bool:
     return re_presc_physical_mail.match(content) is not None
 
 
-def run(from_date, upto_date):
-    session = Session()
+def compose_hihokensha(shahokokuho):
+    def cvt_to_str(value):
+        if value is None:
+            return ""
+        else:
+            return str(value)
+    kigou = cvt_to_str(shahokokuho.hihokensha_kigou)
+    bangou = cvt_to_str(shahokokuho.hihokensha_bangou)
+    if kigou and bangou:
+        return kigou + " ・ " + bangou
+    elif kigou:
+        return kigou
+    elif bangou:
+        return bangou
+    else:
+        return ""
+
+
+def set_shohousen_hoken(shohousen, hoken) -> None:
+    if hoken.shahokokuho:
+        shahokokuho = hoken.shahokokuho
+        shohousen["hokenshaBangou"] = str(shahokokuho.hokensha_bangou)
+        shohousen["hihokensha"] = compose_hihokensha(shahokokuho)
+        shohousen["honnin"] = shahokokuho.honnin != 0
+    elif hoken.koukikourei:
+        shohousen["hokenshaBangou"] = str(hoken.koukikourei.hokensha_bangou)
+        shohousen["hihokensha"] = str(hoken.koukikourei.hihokensha_bangou)
+    if hoken.kouhi_1:
+        shohousen["futansha"] = str(hoken.kouhi_1.futansha)
+        shohousen["jukyuysga"] = str(hoken.kouhi_1.jukyuusha)
+    if hoken.kouhi_2:
+        shohousen["futansha2"] = str(hoken.kouhi_2.futansha)
+        shohousen["jukyuysga2"] = str(hoken.kouhi_2.jukyuusha)
+
+
+def to_shohousen(session, presc):
+    shohousen = {
+        "visit_id": presc.visit.visit_id
+    }
+    hoken = impl.get_hoken(session, presc.visit.visit_id)
+    set_shohousen_hoken(shohousen, hoken)
+    return shohousen
+
+
+def list_presc(session, from_date, upto_date) -> List[Presc]:
     visits = list_visit(session, from_date, upto_date)
+    result: List[Presc] = []
     for v in visits:
-        print(v)
         texts = list_text(session, v.visit_id)
         presc_hit = False
         presc = None
@@ -94,12 +150,10 @@ def run(from_date, upto_date):
             if opt_presc:
                 if presc:
                     raise Exception(f"multiple presc: {v}")
-                presc = opt_presc
+                presc = t.content
                 presc_hit = True
             elif presc_hit:
-                print(t.content)
                 opt_pharma = probe_pharma(t.content)
-                print(opt_pharma)
                 if opt_pharma:
                     pharma = opt_pharma
                 elif probe_presc_hand_over(t.content):
@@ -113,18 +167,46 @@ def run(from_date, upto_date):
                 presc_hit = False
         if presc:
             if pharma:
-                pass
-            elif hand_over:
-                pass
-            elif mail:
-                pass
-            elif fax_home:
-                pass
-            elif physical_mail:
+                _, fax = pharma
+                result.append(Presc(v, presc, fax))
+            elif hand_over or mail or fax_home or physical_mail:
                 pass
             else:
                 raise Exception(f"presc without pharma {v}")
+    return result
+
+
+def get_pharmacy_list():
+    return [p.to_dict() for p in pharmacy.get_pharmacy_list()]
+
+
+def get_clinic_info():
+    conf = impl.CLINIC_INFO
+    return {
+        "clinicAddress": conf["postalCode"] + " " + conf["address"],
+        "clinicName": conf["name"],
+        "clinicPhone": "電話 " + conf["tel"],
+        "kikancode": str(conf["todoufukencode"]) + str(conf["tensuuhyoucode"]) + str(conf["kikancode"]),
+        "doctorName": conf["doctorName"]
+    }
+
+
+def run(from_date, upto_date):
+    session = Session()
+    presc_list = list_presc(session, from_date, upto_date)
+    result = {
+        "clinicInfo": get_clinic_info(),
+        "pharmacies": get_pharmacy_list(),
+        "shohousen": [to_shohousen(session, presc) for presc in presc_list]
+    }
+    print(json.dumps(result, indent=4, ensure_ascii=False))
+    session.close()
 
 
 if __name__ == "__main__":
-    run("2020-03-26", "2020-04-11")
+    if len(sys.argv) == 3:
+        run(sys.argv[1], sys.argv[2])
+    else:
+        print("Usage: presc date_from date_upto", file=sys.stderr)
+
+
