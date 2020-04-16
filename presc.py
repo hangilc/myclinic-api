@@ -10,6 +10,7 @@ import os
 import yaml
 import pharmacy
 import impl
+import rcpt
 
 
 class Presc:
@@ -19,7 +20,7 @@ class Presc:
         self.fax = fax
 
 
-def ensure_date(at: Union[str, datetime.datetime, datetime.date]) -> str:
+def ensure_sqldate(at: Union[str, datetime.datetime, datetime.date]) -> str:
     if isinstance(at, str):
         n = len(at)
         if n == 10:
@@ -35,8 +36,8 @@ def ensure_date(at: Union[str, datetime.datetime, datetime.date]) -> str:
 
 
 def list_visit(session, date_from, date_upto) -> List[Visit]:
-    dfrom = ensure_date(date_from)
-    dupto = ensure_date(date_upto)
+    dfrom = ensure_sqldate(date_from)
+    dupto = ensure_sqldate(date_upto)
     return (session.query(Visit).filter(func.date(Visit.visited_at) >= dfrom)
             .filter(func.date(Visit.visited_at) <= dupto)
             .order_by(Visit.visit_id)
@@ -116,12 +117,21 @@ def set_shohousen_hoken(shohousen, hoken) -> None:
     elif hoken.koukikourei:
         shohousen["hokenshaBangou"] = str(hoken.koukikourei.hokensha_bangou)
         shohousen["hihokensha"] = str(hoken.koukikourei.hihokensha_bangou)
-    if hoken.kouhi_1:
-        shohousen["futansha"] = str(hoken.kouhi_1.futansha)
-        shohousen["jukyuysga"] = str(hoken.kouhi_1.jukyuusha)
-    if hoken.kouhi_2:
-        shohousen["futansha2"] = str(hoken.kouhi_2.futansha)
-        shohousen["jukyuysga2"] = str(hoken.kouhi_2.jukyuusha)
+    kouhi_list = [kouhi for kouhi in [hoken.kouhi_1, hoken.kouhi_2, hoken.kouhi_3] if kouhi]
+    if len(kouhi_list) > 0:
+        kouhi_1 = kouhi_list[0]
+        shohousen["futansha"] = str(kouhi_1.futansha)
+        shohousen["jukyuysga"] = str(kouhi_1.jukyuusha)
+        if len(kouhi_list) > 1:
+            kouhi_2 = kouhi_list[1]
+            shohousen["futansha2"] = str(kouhi_2.futansha)
+            shohousen["jukyuysga2"] = str(kouhi_2.jukyuusha)
+
+
+def set_shohousen_patient(session, shohousen, patient) -> None:
+    shohousen["shimei"] = patient.last_name + patient.first_name
+    shohousen["birthday"] = ensure_sqldate(patient.birthday)
+    shohousen["sex"] = patient.sex
 
 
 def to_shohousen(session, presc):
@@ -129,7 +139,15 @@ def to_shohousen(session, presc):
         "visit_id": presc.visit.visit_id
     }
     hoken = impl.get_hoken(session, presc.visit.visit_id)
+    patient = impl.get_patient(session, presc.visit.patient_id)
+    rcpt_age = rcpt.calc_rcpt_age_by_date(patient.birthday, presc.visit.visited_at.date())
+    futan_wari = rcpt.calc_futan_wari(hoken, rcpt_age)
     set_shohousen_hoken(shohousen, hoken)
+    set_shohousen_patient(session, shohousen, patient)
+    shohousen["futanWari"] = futan_wari
+    shohousen["koufuDate"] = ensure_sqldate(presc.visit.visited_at.date())
+    shohousen["content"] = presc.presc_content
+    shohousen["pharmacy_fax"] = presc.fax
     return shohousen
 
 

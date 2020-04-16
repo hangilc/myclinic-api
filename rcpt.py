@@ -186,6 +186,10 @@ def section_of_conduct(conduct: Conduct) -> consts.MeisaiSectionComponent:
         return consts.MeisaiSectionShochi
 
 
+def calc_rcpt_age_by_date(birthday: datetime.date, at: datetime.date) -> int:
+    return calc_rcpt_age(birthday.year, birthday.month, birthday.day, at.year, at.month)
+
+
 def calc_rcpt_age(bd_year, bd_month, bd_day, year, month) -> int:
     age = year - bd_year
     if month < bd_month:
