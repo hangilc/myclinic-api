@@ -10,6 +10,7 @@ import pharmacy
 import impl
 import rcpt
 import argparse
+import codecs
 
 
 class Presc:
@@ -208,7 +209,7 @@ def get_clinic_info():
     }
 
 
-def run_data(date_from, date_upto):
+def run_data(date_from, date_upto, output=None):
     session = Session()
     presc_list = list_presc(session, date_from, date_upto)
     result = {
@@ -218,8 +219,34 @@ def run_data(date_from, date_upto):
         "pharmacies": get_pharmacy_list(),
         "shohousen": [to_shohousen(session, presc) for presc in presc_list]
     }
-    print(json.dumps(result, indent=4, ensure_ascii=False))
+    data = json.dumps(result, indent=4, ensure_ascii=False)
+    if output:
+        with open(output, "w", encoding="UTF-8") as fs:
+            fs.write(data)
+    else:
+        print(data)
     session.close()
+
+
+def run_print(input_file=None, output=None):
+    if input_file:
+        with open(input_file, "r", encoding="UTF-8") as fp:
+            data = json.load(fp)
+    else:
+        data = json.load(sys.stdin)
+    clinic_info = data["clinicInfo"]
+
+    def to_presc(item):
+        p = dict(clinic_info)
+        return p
+
+    plist = [to_presc(p) for p in data["shohousen"]]
+    result = json.dumps(plist, indent=4, ensure_ascii=False)
+    if output:
+        with open(output, "w", encoding="UTF-8") as fs:
+            fs.write(result)
+    else:
+        print(result)
 
 
 def run():
@@ -228,7 +255,12 @@ def run():
     parser_data = sub_parsers.add_parser("data")
     parser_data.add_argument("date_from", metavar="DATE-FROM")
     parser_data.add_argument("date_upto", metavar="DATE-UPTO")
+    parser_data.add_argument("-o", "--output")
     parser_data.set_defaults(func=run_data)
+    parser_print = sub_parsers.add_parser("print")
+    parser_print.add_argument("-i", "--input", dest="input_file")
+    parser_print.add_argument("-o", "--output")
+    parser_print.set_defaults(func=run_print)
     args = parser.parse_args()
     f = args.func
     kwargs = vars(args)
