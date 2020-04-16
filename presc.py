@@ -6,11 +6,10 @@ from sqlalchemy.sql import func
 import re
 import json
 import sys
-import os
-import yaml
 import pharmacy
 import impl
 import rcpt
+import argparse
 
 
 class Presc:
@@ -209,10 +208,12 @@ def get_clinic_info():
     }
 
 
-def run(from_date, upto_date):
+def run_data(date_from, date_upto):
     session = Session()
-    presc_list = list_presc(session, from_date, upto_date)
+    presc_list = list_presc(session, date_from, date_upto)
     result = {
+        "date_from": date_from,
+        "date_upto": date_upto,
         "clinicInfo": get_clinic_info(),
         "pharmacies": get_pharmacy_list(),
         "shohousen": [to_shohousen(session, presc) for presc in presc_list]
@@ -221,10 +222,21 @@ def run(from_date, upto_date):
     session.close()
 
 
+def run():
+    parser = argparse.ArgumentParser(description="Processes prescripton")
+    sub_parsers = parser.add_subparsers()
+    parser_data = sub_parsers.add_parser("data")
+    parser_data.add_argument("date_from", metavar="DATE-FROM")
+    parser_data.add_argument("date_upto", metavar="DATE-UPTO")
+    parser_data.set_defaults(func=run_data)
+    args = parser.parse_args()
+    f = args.func
+    kwargs = vars(args)
+    del kwargs["func"]
+    f(**kwargs)
+
+
 if __name__ == "__main__":
-    if len(sys.argv) == 3:
-        run(sys.argv[1], sys.argv[2])
-    else:
-        print("Usage: presc date_from date_upto", file=sys.stderr)
+    run()
 
 
