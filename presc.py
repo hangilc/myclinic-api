@@ -238,6 +238,10 @@ def run_print(input_file=None, output=None):
 
     def to_presc(item):
         p = dict(clinic_info)
+        for key in ["hokenshaBangou", "hihokensha", "futansha", "jukyuusha", "futansha2", "jukyuusha2",
+                    "shimei", "birthday", "sex", "honnin", "futanWari", "koufuDate", "validUptoDate", "content"]:
+            if key in item:
+                p[key] = item[key]
         return p
 
     plist = [to_presc(p) for p in data["shohousen"]]
