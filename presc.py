@@ -1,5 +1,4 @@
 from typing import List, Union, Optional, Tuple
-import datetime
 from db_session import Session
 from model import *
 from sqlalchemy.sql import func
@@ -10,7 +9,8 @@ import pharmacy
 import impl
 import rcpt
 import argparse
-import codecs
+from functools import reduce
+import operator
 
 
 class Presc:
@@ -228,6 +228,12 @@ def run_data(date_from, date_upto, output=None):
     session.close()
 
 
+def make_pharma_map(pharma_list):
+    return {
+        p["fax"]: p for p in pharma_list
+    }
+
+
 def run_print(input_file=None, output=None):
     if input_file:
         with open(input_file, "r", encoding="UTF-8") as fp:
@@ -235,16 +241,28 @@ def run_print(input_file=None, output=None):
     else:
         data = json.load(sys.stdin)
     clinic_info = data["clinicInfo"]
+    pharma_map = make_pharma_map(data["pharmacies"])
+    presc_groups = {}
+    for item in data["shohousen"]:
+        fax = item["pharmacy_fax"]
+        if fax not in presc_groups:
+            presc_groups[fax] = []
+        presc_groups[fax].append(item)
+    ordered_presc_groups = [(fax, ps) for fax, ps in presc_groups.items()]
+    ordered_presc_groups.sort(key=lambda item: len(item[1]), reverse=True)
+    for g in ordered_presc_groups:
+        print(pharma_map[g[0]]["name"], len(g[1]), file=sys.stderr)
 
-    def to_presc(item):
+    def to_presc(presc_item):
         p = dict(clinic_info)
         for key in ["hokenshaBangou", "hihokensha", "futansha", "jukyuusha", "futansha2", "jukyuusha2",
                     "shimei", "birthday", "sex", "honnin", "futanWari", "koufuDate", "validUptoDate", "content"]:
-            if key in item:
-                p[key] = item[key]
+            if key in presc_item:
+                p[key] = presc_item[key]
+        p["pharmacyName"] = pharma_map[presc_item["pharmacy_fax"]]["name"]
         return p
 
-    plist = [to_presc(p) for p in data["shohousen"]]
+    plist = [to_presc(p) for p in reduce(operator.add, (ps_item for _, ps_item in ordered_presc_groups))]
     result = json.dumps(plist, indent=4, ensure_ascii=False)
     if output:
         with open(output, "w", encoding="UTF-8") as fs:
@@ -256,15 +274,18 @@ def run_print(input_file=None, output=None):
 def run():
     parser = argparse.ArgumentParser(description="Processes prescripton")
     sub_parsers = parser.add_subparsers()
+    # data
     parser_data = sub_parsers.add_parser("data")
     parser_data.add_argument("date_from", metavar="DATE-FROM")
     parser_data.add_argument("date_upto", metavar="DATE-UPTO")
     parser_data.add_argument("-o", "--output")
     parser_data.set_defaults(func=run_data)
+    # print
     parser_print = sub_parsers.add_parser("print")
     parser_print.add_argument("-i", "--input", dest="input_file")
     parser_print.add_argument("-o", "--output")
     parser_print.set_defaults(func=run_print)
+    #
     args = parser.parse_args()
     f = args.func
     kwargs = vars(args)
