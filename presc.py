@@ -32,6 +32,8 @@ def ensure_sqldate(at: Union[str, datetime.datetime, datetime.date]) -> str:
 
 def ensure_date(d: Union[str, datetime.datetime, datetime.date]) -> datetime.date:
     if isinstance(d, str):
+        if len(d) > 10:
+            d = d[:10]
         return datetime.datetime.strptime(d, "%Y-%m-%d").date()
     elif isinstance(d, datetime.date):
         return d
@@ -62,12 +64,22 @@ class ShohousenClinicInfo:
 
     def to_dict(self):
         return {
-            "clinicAddress": self.address,
-            "clinicName": self.name,
-            "clinicPhone": self.phone,
+            "address": self.address,
+            "name": self.name,
+            "phone": self.phone,
             "kikancode": self.kikancode,
-            "doctorName": self.doctor_name
+            "doctor_name": self.doctor_name
         }
+
+    @classmethod
+    def from_dict(cls, d: Dict):
+        return cls(
+            d["address"],
+            d["name"],
+            d["phone"],
+            d["kikancode"],
+            d["doctor_name"]
+        )
 
 
 def get_clinic_info():
@@ -77,27 +89,35 @@ def get_clinic_info():
     conf["kikancode"] = str(conf["kikancode"])
     clinic_info = ClinicInfo.from_dict(conf)
     return ShohousenClinicInfo.from_clinic_info(clinic_info)
-    # return {
-    #     "clinicAddress": conf["postalCode"] + " " + conf["address"],
-    #     "clinicName": conf["name"],
-    #     "clinicPhone": "電話 " + conf["tel"],
-    #     "kikancode": str(conf["todoufukencode"]) + str(conf["tensuuhyoucode"]) + str(conf["kikancode"]),
-    #     "doctorName": conf["doctorName"]
-    # }
 
 
 class Presc:
-    def __init__(self, visit: Visit, presc_content: str, fax: str):
+    def __init__(self, visit: Visit, presc_content: str, fax: str,
+                 hoken: Hoken, patient: Patient):
         self.visit = visit
         self.presc_content = presc_content
         self.fax = fax
+        self.hoken = hoken
+        self.patient = patient
 
     def to_dict(self) -> Dict:
         return {
             "visit": self.visit.to_dict(),
             "presc_content": self.presc_content,
-            "fax": self.fax
+            "fax": self.fax,
+            "hoken": self.hoken.to_dict(),
+            "patient": self.patient.to_dict()
         }
+
+    @classmethod
+    def from_dict(cls, d: Dict):
+        return cls(
+            Visit.from_dict(d["visit"]),
+            d["presc_content"],
+            d["fax"],
+            Hoken.from_dict(d["hoken"]),
+            Patient.from_dict(d["patient"])
+        )
 
 
 class ShohousenGroup:
@@ -110,6 +130,13 @@ class ShohousenGroup:
             "pharmacy": self.pharmacy.to_dict(),
             "items": [item.to_dict() for item in self.items]
         }
+
+    @classmethod
+    def from_dict(cls, d: Dict):
+        return cls(Pharmacy.from_dict(
+            d["pharmacy"]),
+            [Presc.from_dict(x) for x in d["items"]]
+        )
 
 
 class ShohousenBundle:
@@ -127,6 +154,15 @@ class ShohousenBundle:
             "clinic_info": self.clinic_info.to_dict(),
             "groups": [g.to_dict() for g in self.groups]
         }
+
+    @classmethod
+    def from_dict(cls, d: Dict):
+        return cls(
+            ensure_date(d["date_from"]),
+            ensure_date(d["date_upto"]),
+            ShohousenClinicInfo.from_dict(d["clinic_info"]),
+            [ShohousenGroup.from_dict(x) for x in d["groups"]]
+        )
 
 
 def list_visit(session, date_from, date_upto) -> List[Visit]:
@@ -182,6 +218,91 @@ def probe_presc_home(content: str) -> bool:
 
 def probe_presc_physical_mail(content: str) -> bool:
     return re_presc_physical_mail.match(content) is not None
+
+
+class Shohousen:
+    def __init__(self, hokensha_bangou="", hihokensha="", futansha="", jukyuusha="",
+                 futansha2="", jukyuusha2="", shimei="", birthday: Optional[datetime.date] = None,
+                 sex: Optional[str] = None, honnin: Optional[bool] = None,
+                 futan_wari: Optional[int] = None, koufu_date: Optional[datetime.date] = None,
+                 content="", pharmacy_name=""):
+        self.hokensha_bangou = hokensha_bangou
+        self.hihokensha = hihokensha
+        self.futansha = futansha
+        self.jukyuusha = jukyuusha
+        self.futansha2 = futansha2
+        self.jukyuusha2 = jukyuusha2
+        self.shimei = shimei
+        self.birthday = birthday
+        self.sex = sex
+        self.honnin = honnin
+        self.futan_wari = futan_wari
+        self.koufu_date = koufu_date
+        self.content = content
+        self.pharmacy_name = pharmacy_name
+
+    def set_hoken(self, hoken: Hoken) -> None:
+        if hoken.shahokokuho:
+            shahokokuho = hoken.shahokokuho
+            self.hokensha_bangou = str(shahokokuho.hokensha_bangou)
+            self.hihokensha = compose_hihokensha(shahokokuho)
+            self.honnin = shahokokuho.honnin != 0
+        elif hoken.koukikourei:
+            self.hokensha_bangou = str(hoken.koukikourei.hokensha_bangou)
+            self.hihokensha = str(hoken.koukikourei.hihokensha_bangou)
+        kouhi_list = [kouhi for kouhi in [hoken.kouhi_1, hoken.kouhi_2, hoken.kouhi_3] if kouhi]
+        if len(kouhi_list) > 0:
+            kouhi_1 = kouhi_list[0]
+            self.futansha = str(kouhi_1.futansha)
+            self.jukyuusha = str(kouhi_1.jukyuusha)
+            if len(kouhi_list) > 1:
+                kouhi_2 = kouhi_list[1]
+                self.futansha2 = str(kouhi_2.futansha)
+                self.jukyuusha = str(kouhi_2.jukyuusha)
+
+    def set_patient(self, patient: Patient) -> None:
+        self.shimei = patient.last_name + patient.first_name
+        self.birthday = ensure_sqldate(patient.birthday)
+        self.sex = patient.sex
+
+    @classmethod
+    def from_presc(cls, presc: Presc, pharmacy_name: str):
+        shohousen = cls()
+        hoken = presc.hoken
+        shohousen.set_hoken(hoken)
+        patient = presc.patient
+        shohousen.set_patient(patient)
+        birthday = ensure_date(patient.birthday)
+        visit_day = ensure_date(presc.visit.visited_at)
+        rcpt_age = rcpt.calc_rcpt_age_by_date(birthday, visit_day)
+        shohousen.futan_wari = rcpt.calc_futan_wari(hoken, rcpt_age)
+        shohousen.koufu_date = ensure_date(presc.visit.visited_at)
+        shohousen.content = presc.presc_content
+        shohousen.pharmacy_name = pharmacy_name
+        return shohousen
+
+    def to_input(self, clinic_info: ShohousenClinicInfo) -> Dict:
+        return {
+            "clinicAddress": clinic_info.address,
+            "clinicName": clinic_info.name,
+            "clinicPhone": clinic_info.phone,
+            "kikancode": clinic_info.kikancode,
+            "doctorName": clinic_info.doctor_name,
+            "hokenshaBangou": self.hokensha_bangou,
+            "hihokensha": self.hihokensha,
+            "futansha": self.futansha,
+            "jukyuusha": self.jukyuusha,
+            "futansha2": self.futansha2,
+            "jukyuusha2": self.jukyuusha2,
+            "shimei": self.shimei,
+            "birthday": ensure_sqldate(self.birthday),
+            "sex": self.sex,
+            "honnin": self.honnin,
+            "futanWari": self.futan_wari,
+            "koufuDate": ensure_sqldate(self.koufu_date),
+            "content": self.content,
+            "pharmacyName": self.pharmacy_name
+        }
 
 
 def compose_hihokensha(shahokokuho):
@@ -280,7 +401,9 @@ def list_presc(session, from_date, upto_date) -> List[Presc]:
         if presc:
             if pharma:
                 _, fax = pharma
-                result.append(Presc(v, presc, fax))
+                result.append(Presc(v, presc, fax,
+                                    impl.get_hoken(session, v.visit_id),
+                                    impl.get_patient(session, v.patient_id)))
             elif hand_over or mail or fax_home or physical_mail:
                 pass
             else:
@@ -298,6 +421,14 @@ def do_output(value: str, dest: Optional[str]) -> None:
             fs.write(value)
     else:
         print(value)
+
+
+def do_input(input_file: Optional[str]) -> Dict:
+    if input_file:
+        with open(input_file, "r", encoding="UTF-8") as fp:
+            return json.load(fp)
+    else:
+        return json.load(sys.stdin)
 
 
 def run_data(date_from, date_upto, output=None):
@@ -321,47 +452,39 @@ def run_data(date_from, date_upto, output=None):
     session.close()
 
 
-def make_pharma_map(pharma_list):
-    return {
-        p["fax"]: p for p in pharma_list
-    }
-
-
 def run_print(input_file=None, output=None):
-    if input_file:
-        with open(input_file, "r", encoding="UTF-8") as fp:
-            data = json.load(fp)
-    else:
-        data = json.load(sys.stdin)
-    clinic_info = data["clinicInfo"]
-    pharma_map = make_pharma_map(data["pharmacies"])
-    presc_groups = {}
-    for item in data["shohousen"]:
-        fax = item["pharmacy_fax"]
-        if fax not in presc_groups:
-            presc_groups[fax] = []
-        presc_groups[fax].append(item)
-    ordered_presc_groups = [(fax, ps) for fax, ps in presc_groups.items()]
-    ordered_presc_groups.sort(key=lambda item: len(item[1]), reverse=True)
-    for g in ordered_presc_groups:
-        print(pharma_map[g[0]]["name"], len(g[1]), file=sys.stderr)
-
-    def to_presc(presc_item):
-        p = dict(clinic_info)
-        for key in ["hokenshaBangou", "hihokensha", "futansha", "jukyuusha", "futansha2", "jukyuusha2",
-                    "shimei", "birthday", "sex", "honnin", "futanWari", "koufuDate", "validUptoDate", "content"]:
-            if key in presc_item:
-                p[key] = presc_item[key]
-        p["pharmacyName"] = pharma_map[presc_item["pharmacy_fax"]]["name"]
-        return p
-
-    plist = [to_presc(p) for p in reduce(operator.add, (ps_item for _, ps_item in ordered_presc_groups))]
-    result = json.dumps(plist, indent=4, ensure_ascii=False)
-    if output:
-        with open(output, "w", encoding="UTF-8") as fs:
-            fs.write(result)
-    else:
-        print(result)
+    dict_data = do_input(input_file)
+    bundle: ShohousenBundle = ShohousenBundle.from_dict(dict_data)
+    shohousen_list: List[Shohousen] = []
+    for group in bundle.groups:
+        pharma_name = group.pharmacy.name
+        shohousen_list += [Shohousen.from_presc(item, pharma_name) for item in group.items]
+    print(json.dumps([s.to_input(bundle.clinic_info) for s in shohousen_list], indent=2, ensure_ascii=False))
+    # clinic_info = data["clinicInfo"]
+    # pharma_map = make_pharma_map(data["pharmacies"])
+    # presc_groups = {}
+    # for item in data["shohousen"]:
+    #     fax = item["pharmacy_fax"]
+    #     if fax not in presc_groups:
+    #         presc_groups[fax] = []
+    #     presc_groups[fax].append(item)
+    # ordered_presc_groups = [(fax, ps) for fax, ps in presc_groups.items()]
+    # ordered_presc_groups.sort(key=lambda item: len(item[1]), reverse=True)
+    # for g in ordered_presc_groups:
+    #     print(pharma_map[g[0]]["name"], len(g[1]), file=sys.stderr)
+    #
+    # def to_presc(presc_item):
+    #     p = dict(clinic_info)
+    #     for key in ["hokenshaBangou", "hihokensha", "futansha", "jukyuusha", "futansha2", "jukyuusha2",
+    #                 "shimei", "birthday", "sex", "honnin", "futanWari", "koufuDate", "validUptoDate", "content"]:
+    #         if key in presc_item:
+    #             p[key] = presc_item[key]
+    #     p["pharmacyName"] = pharma_map[presc_item["pharmacy_fax"]]["name"]
+    #     return p
+    #
+    # plist = [to_presc(p) for p in reduce(operator.add, (ps_item for _, ps_item in ordered_presc_groups))]
+    # result = json.dumps(plist, indent=4, ensure_ascii=False)
+    # do_output(result, output)
 
 
 def run():
