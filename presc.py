@@ -1,4 +1,4 @@
-from typing import List, Union, Optional, Tuple
+from typing import List, Union, Optional, Tuple, Dict
 from db_session import Session
 from model import *
 from sqlalchemy.sql import func
@@ -11,13 +11,30 @@ import rcpt
 import argparse
 from functools import reduce
 import operator
+import datetime
+from pharmacy import Pharmacy
 
 
 class Presc:
-    def __init__(self, visit, presc_content, fax):
+    def __init__(self, visit: Visit, presc_content: str, fax: str):
         self.visit = visit
         self.presc_content = presc_content
         self.fax = fax
+
+
+class ShohousenGroup:
+    def __init__(self, pharmacy_fax: str, items: List[Presc]):
+        self.pharmacy_fax = pharmacy_fax
+        self.items = items
+
+
+class ShohousenBundle:
+    def __init__(self, date_from: datetime.date, date_upto: datetime.date, clinic_info: ClinicInfo,
+                 groups: List[ShohousenGroup]):
+        self.date_from = date_from
+        self.date_upto = date_upto
+        self.clinic_info = clinic_info
+        self.groups = groups
 
 
 def ensure_sqldate(at: Union[str, datetime.datetime, datetime.date]) -> str:
@@ -211,7 +228,17 @@ def get_clinic_info():
 
 def run_data(date_from, date_upto, output=None):
     session = Session()
-    presc_list = list_presc(session, date_from, date_upto)
+    presc_list: List[Presc] = list_presc(session, date_from, date_upto)
+    presc_groups: Dict[str, ShohousenGroup] = {}
+    for item in presc_list:
+        fax = item.fax
+        if fax not in presc_groups:
+            presc_groups[fax] = ShohousenGroup(fax, [])
+        presc_groups[fax].items.append(item)
+    ordered_presc_groups: List[Tuple[str, ShohousenGroup]] = [(sg.pharmacy_fax, sg) for sg in presc_groups.values()]
+    ordered_presc_groups.sort(key=lambda x: len(x[1]), reverse=True)
+    pharmacies: List[Pharmacy] = get_pharmacy_list()
+    pharma_map: Dict[str, Pharmacy] = {p.fax: p for p in pharmacies}
     result = {
         "date_from": date_from,
         "date_upto": date_upto,

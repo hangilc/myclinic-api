@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Dict
 import re
 
 
@@ -12,12 +12,20 @@ class Pharmacy:
     def __repr__(self):
         return f"<Pharmacy name={self.name}, fax={self.fax}, addr={self.addr}>"
 
-    def to_dict(self):
+    def to_dict(self) -> Dict:
         return {
             "name": self.name,
             "fax": self.fax,
             "addr": self.addr
         }
+
+    @classmethod
+    def from_dict(cls, d: Dict):
+        return cls(
+            d["name"],
+            d["fax"],
+            d["addr"]
+        )
 
 
 def pharmacy_list_file():
