@@ -295,11 +295,11 @@ class Shohousen:
             "futansha2": self.futansha2,
             "jukyuusha2": self.jukyuusha2,
             "shimei": self.shimei,
-            "birthday": ensure_sqldate(self.birthday),
+            "birthday": ensure_sqldate(self.birthday) if self.birthday else None,
             "sex": self.sex,
             "honnin": self.honnin,
             "futanWari": self.futan_wari,
-            "koufuDate": ensure_sqldate(self.koufu_date),
+            "koufuDate": ensure_sqldate(self.koufu_date) if self.koufu_date else None,
             "content": self.content,
             "pharmacyName": self.pharmacy_name
         }
@@ -459,32 +459,14 @@ def run_print(input_file=None, output=None):
     for group in bundle.groups:
         pharma_name = group.pharmacy.name
         shohousen_list += [Shohousen.from_presc(item, pharma_name) for item in group.items]
-    print(json.dumps([s.to_input(bundle.clinic_info) for s in shohousen_list], indent=2, ensure_ascii=False))
-    # clinic_info = data["clinicInfo"]
-    # pharma_map = make_pharma_map(data["pharmacies"])
-    # presc_groups = {}
-    # for item in data["shohousen"]:
-    #     fax = item["pharmacy_fax"]
-    #     if fax not in presc_groups:
-    #         presc_groups[fax] = []
-    #     presc_groups[fax].append(item)
-    # ordered_presc_groups = [(fax, ps) for fax, ps in presc_groups.items()]
-    # ordered_presc_groups.sort(key=lambda item: len(item[1]), reverse=True)
-    # for g in ordered_presc_groups:
-    #     print(pharma_map[g[0]]["name"], len(g[1]), file=sys.stderr)
-    #
-    # def to_presc(presc_item):
-    #     p = dict(clinic_info)
-    #     for key in ["hokenshaBangou", "hihokensha", "futansha", "jukyuusha", "futansha2", "jukyuusha2",
-    #                 "shimei", "birthday", "sex", "honnin", "futanWari", "koufuDate", "validUptoDate", "content"]:
-    #         if key in presc_item:
-    #             p[key] = presc_item[key]
-    #     p["pharmacyName"] = pharma_map[presc_item["pharmacy_fax"]]["name"]
-    #     return p
-    #
-    # plist = [to_presc(p) for p in reduce(operator.add, (ps_item for _, ps_item in ordered_presc_groups))]
-    # result = json.dumps(plist, indent=4, ensure_ascii=False)
-    # do_output(result, output)
+    json_rep = json.dumps([s.to_input(bundle.clinic_info) for s in shohousen_list], indent=2, ensure_ascii=False)
+    do_output(json_rep, output)
+
+
+def run_print_blank(output=None):
+    shohousen = Shohousen()
+    json_rep = json.dumps([shohousen.to_input(get_clinic_info())], indent=2, ensure_ascii=False)
+    do_output(json_rep, output)
 
 
 def run():
@@ -501,6 +483,10 @@ def run():
     parser_print.add_argument("-i", "--input", dest="input_file")
     parser_print.add_argument("-o", "--output")
     parser_print.set_defaults(func=run_print)
+    # print-blank
+    parser_print_blank = sub_parsers.add_parser("print-blank")
+    parser_print_blank.add_argument("-o", "--output")
+    parser_print_blank.set_defaults(func=run_print_blank)
     #
     args = parser.parse_args()
     f = args.func
