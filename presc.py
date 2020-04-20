@@ -15,28 +15,6 @@ import datetime
 from pharmacy import Pharmacy
 
 
-class Presc:
-    def __init__(self, visit: Visit, presc_content: str, fax: str):
-        self.visit = visit
-        self.presc_content = presc_content
-        self.fax = fax
-
-
-class ShohousenGroup:
-    def __init__(self, pharmacy_fax: str, items: List[Presc]):
-        self.pharmacy_fax = pharmacy_fax
-        self.items = items
-
-
-class ShohousenBundle:
-    def __init__(self, date_from: datetime.date, date_upto: datetime.date, clinic_info: ClinicInfo,
-                 groups: List[ShohousenGroup]):
-        self.date_from = date_from
-        self.date_upto = date_upto
-        self.clinic_info = clinic_info
-        self.groups = groups
-
-
 def ensure_sqldate(at: Union[str, datetime.datetime, datetime.date]) -> str:
     if isinstance(at, str):
         n = len(at)
@@ -50,6 +28,105 @@ def ensure_sqldate(at: Union[str, datetime.datetime, datetime.date]) -> str:
         return at.strftime("%Y-%m-%d")
     else:
         raise Exception(f"Cannot normalize at: {at}")
+
+
+def ensure_date(d: Union[str, datetime.datetime, datetime.date]) -> datetime.date:
+    if isinstance(d, str):
+        return datetime.datetime.strptime(d, "%Y-%m-%d").date()
+    elif isinstance(d, datetime.date):
+        return d
+    elif isinstance(d, datetime.datetime):
+        return d.date()
+    else:
+        raise Exception(f"cannot convert to date: {d}")
+
+
+class ShohousenClinicInfo:
+    def __init__(self, address, name, phone, kikancode, doctor_name):
+        self.address = address
+        self.name = name
+        self.phone = phone
+        self.kikancode = kikancode
+        self.doctor_name = doctor_name
+
+    @classmethod
+    def from_clinic_info(cls, clinic_info: ClinicInfo):
+        c = clinic_info
+        return cls(
+            c.postal_code + " " + c.address,
+            c.name,
+            "電話 " + c.tel,
+            str(c.todoufukencode) + str(c.tensuuhyoucode) + str(c.kikancode),
+            c.doctor_name
+        )
+
+    def to_dict(self):
+        return {
+            "clinicAddress": self.address,
+            "clinicName": self.name,
+            "clinicPhone": self.phone,
+            "kikancode": self.kikancode,
+            "doctorName": self.doctor_name
+        }
+
+
+def get_clinic_info():
+    conf = dict(impl.get_clinic_info())
+    conf["todoufukencode"] = format(conf["todoufukencode"], "02d")
+    conf["tensuuhyoucode"] = str(conf["tensuuhyoucode"])
+    conf["kikancode"] = str(conf["kikancode"])
+    clinic_info = ClinicInfo.from_dict(conf)
+    return ShohousenClinicInfo.from_clinic_info(clinic_info)
+    # return {
+    #     "clinicAddress": conf["postalCode"] + " " + conf["address"],
+    #     "clinicName": conf["name"],
+    #     "clinicPhone": "電話 " + conf["tel"],
+    #     "kikancode": str(conf["todoufukencode"]) + str(conf["tensuuhyoucode"]) + str(conf["kikancode"]),
+    #     "doctorName": conf["doctorName"]
+    # }
+
+
+class Presc:
+    def __init__(self, visit: Visit, presc_content: str, fax: str):
+        self.visit = visit
+        self.presc_content = presc_content
+        self.fax = fax
+
+    def to_dict(self) -> Dict:
+        return {
+            "visit": self.visit.to_dict(),
+            "presc_content": self.presc_content,
+            "fax": self.fax
+        }
+
+
+class ShohousenGroup:
+    def __init__(self, pharmacy_arg: Pharmacy, items: List[Presc]):
+        self.pharmacy = pharmacy_arg
+        self.items = items
+
+    def to_dict(self):
+        return {
+            "pharmacy": self.pharmacy.to_dict(),
+            "items": [item.to_dict() for item in self.items]
+        }
+
+
+class ShohousenBundle:
+    def __init__(self, date_from: datetime.date, date_upto: datetime.date, clinic_info: ShohousenClinicInfo,
+                 groups: List[ShohousenGroup]):
+        self.date_from = date_from
+        self.date_upto = date_upto
+        self.clinic_info = clinic_info
+        self.groups = groups
+
+    def to_dict(self):
+        return {
+            "date_from": ensure_sqldate(self.date_from),
+            "date_upto": ensure_sqldate(self.date_upto),
+            "clinic_info": self.clinic_info.to_dict(),
+            "groups": [g.to_dict() for g in self.groups]
+        }
 
 
 def list_visit(session, date_from, date_upto) -> List[Visit]:
@@ -211,47 +288,36 @@ def list_presc(session, from_date, upto_date) -> List[Presc]:
     return result
 
 
-def get_pharmacy_list():
-    return [p.to_dict() for p in pharmacy.get_pharmacy_list()]
+def get_pharmacy_list() -> List[Pharmacy]:
+    return pharmacy.get_pharmacy_list()
 
 
-def get_clinic_info():
-    conf = impl.CLINIC_INFO
-    return {
-        "clinicAddress": conf["postalCode"] + " " + conf["address"],
-        "clinicName": conf["name"],
-        "clinicPhone": "電話 " + conf["tel"],
-        "kikancode": str(conf["todoufukencode"]) + str(conf["tensuuhyoucode"]) + str(conf["kikancode"]),
-        "doctorName": conf["doctorName"]
-    }
+def do_output(value: str, dest: Optional[str]) -> None:
+    if dest:
+        with open(dest, "w", encoding="UTF-8") as fs:
+            fs.write(value)
+    else:
+        print(value)
 
 
 def run_data(date_from, date_upto, output=None):
     session = Session()
+    pharmacies: List[Pharmacy] = get_pharmacy_list()
+    pharma_map: Dict[str, Pharmacy] = {p.fax: p for p in pharmacies}
     presc_list: List[Presc] = list_presc(session, date_from, date_upto)
     presc_groups: Dict[str, ShohousenGroup] = {}
     for item in presc_list:
         fax = item.fax
         if fax not in presc_groups:
-            presc_groups[fax] = ShohousenGroup(fax, [])
+            pharma = pharma_map[fax]
+            presc_groups[fax] = ShohousenGroup(pharma, [])
         presc_groups[fax].items.append(item)
-    ordered_presc_groups: List[Tuple[str, ShohousenGroup]] = [(sg.pharmacy_fax, sg) for sg in presc_groups.values()]
-    ordered_presc_groups.sort(key=lambda x: len(x[1]), reverse=True)
-    pharmacies: List[Pharmacy] = get_pharmacy_list()
-    pharma_map: Dict[str, Pharmacy] = {p.fax: p for p in pharmacies}
-    result = {
-        "date_from": date_from,
-        "date_upto": date_upto,
-        "clinicInfo": get_clinic_info(),
-        "pharmacies": get_pharmacy_list(),
-        "shohousen": [to_shohousen(session, presc) for presc in presc_list]
-    }
-    data = json.dumps(result, indent=4, ensure_ascii=False)
-    if output:
-        with open(output, "w", encoding="UTF-8") as fs:
-            fs.write(data)
-    else:
-        print(data)
+    ordered_presc_groups: List[Tuple[str, ShohousenGroup]] = [(sg.pharmacy.fax, sg) for sg in presc_groups.values()]
+    ordered_presc_groups.sort(key=lambda x: len(x[1].items), reverse=True)
+    data = ShohousenBundle(ensure_date(date_from), ensure_date(date_upto), get_clinic_info(),
+                           [sg for fax, sg in ordered_presc_groups])
+    json_rep = json.dumps(data.to_dict(), indent=2, ensure_ascii=False)
+    do_output(json_rep, output)
     session.close()
 
 
