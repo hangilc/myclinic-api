@@ -1,0 +1,74 @@
+<html>
+<head>
+  <style>
+    .current { font-weight: bold; color: fuchsia; }
+  </style>
+</head>
+<body>
+<table>
+<tr>
+<td valign="top">
+  <div>
+  <a href="javascript:void(0)" onclick="gotoPrev()">前へ</a>
+  <a href="javascript:void(0)" onclick="gotoNext()">次へ</a>
+  </div>
+  <iframe id="viewer" width="800px" height="800px"></iframe
+</td>
+<td>
+  <div id="list" style="max-height: 800px; overflow-x: scroll;">
+    {% for item in data -%}
+    <div>
+      <a href="javascript:void(0)" src="file:///{{ item.src }}" onclick="selectLinkByElement(this)">{{ item.name }}</a>
+    </div>
+    {% endfor %}
+  </div>
+</td>
+</tr>
+</table>
+<script>
+    var viewer = document.getElementById("viewer");
+    var listElement = document.getElementById("list");
+    var curIndex = 0;
+
+    function clearCurrentClass(){
+        var eles = listElement.getElementsByClassName("current");
+        for(var i=0;i<eles.length;i++){
+            var ele = eles.item(i);
+            ele.classList.remove("current");
+        }
+    }
+
+    function selectLink(index){
+        var eles = listElement.getElementsByTagName("a");
+        if( index >= 0 && index < eles.length ){
+            var ele = eles.item(index);
+            viewer.src = ele.getAttribute("src");
+            clearCurrentClass();
+            ele.classList.add("current");
+            curIndex = index;
+        }
+    }
+
+    function selectLinkByElement(target){
+        var eles = listElement.getElementsByTagName("a");
+        for(var i=0;i<eles.length;i++){
+            var e = eles.item(i);
+            if( e == target ){
+                selectLink(i);
+                break;
+            }
+        }
+    }
+
+    function gotoPrev(){
+        selectLink(curIndex - 1);
+    }
+
+    function gotoNext(){
+        selectLink(curIndex + 1);
+    }
+
+    selectLink(curIndex);
+</script>
+</body>
+</html>

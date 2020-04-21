@@ -9,10 +9,11 @@ import pharmacy
 import impl
 import rcpt
 import argparse
-from functools import reduce
-import operator
 import datetime
 from pharmacy import Pharmacy
+import os
+import glob
+from jinja2 import Environment, FileSystemLoader
 
 
 def ensure_sqldate(at: Union[str, datetime.datetime, datetime.date]) -> str:
@@ -469,6 +470,33 @@ def run_print_blank(output=None):
     do_output(json_rep, output)
 
 
+def run_comparison(input_file=None, output=None, directory="."):
+    dict_data = do_input(input_file)
+    bundle: ShohousenBundle = ShohousenBundle.from_dict(dict_data)
+    specs = []
+    for g in bundle.groups:
+        for item in g.items:
+            patient = item.patient
+            visit_day = ensure_date(item.visit.visited_at)
+            stamp = visit_day.strftime("%Y%m%d")
+            needle = f"*-{patient.patient_id}-{stamp}-stamped*.pdf"
+            found = glob.glob(os.path.join(directory, needle))
+            if len(found) == 0:
+                print(f"Cannot find faxed pdf for patient {patient.last_name}{patient.first_name} at {visit_day}")
+            src = found[0]
+            src = src.replace("\\", "/")
+            specs.append({
+                "src": src,
+                "name": f"{patient.last_name}{patient.first_name}",
+                "pharma": g.pharmacy.name
+            })
+    env = Environment(loader=FileSystemLoader("./t"
+                                              "emplates", encoding="utf-8"))
+    tmpl = env.get_template("shohousen-comparison.html.jinja2")
+    html = tmpl.render({"data": specs})
+    do_output(html, output)
+
+
 def run():
     parser = argparse.ArgumentParser(description="Processes prescripton")
     sub_parsers = parser.add_subparsers()
@@ -487,6 +515,12 @@ def run():
     parser_print_blank = sub_parsers.add_parser("print-blank")
     parser_print_blank.add_argument("-o", "--output")
     parser_print_blank.set_defaults(func=run_print_blank)
+    # comparison
+    parser_comparison = sub_parsers.add_parser("comparison")
+    parser_comparison.add_argument("-i", "--input", dest="input_file")
+    parser_comparison.add_argument("-d", "--directory", help="shohousen (fax) directory")
+    parser_comparison.add_argument("-o", "--output")
+    parser_comparison.set_defaults(func=run_comparison)
     #
     args = parser.parse_args()
     f = args.func
