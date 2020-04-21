@@ -1,1 +1,9 @@
 Shohousen paper size: A5
+
+shohousen data example:
+> python presc.py data 2020-03-26 2020-04-19 -o work\shohousen-data-20200326-20200419.json
+
+shohousen print example:
+> python presc.py print -i work\shohousen-data-20200326-20200419.json | java -jar C:\Users\hangil\work\learn-java\myclinic-spring\shohousen-drawer\target\shohousen
+-drawer-1.0.0-SNAPSHOT.jar | java -jar C:\Users\hangil\work\learn-java\myclinic-spring\drawer-printer\target\drawer-printer-1.0.0-SNAPSHOT.jar --pdf work\shohousen-20200326-20200419.pdf --pd
+f-page-size A5 --pdf-shrink 2
