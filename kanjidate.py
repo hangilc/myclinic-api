@@ -42,3 +42,4 @@ def gengou_to_seireki(gengou, nen: int) -> int:
     return gengou.start_date.year + nen - 1
 
 
+

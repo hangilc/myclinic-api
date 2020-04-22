@@ -1,4 +1,7 @@
+import io
 from typing import List, Union, Optional, Tuple, Dict
+
+import kanjidate
 from db_session import Session
 from model import *
 from sqlalchemy.sql import func
@@ -497,6 +500,41 @@ def run_comparison(input_file=None, output=None, directory="."):
     do_output(html, output)
 
 
+def run_pharma_letter(input_file=None, output=None):
+    dict_data = do_input(input_file)
+    bundle: ShohousenBundle = ShohousenBundle.from_dict(dict_data)
+
+    def render_date(d: datetime.date) -> str:
+        geng, nen = kanjidate.date_to_gengou(d)
+        return f"{geng}{nen}年{d.month}月{d.day}日"
+
+    date_from_rep = render_date(bundle.date_from)
+    date_upto_rep = render_date(bundle.date_upto)
+    clinic_info = bundle.clinic_info
+
+    def render_page(g) -> str:
+        out = io.StringIO()
+        print(g.pharmacy.name, file=out)
+        print("担当者様", file=out)
+        print("", file=out)
+        print(f"{date_from_rep}から{date_upto_rep}までに当院からファックスした処方箋の原本です。", file=out)
+        print("", file=out)
+        for item in g.items:
+            name = item.patient.last_name + item.patient.first_name
+            visit_date_rep = render_date(ensure_date(item.visit.visited_at))
+            print(f"{name}　{visit_date_rep}", file=out)
+        print("", file=out)
+        print(clinic_info.address, file=out)
+        print(clinic_info.phone, file=out)
+        print(clinic_info.name, file=out)
+        print(clinic_info.doctor_name, file=out)
+        return out.getvalue()
+
+    pages = [render_page(g) for g in bundle.groups]
+    rep = "{{ new-page }}\n".join(pages)
+    do_output(rep, output)
+
+
 def run():
     parser = argparse.ArgumentParser(description="Processes prescripton")
     sub_parsers = parser.add_subparsers()
@@ -521,6 +559,11 @@ def run():
     parser_comparison.add_argument("-d", "--directory", help="shohousen (fax) directory")
     parser_comparison.add_argument("-o", "--output")
     parser_comparison.set_defaults(func=run_comparison)
+    # pharma-letter
+    parser_pharma_letter = sub_parsers.add_parser("pharma-letter")
+    parser_pharma_letter.add_argument("-i", "--input", dest="input_file")
+    parser_pharma_letter.add_argument("-o", "--output")
+    parser_pharma_letter.set_defaults(func=run_pharma_letter)
     #
     args = parser.parse_args()
     f = args.func
