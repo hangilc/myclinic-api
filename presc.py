@@ -535,6 +535,33 @@ def run_pharma_letter(input_file=None, output=None):
     do_output(rep, output)
 
 
+def run_pharma_label(input_file=None, output=None) -> None:
+    dict_data = do_input(input_file)
+    bundle: ShohousenBundle = ShohousenBundle.from_dict(dict_data)
+    content = []
+    data = {"labels": content}
+    addr_map = pharmacy.pharma_addr_map
+    for g in bundle.groups:
+        pharma = g.pharmacy
+        lines = addr_map[pharma.fax].split("\n")
+        content.append(lines)
+    json_rep = json.dumps(data, indent=2, ensure_ascii=False)
+    do_output(json_rep, output)
+
+
+def run_pharma_addr(input_file=None, output=None) -> None:
+    dict_data = do_input(input_file)
+    bundle: ShohousenBundle = ShohousenBundle.from_dict(dict_data)
+    data = {}
+    for g in bundle.groups:
+        pharma = g.pharmacy
+        postal_code = "〒" + pharma.addr[0]
+        addr = pharma.addr[1].replace("東京都", "").strip()
+        data[pharma.fax] = f"{postal_code}\n{addr}\n{pharma.name} 御中"
+    json_rep = json.dumps(data, indent=2, ensure_ascii=False)
+    do_output(json_rep, output)
+
+
 def run():
     parser = argparse.ArgumentParser(description="Processes prescripton")
     sub_parsers = parser.add_subparsers()
@@ -564,6 +591,16 @@ def run():
     parser_pharma_letter.add_argument("-i", "--input", dest="input_file")
     parser_pharma_letter.add_argument("-o", "--output")
     parser_pharma_letter.set_defaults(func=run_pharma_letter)
+    # pharma-label
+    parser_pharma_label = sub_parsers.add_parser("pharma-label")
+    parser_pharma_label.add_argument("-i", "--input", dest="input_file")
+    parser_pharma_label.add_argument("-o", "--output")
+    parser_pharma_label.set_defaults(func=run_pharma_label)
+    # pharma-addr
+    parser_pharma_addr = sub_parsers.add_parser("pharma-addr")
+    parser_pharma_addr.add_argument("-i", "--input", dest="input_file")
+    parser_pharma_addr.add_argument("-o", "--output")
+    parser_pharma_addr.set_defaults(func=run_pharma_addr)
     #
     args = parser.parse_args()
     f = args.func
