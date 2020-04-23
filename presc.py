@@ -535,14 +535,17 @@ def run_pharma_letter(input_file=None, output=None):
     do_output(rep, output)
 
 
-def run_pharma_label(input_file=None, output=None) -> None:
+def run_pharma_label(input_file=None, output=None, fax=None) -> None:
     dict_data = do_input(input_file)
     bundle: ShohousenBundle = ShohousenBundle.from_dict(dict_data)
     content = []
     data = {"labels": content}
     addr_map = pharmacy.pharma_addr_map
-    for g in bundle.groups:
-        pharma = g.pharmacy
+    pharmacies = [g.pharmacy for g in bundle.groups]
+    if fax:
+        faxes = fax.split(",")
+        pharmacies = [p for p in pharmacies if p.fax in faxes]
+    for pharma in pharmacies:
         lines = addr_map[pharma.fax].split("\n")
         content.append(lines)
     json_rep = json.dumps(data, indent=2, ensure_ascii=False)
@@ -610,6 +613,7 @@ def run():
     parser_pharma_label = sub_parsers.add_parser("pharma-label")
     parser_pharma_label.add_argument("-i", "--input", dest="input_file")
     parser_pharma_label.add_argument("-o", "--output")
+    parser_pharma_label.add_argument("--fax", help="choose by fax numbers (comma separated)")
     parser_pharma_label.set_defaults(func=run_pharma_label)
     # pharma-addr
     parser_pharma_addr = sub_parsers.add_parser("pharma-addr")
