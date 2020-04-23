@@ -562,6 +562,21 @@ def run_pharma_addr(input_file=None, output=None) -> None:
     do_output(json_rep, output)
 
 
+def run_clinic_label(count=1, output=None) -> None:
+    clinic_info = impl.get_clinic_info()
+    content = []
+    data = {"labels": content}
+    lines = [
+        clinic_info["postalCode"],
+        clinic_info["address"],
+        clinic_info["name"]
+    ]
+    for _ in range(count):
+        content.append(lines)
+    json_rep = json.dumps(data, indent=2, ensure_ascii=False)
+    do_output(json_rep, output)
+
+
 def run():
     parser = argparse.ArgumentParser(description="Processes prescripton")
     sub_parsers = parser.add_subparsers()
@@ -601,6 +616,11 @@ def run():
     parser_pharma_addr.add_argument("-i", "--input", dest="input_file")
     parser_pharma_addr.add_argument("-o", "--output")
     parser_pharma_addr.set_defaults(func=run_pharma_addr)
+    # clinic-label
+    parser_clinic_label = sub_parsers.add_parser("clinic-label")
+    parser_clinic_label.add_argument("-n", "--count", type=int, help="number of labels")
+    parser_clinic_label.add_argument("-o", "--output")
+    parser_clinic_label.set_defaults(func=run_clinic_label)
     #
     args = parser.parse_args()
     f = args.func
