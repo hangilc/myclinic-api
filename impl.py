@@ -184,9 +184,7 @@ def _resolve_kizai_name(name):
 
 def _resolve_master(session, master, code_column: Column, code_trans, code, at):
     at = _normalize_at(at)
-    print("BEFORE CODE", code)
     code = _resolve_master_map(code_trans, code, at)
-    print("AFTER CODE", code)
     return (session.query(master)
             .filter(code_column == code)
             .filter(_valid_at(master, at))
@@ -424,7 +422,6 @@ def list_disease_example():
 
 
 def list_drug_full_by_drug_ids(session, drug_ids: Sequence[int]) -> Sequence[DrugFull]:
-    print(drug_ids)
     return [get_drug_full(session, drug_id) for drug_id in drug_ids]
 
 
@@ -1165,8 +1162,6 @@ def page_disease_full(session, patient_id, page, items_per_page) -> List[Disease
          .filter(Disease.patient_id == patient_id)
          .filter(ByoumeiMaster.shoubyoumeicode == Disease.shoubyoumeicode)
          .filter(_valid_at(ByoumeiMaster, Disease.start_date)))
-    # total = q.count()
-    # total_pages = _count_pages(total, items_per_page)
     rows = q.order_by(Disease.disease_id.desc()).offset(page * items_per_page).limit(items_per_page).all()
     return [DiseaseFull(
         disease=d,
@@ -1636,7 +1631,6 @@ def _search_prev_drug_all(session, patient_id):
 
 
 def _search_prev_drug_by_name(session, patient_id, text):
-    print("TEXT:", f"%{text}%")
     drug_ids = (session.query(func.max(Drug.drug_id))
                 .join(Visit, Visit.visit_id == Drug.visit_id)
                 .join(IyakuhinMaster, IyakuhinMaster.iyakuhincode == Drug.iyakuhincode)

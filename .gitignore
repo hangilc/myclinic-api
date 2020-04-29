@@ -5,6 +5,7 @@ target
 *.iml
 __pycache__
 /*-dev-env.*
+/console.bat
 venv/
 work/
 

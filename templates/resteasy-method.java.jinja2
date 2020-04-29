@@ -1,0 +1,22 @@
+    @Path("{{ url }}")
+    @{{ method}}
+    public {{ response_type }} {{ name }}({{ param_list }}) throws Exception {
+        {% for stmt in default_stmts -%}
+            {{ stmt }}
+        {% endfor -%}
+        Connection conn = ds.getConnection();
+        try {
+            Query query = new Query(conn);
+            Backend backend = new Backend(ts, query);
+            return backend.{{ name }}({{ args }});
+        } finally {
+            if( conn != null ){
+                try {
+                    conn.close();
+                } catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+

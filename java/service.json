@@ -39,7 +39,8 @@
     "listRecentlyRegisteredPatients" : {
       "request" : [ {
         "name" : "n",
-        "type" : [ "null", "int" ]
+        "type" : [ "null", "int" ],
+        "defaultValue": 20
       } ],
       "response" : {
         "type" : "array",
@@ -852,10 +853,12 @@
     "listRecentVisits" : {
       "request" : [ {
         "name" : "page",
-        "type" : [ "null", "int" ]
+        "type" : [ "null", "int" ],
+        "defaultValue": 0
       }, {
         "name" : "items-per-page",
-        "type" : [ "null", "int" ]
+        "type" : [ "null", "int" ],
+        "defaultValue": 30
       } ],
       "response" : {
         "type" : "array",
@@ -1495,7 +1498,8 @@
     "searchPrevDrug" : {
       "request" : [ {
         "name" : "text",
-        "type" : [ "null", "string" ]
+        "type" : [ "null", "string" ],
+        "defaultValue": ""
       }, {
         "name" : "patient-id",
         "type" : "int"
@@ -1526,9 +1530,6 @@
       "request" : [ {
         "name" : "patient-id",
         "type" : "int"
-      }, {
-        "name" : "at",
-        "type" : [ "null", "string" ]
       } ],
       "response" : "int",
       "doc" : "",
@@ -1708,7 +1709,8 @@
         "type" : "int"
       }, {
         "name" : "n",
-        "type" : [ "null", "int" ]
+        "type" : [ "null", "int" ],
+        "defaultValue": 30
       } ],
       "response" : {
         "type" : "array",
@@ -2016,7 +2018,8 @@
     "listRecentPayment" : {
       "request" : [ {
         "name" : "n",
-        "type" : [ "null", "int" ]
+        "type" : [ "null", "int" ],
+        "defaultValue": 30
       } ],
       "response" : {
         "type" : "array",

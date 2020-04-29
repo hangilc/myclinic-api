@@ -36,10 +36,6 @@ dictConfig({
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
-# db_user = os.environ["MYCLINIC_DB_USER"]
-# db_pass = os.environ["MYCLINIC_DB_PASS"]
-# engine = create_engine(f"mysql+pymysql://{db_user}:{db_pass}@localhost/myclinic?charset=utf8&raw", echo=False)
-# Session = sessionmaker(bind=engine)
 
 
 class AppJsonEncoder(JSONEncoder):
@@ -231,11 +227,11 @@ def ws_remote_reception_client():
         return ""
 
 
-def run_server():
+def run_server(port):
     global app
     app = DebuggedApplication(app)
     server = WSGIServer(
-        ('0.0.0.0', 28080),
+        ('0.0.0.0', port),
         app,
         handler_class=WebSocketHandler
     )
@@ -325,7 +321,7 @@ def emit_myclinic_logs(session):
 import server_routes
 
 
-def run():
+def run(port):
     server_routes.init_routes()
     signal.signal(signal.SIGINT, lambda signum, _: sys.exit(0))
-    run_with_reloader(run_server)
+    run_with_reloader(lambda: run_server(port))
