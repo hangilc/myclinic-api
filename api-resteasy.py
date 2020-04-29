@@ -69,7 +69,7 @@ def run():
     for name in services["messages"]:
         service = services["messages"][name]
         resp_type = to_java_type(service["response"])
-        defaults = [{"name": p["name"], "defaultValue": p["defaultValue"]} for p in service["request"] if "defaultValue" in p]
+        defaults = [{"name": hyphen_to_camel(p["name"]), "defaultValue": p["defaultValue"]} for p in service["request"] if "defaultValue" in p]
         args = ", ".join([hyphen_to_camel(a["name"]) for a in service["request"]])
         binding = {
             "name": name,
