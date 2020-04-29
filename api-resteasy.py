@@ -24,7 +24,7 @@ def to_java_type(rep, is_obj_type=False):
         return "int" if not is_obj_type else "Integer"
     elif rep == "string":
         return "String"
-    elif rep == "float":
+    elif rep == "float" or rep == "double":
         return "double" if not is_obj_type else "Double"
     elif rep == "boolean":
         return "boolean" if not is_obj_type else "Boolean"
