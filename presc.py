@@ -193,7 +193,7 @@ def probe_presc_text(content: str) -> Optional[str]:
         return None
 
 
-re_pharma_marker = re.compile(r"(.+)にファックス（(\+\d+)）で")
+re_pharma_marker = re.compile(r"(.+)にファックス（(\+\d+)）")
 re_presc_hand_over = re.compile(r"処方箋を渡した")
 re_presc_physical_mail = re.compile(r"自宅に処方箋を郵送")
 re_presc_mail = re.compile(r"(電子)?メールで処方箋を送付した")

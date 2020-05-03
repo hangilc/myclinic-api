@@ -1,4 +1,7 @@
+import argparse
 import json
+import os
+
 from jinja2 import Environment, FileSystemLoader, Template
 
 
@@ -28,6 +31,8 @@ def to_java_type(rep, is_obj_type=False):
         return "double" if not is_obj_type else "Double"
     elif rep == "boolean":
         return "boolean" if not is_obj_type else "Boolean"
+    elif rep == "ResponseBody":
+        return "Response"
     elif isinstance(rep, str):
         return rep + "DTO"
     else:
@@ -54,23 +59,43 @@ def cvt_param(request_param):
     return f'{annot}{typ} {name}'
 
 
+def run_no_database(messages, jinja_env):
+    tmpl = jinja_env.get_template("resteasy-no-database-method.java.jinja2")
+    for name in messages:
+        service = messages[name]
+        resp_type = to_java_type(service["response"])
+        defaults = [{"name": hyphen_to_camel(p["name"]), "defaultValue": p["defaultValue"]}
+                    for p in service["request"] if "defaultValue" in p]
+        args = ", ".join([hyphen_to_camel(a["name"]) for a in service["request"]])
+        returns_void = service.get("backendMethodReturnsVoid", False)
+        backend_method_name = service["backendMethodName"] if service.get("backendMethodName", False) else name
+        binding = {
+            "name": name,
+            "url": service["url"],
+            "method": service["httpMethod"].upper(),
+            "response_type": resp_type,
+            "param_list": ", ".join(cvt_param(p) for p in service["request"]),
+        }
+        print(tmpl.render(**binding))
+
+
 default_stmt_template = """if( {{ name }} == null ){
             {{ name }} = {{ defaultValue }};
         }
 """
 
 
-def run():
-    with open("java/service.json", "r") as f:
-        services = json.load(f)
-    env = Environment(loader=FileSystemLoader("./templates", encoding="utf-8"))
-    tmpl = env.get_template("resteasy-method.java.jinja2")
+def run_database(messages, jinja_env):
+    tmpl = jinja_env.get_template("resteasy-method.java.jinja2")
     default_tmpl = Template(default_stmt_template)
-    for name in services["messages"]:
-        service = services["messages"][name]
+    for name in messages:
+        service = messages[name]
         resp_type = to_java_type(service["response"])
-        defaults = [{"name": hyphen_to_camel(p["name"]), "defaultValue": p["defaultValue"]} for p in service["request"] if "defaultValue" in p]
+        defaults = [{"name": hyphen_to_camel(p["name"]), "defaultValue": p["defaultValue"]}
+                    for p in service["request"] if "defaultValue" in p]
         args = ", ".join([hyphen_to_camel(a["name"]) for a in service["request"]])
+        returns_void = service.get("backendMethodReturnsVoid", False)
+        backend_method_name = service["backendMethodName"] if service.get("backendMethodName", False) else name
         binding = {
             "name": name,
             "url": service["url"],
@@ -78,10 +103,29 @@ def run():
             "response_type": resp_type,
             "param_list": ", ".join(cvt_param(p) for p in service["request"]),
             "default_stmts": [default_tmpl.render(p) for p in defaults],
-            "args": args
+            "args": args,
+            "backend_method_name": backend_method_name,
+            "returns_void": returns_void
         }
         print(tmpl.render(**binding))
 
 
+def run(no_database=False):
+    service_spec_file = os.getenv("SERVICE_SPEC_FILE")
+    with open(service_spec_file, "r") as f:
+        services = json.load(f)
+    env = Environment(loader=FileSystemLoader("./templates", encoding="utf-8"))
+    env.trim_blocks = True
+    env.lstrip_blocks = True
+    messages = services["messages"]
+    if no_database:
+        run_no_database({k: messages[k] for k in messages if messages[k].get("noDatabase", False)}, env)
+    else:
+        run_database({k: messages[k] for k in messages if not messages[k].get("noDatabase", False)}, env)
+
+
 if __name__ == "__main__":
-    run()
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument("--no-database", action="store_true")
+    cmd_args = argparser.parse_args()
+    run(**vars(cmd_args))

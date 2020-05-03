@@ -8,6 +8,4 @@ __pycache__
 /console.bat
 venv/
 work/
-
-
-
+/jars/

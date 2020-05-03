@@ -1,14 +1,19 @@
     @Path("{{ url }}")
     @{{ method}}
     public {{ response_type }} {{ name }}({{ param_list }}) throws Exception {
-        {% for stmt in default_stmts -%}
+        {% for stmt in default_stmts %}
             {{ stmt }}
-        {% endfor -%}
+        {% endfor %}
         Connection conn = ds.getConnection();
         try {
             Query query = new Query(conn);
             Backend backend = new Backend(ts, query);
-            return backend.{{ name }}({{ args }});
+        {% if returns_void %}
+            backend.{{ backend_method_name }}({{ args }});
+            return true;
+        {% else %}
+            return backend.{{ backend_method_name }}({{ args }});
+        {% endif %}
         } finally {
             if( conn != null ){
                 try {
