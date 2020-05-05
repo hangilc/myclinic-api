@@ -1,13 +1,14 @@
 {
   "protocol" : "MyclinicService",
   "messages" : {
-    "searchByoumei" : {
+    "searchByoumeiMaster" : {
       "request" : [ {
         "name" : "text",
         "type" : "string"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : {
         "type" : "array",
@@ -48,7 +49,8 @@
       },
       "doc" : "",
       "httpMethod" : "get",
-      "url" : "list-recently-registered-patients"
+      "url" : "list-recently-registered-patients",
+      "backendMethodName": "listRecentlyRegisteredPatient"
     },
     "listTodaysHotlineInRange" : {
       "request" : [ {
@@ -74,7 +76,8 @@
       },
       "doc" : "",
       "httpMethod" : "get",
-      "url" : "list-todays-visits"
+      "url" : "list-todays-visits",
+      "backendMethodName": "listTodaysVisit"
     },
     "batchGetDrugAttr" : {
       "request" : [ {
@@ -130,7 +133,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "batch-delete-drugs"
+      "url" : "batch-delete-drugs",
+      "backendMethodReturnsVoid": true
     },
     "getConductKizaiFull" : {
       "request" : [ {
@@ -148,7 +152,8 @@
         "type" : "string"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : "ByoumeiMaster",
       "doc" : "",
@@ -231,7 +236,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-conduct-kizai"
+      "url" : "delete-conduct-kizai",
+      "backendMethodReturnsVoid": true
     },
     "getPharmaQueueFull" : {
       "request" : [ {
@@ -252,7 +258,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "enter-shinryou-attr"
+      "url" : "enter-shinryou-attr",
+      "backendMethodReturnsVoid": true
     },
     "deleteGazouLabel" : {
       "request" : [ {
@@ -262,7 +269,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-gazou-label"
+      "url" : "delete-gazou-label",
+      "backendMethodReturnsVoid": true
     },
     "findShinryouAttr" : {
       "request" : [ {
@@ -351,7 +359,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "enter-shouki"
+      "url" : "enter-shouki",
+      "backendMethodReturnsVoid": true
     },
     "listHokensho" : {
       "request" : [ {
@@ -376,7 +385,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-koukikourei"
+      "url" : "delete-koukikourei",
+      "backendMethodReturnsVoid": true
     },
     "listDiseaseFull" : {
       "request" : [ {
@@ -409,7 +419,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-shouki"
+      "url" : "delete-shouki",
+      "backendMethodReturnsVoid": true
     },
     "findDrugAttr" : {
       "request" : [ {
@@ -424,13 +435,14 @@
     "updateHoken" : {
       "request" : [ {
         "name" : "hoken",
-        "type" : "UpdateHoken",
+        "type" : "Visit",
         "isBody" : true
       } ],
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-hoken"
+      "url" : "update-hoken",
+      "backendMethodReturnsVoid": true
     },
     "listVisitTextDrugByPatientAndIyakuhincode" : {
       "request" : [ {
@@ -477,7 +489,8 @@
         "type" : "string"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : {
         "type" : "array",
@@ -535,7 +548,9 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-disease"
+      "url" : "delete-disease",
+      "backendMethodName": "deleteDiseaseWithAdj",
+      "backendMethodReturnsVoid": true
     },
     "batchResolveIyakuhinMaster" : {
       "request" : [ {
@@ -544,7 +559,8 @@
         "items" : "int"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : {
         "keys" : "int",
@@ -611,7 +627,9 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "batch-delete-shinryou"
+      "url" : "batch-delete-shinryou",
+      "backendMethodReturnsVoid": true,
+      "backendMethodName": "batchDeleteShinryouWithAttr"
     },
     "listCurrentDiseaseFull" : {
       "request" : [ {
@@ -635,7 +653,8 @@
       "response" : "int",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "enter-disease"
+      "url" : "enter-disease",
+      "backendMethodName": "enterNewDisease"
     },
     "getCharge" : {
       "request" : [ {
@@ -706,7 +725,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "finish-cashier"
+      "url" : "finish-cashier",
+      "backendMethodReturnsVoid": true
     },
     "enterDrugAttr" : {
       "request" : [ {
@@ -717,7 +737,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "enter-drug-attr"
+      "url" : "enter-drug-attr",
+      "backendMethodReturnsVoid": true
     },
     "enterDrug" : {
       "request" : [ {
@@ -738,7 +759,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-pharma-drug"
+      "url" : "delete-pharma-drug",
+      "backendMethodReturnsVoid": true
     },
     "updatePatient" : {
       "request" : [ {
@@ -749,7 +771,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-patient"
+      "url" : "update-patient",
+      "backendMethodReturnsVoid": true
     },
     "deleteText" : {
       "request" : [ {
@@ -759,7 +782,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-text"
+      "url" : "delete-text",
+      "backendMethodReturnsVoid": true
     },
     "modifyCharge" : {
       "request" : [ {
@@ -772,7 +796,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "modify-charge"
+      "url" : "modify-charge",
+      "backendMethodReturnsVoid": true
     },
     "listAvailableHoken" : {
       "request" : [ {
@@ -780,7 +805,8 @@
         "type" : "int"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : "Hoken",
       "doc" : "",
@@ -796,7 +822,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-drug"
+      "url" : "update-drug",
+      "backendMethodReturnsVoid": true
     },
     "findGazouLabel" : {
       "request" : [ {
@@ -816,7 +843,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-conduct-shinryou"
+      "url" : "delete-conduct-shinryou",
+      "backendMethodReturnsVoid": true
     },
     "listPharmaQueueForToday" : {
       "request" : [ ],
@@ -837,7 +865,9 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-kouhi"
+      "url" : "delete-kouhi",
+      "backendMethodReturnsVoid": true,
+      "backendMethodName": "deleteKouhiSafely"
     },
     "enterHotline" : {
       "request" : [ {
@@ -876,7 +906,9 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-conduct"
+      "url" : "delete-conduct",
+      "backendMethodReturnsVoid": true,
+      "backendMethodName": "deleteConductFull"
     },
     "listPharmaQueueForPrescription" : {
       "request" : [ ],
@@ -915,7 +947,8 @@
         "type" : "string"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : "ShinryouMaster",
       "doc" : "",
@@ -931,7 +964,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-shinryou"
+      "url" : "update-shinryou",
+      "backendMethodReturnsVoid": true
     },
     "getPatient" : {
       "request" : [ {
@@ -1012,7 +1046,7 @@
         "type" : "int"
       }, {
         "name" : "amount",
-        "type" : "double"
+        "type" : "float"
       } ],
       "response" : "int",
       "doc" : "",
@@ -1027,7 +1061,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-conduct-drug"
+      "url" : "delete-conduct-drug",
+      "backendMethodReturnsVoid": true
     },
     "searchPrescExample" : {
       "request" : [ {
@@ -1064,7 +1099,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-koukikourei"
+      "url" : "update-koukikourei",
+      "backendMethodReturnsVoid": true
     },
     "deleteRoujin" : {
       "request" : [ {
@@ -1075,7 +1111,9 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-roujin"
+      "url" : "delete-roujin",
+      "backendMethodReturnsVoid": true,
+      "backendMethodName": "deleteRoujinSafely"
     },
     "deleteDrugTekiyou" : {
       "request" : [ {
@@ -1103,7 +1141,8 @@
       "response" : "PharmaDrug",
       "doc" : "",
       "httpMethod" : "get",
-      "url" : "find-pharma-drug"
+      "url" : "find-pharma-drug",
+      "backendMethodName": "getPharmaDrug"
     },
     "resolveShinryoucode" : {
       "request" : [ {
@@ -1111,7 +1150,8 @@
         "type" : "int"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : "int",
       "doc" : "",
@@ -1124,7 +1164,8 @@
         "type" : "int"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : "IyakuhinMaster",
       "doc" : "",
@@ -1163,7 +1204,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-shouki"
+      "url" : "update-shouki",
+      "backendMethodReturnsVoid": true
     },
     "batchResolveByoumeiNames" : {
       "request" : [ {
@@ -1196,7 +1238,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "presc-done"
+      "url" : "presc-done",
+      "backendMethodReturnsVoid": true
     },
     "searchTextGlobally" : {
       "request" : [ {
@@ -1244,7 +1287,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "enter-pharma-drug"
+      "url" : "enter-pharma-drug",
+      "backendMethodReturnsVoid": true
     },
     "listDiseaseByPatientAt" : {
       "request" : [ {
@@ -1288,10 +1332,14 @@
       "httpMethod" : "get",
       "url" : "list-iyakuhin-for-patient"
     },
-    "searchShuushokugo" : {
+    "searchShuushokugoMaster" : {
       "request" : [ {
         "name" : "text",
         "type" : "string"
+      }, {
+        "name": "at",
+        "type": [ "null", "string" ],
+        "typeHints": [ "date" ]
       } ],
       "response" : {
         "type" : "array",
@@ -1310,12 +1358,15 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-shahokokuho"
+      "url" : "delete-shahokokuho",
+      "backendMethodReturnsVoid": true,
+      "backendMethodName": "deleteShahokokuhoSafely"
     },
     "listVisitChargePatientAt" : {
       "request" : [ {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : {
         "type" : "array",
@@ -1356,13 +1407,14 @@
       "httpMethod" : "get",
       "url" : "get-shinryou-byoumei-map-config-file-path"
     },
-    "searchIyakuhinMasterByName" : {
+    "searchIyakuhinMaster" : {
       "request" : [ {
         "name" : "text",
         "type" : "string"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : {
         "type" : "array",
@@ -1378,7 +1430,8 @@
         "type" : "int"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : "ShinryouMaster",
       "doc" : "",
@@ -1480,7 +1533,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "start-exam"
+      "url" : "start-exam",
+      "backendMethodReturnsVoid": true
     },
     "getShinryouMaster" : {
       "request" : [ {
@@ -1488,7 +1542,8 @@
         "type" : "int"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : "ShinryouMaster",
       "doc" : "",
@@ -1499,7 +1554,7 @@
       "request" : [ {
         "name" : "text",
         "type" : [ "null", "string" ],
-        "defaultValue": ""
+        "defaultValue": "\"\""
       }, {
         "name" : "patient-id",
         "type" : "int"
@@ -1545,7 +1600,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "modify-disease"
+      "url" : "modify-disease",
+      "backendMethodReturnsVoid": true
     },
     "deleteShinryou" : {
       "request" : [ {
@@ -1555,7 +1611,9 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-shinryou"
+      "url" : "delete-shinryou",
+      "backendMethodReturnsVoid": true,
+      "backendMethodName": "deleteShinryouWithAttr"
     },
     "listVisitTextDrugForPatient" : {
       "request" : [ {
@@ -1577,6 +1635,7 @@
         "type" : "array",
         "items" : "ReferItem"
       },
+      "noDatabase": true,
       "doc" : "",
       "httpMethod" : "get",
       "url" : "get-refer-list"
@@ -1592,7 +1651,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "end-exam"
+      "url" : "end-exam",
+      "backendMethodReturnsVoid": true
     },
     "searchKizaiMaster" : {
       "request" : [ {
@@ -1600,7 +1660,8 @@
         "type" : "string"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : {
         "type" : "array",
@@ -1643,12 +1704,14 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "batch-update-disease-end-reason"
+      "url" : "batch-update-disease-end-reason",
+      "backendMethodReturnsVoid": true
     },
     "listPracticeLogInRange" : {
       "request" : [ {
         "name" : "date",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       }, {
         "name" : "after-id",
         "type" : "int"
@@ -1691,7 +1754,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-kouhi"
+      "url" : "update-kouhi",
+      "backendMethodReturnsVoid": true
     },
     "suspendExam" : {
       "request" : [ {
@@ -1701,7 +1765,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "suspend-exam"
+      "url" : "suspend-exam",
+      "backendMethodReturnsVoid": true
     },
     "listPaymentByPatient" : {
       "request" : [ {
@@ -1745,7 +1810,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-text"
+      "url" : "update-text",
+      "backendMethodReturnsVoid": true
     },
     "resolveKizaiMasterByName" : {
       "request" : [ {
@@ -1753,7 +1819,8 @@
         "type" : "string"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : "KizaiMaster",
       "doc" : "",
@@ -1795,7 +1862,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "batch-update-drug-days"
+      "url" : "batch-update-drug-days",
+      "backendMethodReturnsVoid": true
     },
     "deleteDrug" : {
       "request" : [ {
@@ -1805,7 +1873,9 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-drug"
+      "url" : "delete-drug",
+      "backendMethodName": "deleteDrugWithAttr",
+      "backendMethodReturnsVoid": true
     },
     "getConductShinryouFull" : {
       "request" : [ {
@@ -1836,7 +1906,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-visit-from-reception"
+      "url" : "delete-visit-from-reception",
+      "backendMethodReturnsVoid": true
     },
     "copyAllConducts" : {
       "request" : [ {
@@ -1856,7 +1927,7 @@
     },
     "enterPrescExample" : {
       "request" : [ {
-        "name" : "prescExample",
+        "name" : "presc-example",
         "type" : "PrescExample",
         "isBody" : true
       } ],
@@ -1873,9 +1944,10 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-presc-example"
+      "url" : "delete-presc-example",
+      "backendMethodReturnsVoid": true
     },
-    "findShuushokugoMasterByName" : {
+    "getShuushokugoMasterByName" : {
       "request" : [ {
         "name" : "name",
         "type" : "string"
@@ -1924,7 +1996,8 @@
         "type" : "int"
       }, {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       } ],
       "response" : "KizaiMaster",
       "doc" : "",
@@ -1942,7 +2015,9 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "modify-gazou-label"
+      "url" : "modify-gazou-label",
+      "backendMethodName": "setGazouLabel",
+      "backendMethodReturnsVoid": true
     },
     "updatePharmaDrug" : {
       "request" : [ {
@@ -1953,7 +2028,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-pharma-drug"
+      "url" : "update-pharma-drug",
+      "backendMethodReturnsVoid": true
     },
     "getPowderDrugConfigFilePath" : {
       "request" : [ ],
@@ -2002,7 +2078,8 @@
     "listAllPracticeLog" : {
       "request" : [ {
         "name" : "date",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       }, {
         "name" : "last-id",
         "type" : "int"
@@ -2104,14 +2181,15 @@
     },
     "updatePrescExample" : {
       "request" : [ {
-        "name" : "prescExample",
+        "name" : "presc-example",
         "type" : "PrescExample",
         "isBody" : true
       } ],
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-presc-example"
+      "url" : "update-presc-example",
+      "backendMethodReturnsVoid": true
     },
     "getPracticeConfig" : {
       "request" : [ ],
@@ -2132,7 +2210,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "modify-conduct-kind"
+      "url" : "modify-conduct-kind",
+      "backendMethodReturnsVoid": true
     },
     "enterPatient" : {
       "request" : [ {
@@ -2148,7 +2227,8 @@
     "pageVisitFullWithPatientAt" : {
       "request" : [ {
         "name" : "at",
-        "type" : "string"
+        "type" : "string",
+        "typeHints": [ "date" ]
       }, {
         "name" : "page",
         "type" : "int"
@@ -2167,7 +2247,8 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "update-shahokokuho"
+      "url" : "update-shahokokuho",
+      "backendMethodReturnsVoid": true
     },
     "enterText" : {
       "request" : [ {
@@ -2188,7 +2269,9 @@
       "response" : "boolean",
       "doc" : "",
       "httpMethod" : "post",
-      "url" : "delete-visit"
+      "url" : "delete-visit",
+      "backendMethodName": "deleteVisitSafely",
+      "backendMethodReturnsVoid": true
     },
     "getDiseaseFull" : {
       "request" : [ {

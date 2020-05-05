@@ -1,0 +1,21 @@
+    private void {{ name }}(HttpServerRequest req, Connection conn) throws Exception {
+        {% if params %}
+        MultiMap params = req.params();
+        {% for p in params %}
+        {{ p.java_type }} {{ p.java_name }} = {{ p.conv }};
+        {% endfor %}
+        {% endif %}
+        Query query = new Query(conn);
+        Backend backend = new Backend(ts, query);
+        {% if returns_void %}
+        backend.{{ name }}({{ arg_list }});
+        conn.commit();
+        req.response().end("true");
+        {% else %}
+        {{ resp_type }} _value = backend.{{ name }}({{ arg_list }});
+        conn.commit();
+        String result = mapper.writeValueAsString(_value);
+        req.response().end(result);
+       {% endif %}
+    }
+
