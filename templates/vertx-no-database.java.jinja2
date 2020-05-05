@@ -1,4 +1,4 @@
-    private void {{ name }}(RoutingContext ctx, Connection conn) throws Exception {
+    private void {{ name }}(RoutingContext ctx, NoDatabaseImpl impl) throws Exception {
         HttpServerRequest req = ctx.request();
         {% if params or body %}
         MultiMap params = req.params();
@@ -9,17 +9,13 @@
         {{ body.java_type }} {{ body.java_name }} = {{ body.conv }};
         {% endif %}
         {% endif %}
-        Query query = new Query(conn);
-        Backend backend = new Backend(ts, query);
         {% if returns_void %}
-        backend.{{ backend_method_name }}({{ arg_list }});
-        conn.commit();
+        impl.{{ backend_method_name }}({{ arg_list }});
         req.response().end("true");
         {% else %}
-        {{ resp_type }} _value = backend.{{ backend_method_name }}({{ arg_list }});
-        conn.commit();
+        {{ resp_type }} _value = impl.{{ backend_method_name }}({{ arg_list }});
         String result = mapper.writeValueAsString(_value);
         req.response().end(result);
-       {% endif %}
+        {% endif %}
     }
 

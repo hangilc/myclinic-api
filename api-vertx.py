@@ -5,28 +5,32 @@ import os
 from jinja2 import Environment, FileSystemLoader, Template
 
 
-def to_java_type(rep, is_obj_type=False):
+def to_java_type(rep, is_obj_type=False, type_hints=None):
     if isinstance(rep, dict):
         t = rep["type"]
+        hints = rep.get("typeHints", None)
         if t == "array":
-            item_type = to_java_type(rep["items"], True)
+            item_type = to_java_type(rep["items"], True, hints)
             result = f"List<{item_type}>"
             return result
         elif t == "map":
             key_type = to_java_type(rep["keys"], True)
-            value_type = to_java_type(rep["values"], True)
+            value_type = to_java_type(rep["values"], True, hints)
             return f"Map<{key_type}, {value_type}>"
         else:
-            return to_java_type(t)
+            return to_java_type(t, is_obj_type, hints)
     elif isinstance(rep, list):
         ts = set(rep)
         if len(ts) == 2 and "null" in ts:
             ts.remove("null")
-            return to_java_type(ts.pop(), True)
+            return to_java_type(ts.pop(), True, type_hints)
     elif rep == "int":
         return "int" if not is_obj_type else "Integer"
     elif rep == "string":
-        return "String"
+        if type_hints and  "date" in type_hints:
+            return "LocalDate"
+        else:
+            return "String"
     elif rep == "float" or rep == "double":
         return "double" if not is_obj_type else "Double"
     elif rep == "boolean":
@@ -60,6 +64,10 @@ def cvt_bool(name):
     return f'Boolean.valueOf({name})'
 
 
+def cvt_date(name):
+    return f'LocalDate.parse({name})'
+
+
 def cvt_class(name):
     return f'_convertParam({name}, new TypeReference<>(){{}})'
 
@@ -70,7 +78,8 @@ param_converter_map = {
     "double": cvt_float,
     "float": cvt_float,
     "String": cvt_str,
-    "boolean": cvt_bool
+    "boolean": cvt_bool,
+    "LocalDate": cvt_date
 }
 
 
@@ -83,25 +92,78 @@ class Param:
         self.conv = f_cvt(f'params.get("{self.hyphen_name}")')
 
 
+class Body:
+    def __init__(self, spec: dict):
+        self.hyphen_name = spec["name"]
+        self.java_name = hyphen_to_camel(self.hyphen_name)
+        self.java_type = to_java_type(spec, True)
+        self.conv = f'_convertParam(ctx.getBodyAsString(), new TypeReference<>(){{}})'
+
+
+def is_body(spec) -> bool:
+    return "isBody" in spec and spec["isBody"]
+
+
 def run_database(messages, jinja_env):
     tmpl = jinja_env.get_template("vertx-method.java.jinja2")
+    names = []
     for name in messages:
         service = messages[name]
+        names.append((service["url"], name))
         resp_type = to_java_type(service["response"])
         returns_void = service.get("backendMethodReturnsVoid", False)
-        params = [Param(p) for p in service["request"]]
+        params = [Param(p) for p in service["request"] if not is_body(p)]
+        bodies = [Body(p) for p in service["request"] if is_body(p)]
         data = {
             "name": name,
+            "backend_method_name": service.get("backendMethodName", name),
             "params": params,
-            "arg_list": ", ".join(p.java_name for p in params),
+            "body": bodies[0] if bodies else None,
+            "arg_list": ", ".join(hyphen_to_camel(p["name"]) for p in service["request"]),
             "resp_type": resp_type,
             "returns_void": returns_void,
         }
         print(tmpl.render(**data))
+    list_tmpl_str = """
+    {
+        {% for n in names -%}
+        funcMap.put("{{ n[0] }}", this::{{ n[1] }});
+        {% endfor -%}
+    }
+        """
+    list_tmpl = Template(list_tmpl_str)
+    print(list_tmpl.render(names=names))
 
 
 def run_no_database(messages, jinja_env):
-    pass
+    tmpl = jinja_env.get_template("vertx-no-database.java.jinja2")
+    names = []
+    for name in messages:
+        service = messages[name]
+        names.append((service["url"], name))
+        resp_type = to_java_type(service["response"])
+        returns_void = service.get("backendMethodReturnsVoid", False)
+        params = [Param(p) for p in service["request"] if not is_body(p)]
+        bodies = [Body(p) for p in service["request"] if is_body(p)]
+        data = {
+            "name": name,
+            "backend_method_name": service.get("backendMethodName", name),
+            "params": params,
+            "body": bodies[0] if bodies else None,
+            "arg_list": ", ".join(hyphen_to_camel(p["name"]) for p in service["request"]),
+            "resp_type": resp_type,
+            "returns_void": returns_void,
+        }
+        print(tmpl.render(**data))
+    list_tmpl_str = """
+    {
+        {% for n in names -%}
+        noDatabaseFuncMap.put("{{ n[0] }}", this::{{ n[1] }});
+        {% endfor -%}
+    }
+        """
+    list_tmpl = Template(list_tmpl_str)
+    print(list_tmpl.render(names=names))
 
 
 def run(no_database=False):
