@@ -68,6 +68,18 @@ def cvt_date(name):
     return f'LocalDate.parse({name})'
 
 
+def cvt_list_int(name):
+    return f'{ name }.stream().map(Integer::valueOf).collect(toList())'
+
+
+def cvt_list_double(name):
+    return f'{ name }.stream().map(Double::valueOf).collect(toList())'
+
+
+def cvt_list_str(name):
+    return f'{ name }'
+
+
 def cvt_class(name):
     return f'_convertParam({name}, new TypeReference<>(){{}})'
 
@@ -79,7 +91,13 @@ param_converter_map = {
     "float": cvt_float,
     "String": cvt_str,
     "boolean": cvt_bool,
-    "LocalDate": cvt_date
+    "LocalDate": cvt_date,
+}
+
+param_list_converter_map = {
+    "List<Integer>": cvt_list_int,
+    "List<Double>": cvt_list_double,
+    "List<String>": cvt_list_str,
 }
 
 
@@ -88,8 +106,15 @@ class Param:
         self.hyphen_name = spec["name"]
         self.java_name = hyphen_to_camel(self.hyphen_name)
         self.java_type = to_java_type(spec)
-        f_cvt = param_converter_map.get(self.java_type, cvt_class)
-        self.conv = f_cvt(f'params.get("{self.hyphen_name}")')
+        single_cvt = param_converter_map.get(self.java_type)
+        if single_cvt:
+            self.conv = single_cvt(f'params.get("{self.hyphen_name}")')
+        else:
+            list_cvt = param_list_converter_map.get(self.java_type)
+            if list_cvt:
+                self.conv = list_cvt(f'params.getAll("{self.hyphen_name}")')
+            else:
+                self.conv = cvt_class(f'params.get("{self.hyphen_name}")')
 
 
 class Body:
@@ -166,7 +191,7 @@ def run_no_database(messages, jinja_env):
     print(list_tmpl.render(names=names))
 
 
-def run(no_database=False):
+def run(no_database=False, only=None):
     service_spec_file = os.getenv("SERVICE_SPEC_FILE")
     with open(service_spec_file, "r") as f:
         services = json.load(f)
@@ -174,14 +199,25 @@ def run(no_database=False):
     env.trim_blocks = True
     env.lstrip_blocks = True
     messages = services["messages"]
-    if no_database:
-        run_no_database({k: messages[k] for k in messages if messages[k].get("noDatabase", False)}, env)
+    if only:
+        if no_database:
+            run_no_database({k: messages[k] for k in messages
+                             if messages[k].get("noDatabase", False) and (k == only or messages[k].get("url") == only)},
+                            env)
+        else:
+            run_database({k: messages[k] for k in messages
+                          if not messages[k].get("noDatabase", False) and (k == only or messages[k].get("url") == only)},
+                         env)
     else:
-        run_database({k: messages[k] for k in messages if not messages[k].get("noDatabase", False)}, env)
+        if no_database:
+            run_no_database({k: messages[k] for k in messages if messages[k].get("noDatabase", False)}, env)
+        else:
+            run_database({k: messages[k] for k in messages if not messages[k].get("noDatabase", False)}, env)
 
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument("--no-database", action="store_true")
+    argparser.add_argument("--only", help="handle single function")
     cmd_args = argparser.parse_args()
     run(**vars(cmd_args))
