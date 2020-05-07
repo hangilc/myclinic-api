@@ -453,7 +453,8 @@
         "type" : "int"
       }, {
         "name" : "page",
-        "type" : "int"
+        "type" : ["null", "int"],
+        "defaultValue": 0
       } ],
       "response" : "VisitTextDrugPage",
       "doc" : "",
@@ -1554,7 +1555,7 @@
       "request" : [ {
         "name" : "text",
         "type" : [ "null", "string" ],
-        "defaultValue": "\"\""
+        "defaultValue": ""
       }, {
         "name" : "patient-id",
         "type" : "int"

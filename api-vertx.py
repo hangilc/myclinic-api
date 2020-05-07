@@ -103,18 +103,36 @@ param_list_converter_map = {
 
 class Param:
     def __init__(self, spec: dict):
+        self.is_nullable = isinstance(spec["type"], list) and "null" in spec["type"]
+        self.default_value = spec.get("defaultValue", None)
         self.hyphen_name = spec["name"]
         self.java_name = hyphen_to_camel(self.hyphen_name)
-        self.java_type = to_java_type(spec)
+        self.java_type = to_java_type(spec, is_obj_type=self.is_nullable)
+        self.conv = self.make_cvt()
+
+    def make_cvt(self):
+        if self.is_nullable:
+            conv = self.make_regular_converter()
+            check = f'params.contains("{self.hyphen_name}")'
+            default_value = self.default_value
+            if self.java_type == "String" and default_value is not None:
+                default_value = f'"{default_value}"'
+            elif default_value is None:
+                default_value = "null"
+            return f'{check} ? {conv} : {default_value}'
+        else:
+            return self.make_regular_converter()
+
+    def make_regular_converter(self):
         single_cvt = param_converter_map.get(self.java_type)
         if single_cvt:
-            self.conv = single_cvt(f'params.get("{self.hyphen_name}")')
+            return single_cvt(f'params.get("{self.hyphen_name}")')
         else:
             list_cvt = param_list_converter_map.get(self.java_type)
             if list_cvt:
-                self.conv = list_cvt(f'params.getAll("{self.hyphen_name}")')
+                return list_cvt(f'params.getAll("{self.hyphen_name}")')
             else:
-                self.conv = cvt_class(f'params.get("{self.hyphen_name}")')
+                return cvt_class(f'params.get("{self.hyphen_name}")')
 
 
 class Body:
