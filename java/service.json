@@ -1,2288 +1,2715 @@
 {
-  "protocol" : "MyclinicService",
-  "messages" : {
-    "searchByoumeiMaster" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : "string"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "ByoumeiMaster"
+  "protocol": "MyclinicService",
+  "messages": {
+    "searchByoumeiMaster": {
+      "request": [
+        {
+          "name": "text",
+          "type": "string"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "ByoumeiMaster"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "search-byoumei-master"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "search-byoumei-master"
     },
-    "listVisitByPatientHavingHoken" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "year",
-        "type" : "int"
-      }, {
-        "name" : "month",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "VisitFull2"
+    "listVisitByPatientHavingHoken": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "year",
+          "type": "int"
+        },
+        {
+          "name": "month",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "VisitFull2"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-visit-by-patient-having-hoken"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-visit-by-patient-having-hoken"
     },
-    "listRecentlyRegisteredPatients" : {
-      "request" : [ {
-        "name" : "n",
-        "type" : [ "null", "int" ],
-        "defaultValue": 20
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "Patient"
+    "listRecentlyRegisteredPatients": {
+      "request": [
+        {
+          "name": "n",
+          "type": [
+            "null",
+            "int"
+          ],
+          "defaultValue": 20
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "Patient"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-recently-registered-patients",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-recently-registered-patients",
       "backendMethodName": "listRecentlyRegisteredPatient"
     },
-    "listTodaysHotlineInRange" : {
-      "request" : [ {
-        "name" : "after",
-        "type" : "int"
-      }, {
-        "name" : "before",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "Hotline"
+    "listTodaysHotlineInRange": {
+      "request": [
+        {
+          "name": "after",
+          "type": "int"
+        },
+        {
+          "name": "before",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "Hotline"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-todays-hotline-in-range"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-todays-hotline-in-range"
     },
-    "listTodaysVisits" : {
-      "request" : [ ],
-      "response" : {
-        "type" : "array",
-        "items" : "VisitPatient"
+    "listTodaysVisits": {
+      "request": [],
+      "response": {
+        "type": "array",
+        "items": "VisitPatient"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-todays-visits",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-todays-visits",
       "backendMethodName": "listTodaysVisit"
     },
-    "batchGetDrugAttr" : {
-      "request" : [ {
-        "name" : "drug-ids",
-        "type" : "array",
-        "items" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "DrugAttr"
+    "batchGetDrugAttr": {
+      "request": [
+        {
+          "name": "drug-ids",
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "DrugAttr"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "batch-get-drug-attr"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "batch-get-drug-attr"
     },
-    "getDrugFull" : {
-      "request" : [ {
-        "name" : "drug-id",
-        "type" : "int"
-      } ],
-      "response" : "DrugFull",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-drug-full"
+    "getDrugFull": {
+      "request": [
+        {
+          "name": "drug-id",
+          "type": "int"
+        }
+      ],
+      "response": "DrugFull",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-drug-full"
     },
-    "getShinryouFull" : {
-      "request" : [ {
-        "name" : "shinryou-id",
-        "type" : "int"
-      } ],
-      "response" : "ShinryouFull",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-shinryou-full"
+    "getShinryouFull": {
+      "request": [
+        {
+          "name": "shinryou-id",
+          "type": "int"
+        }
+      ],
+      "response": "ShinryouFull",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-shinryou-full"
     },
-    "convertToHoken" : {
-      "request" : [ {
-        "name" : "visit",
-        "type" : "Visit",
-        "isBody" : true
-      } ],
-      "response" : "Hoken",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "convert-to-hoken"
+    "convertToHoken": {
+      "request": [
+        {
+          "name": "visit",
+          "type": "Visit",
+          "isBody": true
+        }
+      ],
+      "response": "Hoken",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "convert-to-hoken"
     },
-    "batchDeleteDrugs" : {
-      "request" : [ {
-        "name" : "drug-id",
-        "type" : "array",
-        "items" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-delete-drugs",
+    "batchDeleteDrugs": {
+      "request": [
+        {
+          "name": "drug-id",
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "batch-delete-drugs",
       "backendMethodReturnsVoid": true
     },
-    "getConductKizaiFull" : {
-      "request" : [ {
-        "name" : "conduct-kizai-id",
-        "type" : "int"
-      } ],
-      "response" : "ConductKizaiFull",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-conduct-kizai-full"
+    "getConductKizaiFull": {
+      "request": [
+        {
+          "name": "conduct-kizai-id",
+          "type": "int"
+        }
+      ],
+      "response": "ConductKizaiFull",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-conduct-kizai-full"
     },
-    "findByoumeiMasterByName" : {
-      "request" : [ {
-        "name" : "name",
-        "type" : "string"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : "ByoumeiMaster",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "find-byoumei-master-by-name"
-    },
-    "listDiseaseExample" : {
-      "request" : [ ],
-      "noDatabase" : true,
-      "response" : {
-        "type" : "array",
-        "items" : "DiseaseExample"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-disease-example"
-    },
-    "listDrugFullByDrugIds" : {
-      "request" : [ {
-        "name" : "drug-id",
-        "type" : "array",
-        "items" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "DrugFull"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-drug-full-by-drug-ids"
-    },
-    "listWqueueFull" : {
-      "request" : [ ],
-      "response" : {
-        "type" : "array",
-        "items" : "WqueueFull"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-wqueue-full"
-    },
-    "getShahokokuho" : {
-      "request" : [ {
-        "name" : "shahokokuho-id",
-        "type" : "int"
-      } ],
-      "response" : "Shahokokuho",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-shahokokuho"
-    },
-    "batchResolveShinryouNames" : {
-      "request" : [ {
-        "name" : "at",
-        "typeHints" : [ "date" ],
-        "type" : "string"
-      }, {
-        "name" : "args",
-        "type" : "array",
-        "items" : {
-          "type" : "array",
-          "items" : "string"
+    "findByoumeiMasterByName": {
+      "request": [
+        {
+          "name": "name",
+          "type": "string"
         },
-        "isBody" : true
-      } ],
-      "response" : {
-        "keys" : "string",
-        "values" : "int",
-        "type" : "map"
-      },
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-resolve-shinryou-names"
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": "ByoumeiMaster",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "find-byoumei-master-by-name"
     },
-    "deleteConductKizai" : {
-      "request" : [ {
-        "name" : "conduct-kizai-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-conduct-kizai",
+    "listDiseaseExample": {
+      "request": [],
+      "noDatabase": true,
+      "response": {
+        "type": "array",
+        "items": "DiseaseExample"
+      },
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-disease-example"
+    },
+    "listDrugFullByDrugIds": {
+      "request": [
+        {
+          "name": "drug-id",
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "DrugFull"
+      },
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-drug-full-by-drug-ids"
+    },
+    "listWqueueFull": {
+      "request": [],
+      "response": {
+        "type": "array",
+        "items": "WqueueFull"
+      },
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-wqueue-full"
+    },
+    "getShahokokuho": {
+      "request": [
+        {
+          "name": "shahokokuho-id",
+          "type": "int"
+        }
+      ],
+      "response": "Shahokokuho",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-shahokokuho"
+    },
+    "batchResolveShinryouNames": {
+      "request": [
+        {
+          "name": "at",
+          "typeHints": [
+            "date"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "args",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": "string"
+          },
+          "isBody": true
+        }
+      ],
+      "response": {
+        "keys": "string",
+        "values": "int",
+        "type": "map"
+      },
+      "doc": "",
+      "httpMethod": "post",
+      "url": "batch-resolve-shinryou-names"
+    },
+    "deleteConductKizai": {
+      "request": [
+        {
+          "name": "conduct-kizai-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-conduct-kizai",
       "backendMethodReturnsVoid": true
     },
-    "getPharmaQueueFull" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "PharmaQueueFull",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-pharma-queue-full"
+    "getPharmaQueueFull": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "PharmaQueueFull",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-pharma-queue-full"
     },
-    "enterShinryouAttr" : {
-      "request" : [ {
-        "name" : "attr",
-        "type" : "ShinryouAttr",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-shinryou-attr",
+    "enterShinryouAttr": {
+      "request": [
+        {
+          "name": "attr",
+          "type": "ShinryouAttr",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-shinryou-attr",
       "backendMethodReturnsVoid": true
     },
-    "deleteGazouLabel" : {
-      "request" : [ {
-        "name" : "conduct-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-gazou-label",
+    "deleteGazouLabel": {
+      "request": [
+        {
+          "name": "conduct-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-gazou-label",
       "backendMethodReturnsVoid": true
     },
-    "findShinryouAttr" : {
-      "request" : [ {
-        "name" : "shinryou-id",
-        "type" : "int"
-      } ],
-      "response" : "ShinryouAttr",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "find-shinryou-attr"
+    "findShinryouAttr": {
+      "request": [
+        {
+          "name": "shinryou-id",
+          "type": "int"
+        }
+      ],
+      "response": "ShinryouAttr",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "find-shinryou-attr"
     },
-    "listVisitFull2" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "page",
-        "type" : "int"
-      } ],
-      "response" : "VisitFull2Page",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-visit-full2"
+    "listVisitFull2": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "page",
+          "type": "int"
+        }
+      ],
+      "response": "VisitFull2Page",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-visit-full2"
     },
-    "getText" : {
-      "request" : [ {
-        "name" : "text-id",
-        "type" : "int"
-      } ],
-      "response" : "Text",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-text"
+    "getText": {
+      "request": [
+        {
+          "name": "text-id",
+          "type": "int"
+        }
+      ],
+      "response": "Text",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-text"
     },
-    "enterConductFull" : {
-      "request" : [ {
-        "name" : "arg",
-        "type" : "ConductEnterRequest",
-        "isBody" : true
-      } ],
-      "response" : "ConductFull",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-conduct-full"
+    "enterConductFull": {
+      "request": [
+        {
+          "name": "arg",
+          "type": "ConductEnterRequest",
+          "isBody": true
+        }
+      ],
+      "response": "ConductFull",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-conduct-full"
     },
-    "findShouki" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "Shouki",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "find-shouki"
+    "findShouki": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "Shouki",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "find-shouki"
     },
-    "listConductFullByIds" : {
-      "request" : [ {
-        "name" : "conduct-id",
-        "type" : "array",
-        "items" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "ConductFull"
+    "listConductFullByIds": {
+      "request": [
+        {
+          "name": "conduct-id",
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "ConductFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-conduct-full-by-ids"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-conduct-full-by-ids"
     },
-    "getKouhi" : {
-      "request" : [ {
-        "name" : "kouhi-id",
-        "type" : "int"
-      } ],
-      "response" : "Kouhi",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-kouhi"
+    "getKouhi": {
+      "request": [
+        {
+          "name": "kouhi-id",
+          "type": "int"
+        }
+      ],
+      "response": "Kouhi",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-kouhi"
     },
-    "enterShouki" : {
-      "request" : [ {
-        "name" : "shouki",
-        "type" : "Shouki",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-shouki",
+    "enterShouki": {
+      "request": [
+        {
+          "name": "shouki",
+          "type": "Shouki",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-shouki",
       "backendMethodReturnsVoid": true
     },
-    "listHokensho" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      } ],
-      "noDatabase" : true,
-      "response" : {
-        "type" : "array",
-        "items" : "string"
+    "listHokensho": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        }
+      ],
+      "noDatabase": true,
+      "response": {
+        "type": "array",
+        "items": "string"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-hokensho"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-hokensho"
     },
-    "deleteKoukikourei" : {
-      "request" : [ {
-        "name" : "koukikourei",
-        "type" : "Koukikourei",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-koukikourei",
+    "deleteKoukikourei": {
+      "request": [
+        {
+          "name": "koukikourei",
+          "type": "Koukikourei",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-koukikourei",
       "backendMethodReturnsVoid": true
     },
-    "listDiseaseFull" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "DiseaseFull"
+    "listDiseaseFull": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "DiseaseFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-disease-full"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-disease-full"
     },
-    "listHoken" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      } ],
-      "response" : "HokenList",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-hoken"
+    "listHoken": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        }
+      ],
+      "response": "HokenList",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-hoken"
     },
-    "deleteShouki" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-shouki",
+    "deleteShouki": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-shouki",
       "backendMethodReturnsVoid": true
     },
-    "findDrugAttr" : {
-      "request" : [ {
-        "name" : "drug-id",
-        "type" : "int"
-      } ],
-      "response" : "DrugAttr",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "find-drug-attr"
+    "findDrugAttr": {
+      "request": [
+        {
+          "name": "drug-id",
+          "type": "int"
+        }
+      ],
+      "response": "DrugAttr",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "find-drug-attr"
     },
-    "updateHoken" : {
-      "request" : [ {
-        "name" : "hoken",
-        "type" : "Visit",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-hoken",
+    "updateHoken": {
+      "request": [
+        {
+          "name": "hoken",
+          "type": "Visit",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-hoken",
       "backendMethodReturnsVoid": true
     },
-    "listVisitTextDrugByPatientAndIyakuhincode" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "iyakuhincode",
-        "type" : "int"
-      }, {
-        "name" : "page",
-        "type" : ["null", "int"],
-        "defaultValue": 0
-      } ],
-      "response" : "VisitTextDrugPage",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-visit-text-drug-by-patient-and-iyakuhincode"
+    "listVisitTextDrugByPatientAndIyakuhincode": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "iyakuhincode",
+          "type": "int"
+        },
+        {
+          "name": "page",
+          "type": [
+            "null",
+            "int"
+          ],
+          "defaultValue": 0
+        }
+      ],
+      "response": "VisitTextDrugPage",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-visit-text-drug-by-patient-and-iyakuhincode"
     },
-    "getWqueueFull" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "WqueueFull",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-wqueue-full"
+    "getWqueueFull": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "WqueueFull",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-wqueue-full"
     },
-    "listShinryouFull" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "ShinryouFull"
+    "listShinryouFull": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "ShinryouFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-shinryou-full"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-shinryou-full"
     },
-    "searchShinryouMaster" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : "string"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "ShinryouMaster"
+    "searchShinryouMaster": {
+      "request": [
+        {
+          "name": "text",
+          "type": "string"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "ShinryouMaster"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "search-shinryou-master"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "search-shinryou-master"
     },
-    "batchEnterShinryouByName" : {
-      "request" : [ {
-        "name" : "name",
-        "type" : "array",
-        "items" : "string"
-      }, {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "BatchEnterResult",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-enter-shinryou-by-name"
+    "enterConductKizai": {
+      "request": [
+        {
+          "name": "conductKizai",
+          "type": "ConductKizai",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-conduct-kizai"
     },
-    "enterConductKizai" : {
-      "request" : [ {
-        "name" : "conductKizai",
-        "type" : "ConductKizai",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-conduct-kizai"
-    },
-    "batchEnterDrugs" : {
-      "request" : [ {
-        "name" : "drugs",
-        "type" : "array",
-        "items" : "Drug",
-        "isBody" : true
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "int"
+    "batchEnterDrugs": {
+      "request": [
+        {
+          "name": "drugs",
+          "type": "array",
+          "items": "Drug",
+          "isBody": true
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "int"
       },
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-enter-drugs"
+      "doc": "",
+      "httpMethod": "post",
+      "url": "batch-enter-drugs"
     },
-    "deleteDisease" : {
-      "request" : [ {
-        "name" : "disease-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-disease",
+    "deleteDisease": {
+      "request": [
+        {
+          "name": "disease-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-disease",
       "backendMethodName": "deleteDiseaseWithAdj",
       "backendMethodReturnsVoid": true
     },
-    "batchResolveIyakuhinMaster" : {
-      "request" : [ {
-        "name" : "iyakuhincode",
-        "type" : "array",
-        "items" : "int"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : {
-        "keys" : "int",
-        "values" : "IyakuhinMaster",
-        "type" : "map"
+    "getClinicInfo": {
+      "request": [],
+      "noDatabase": true,
+      "response": "ClinicInfo",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-clinic-info"
+    },
+    "listAllPharmaDrugNames": {
+      "request": [],
+      "response": {
+        "type": "array",
+        "items": "PharmaDrugName"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "batch-resolve-iyakuhin-master"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-all-pharma-drug-names"
     },
-    "getClinicInfo" : {
-      "request" : [ ],
-      "noDatabase" : true,
-      "response" : "ClinicInfo",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-clinic-info"
-    },
-    "listAllPharmaDrugNames" : {
-      "request" : [ ],
-      "response" : {
-        "type" : "array",
-        "items" : "PharmaDrugName"
+    "listPayment": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "Payment"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-all-pharma-drug-names"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-payment"
     },
-    "listPayment" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "Payment"
+    "listVisitIdVisitedAtByPatientAndIyakuhincode": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "iyakuhincode",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "VisitIdVisitedAt"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-payment"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-visit-id-visited-at-by-patient-and-iyakuhincode"
     },
-    "listVisitIdVisitedAtByPatientAndIyakuhincode" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "iyakuhincode",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "VisitIdVisitedAt"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-visit-id-visited-at-by-patient-and-iyakuhincode"
-    },
-    "batchDeleteShinryou" : {
-      "request" : [ {
-        "name" : "shinryou-id",
-        "type" : "array",
-        "items" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-delete-shinryou",
+    "batchDeleteShinryou": {
+      "request": [
+        {
+          "name": "shinryou-id",
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "batch-delete-shinryou",
       "backendMethodReturnsVoid": true,
       "backendMethodName": "batchDeleteShinryouWithAttr"
     },
-    "listCurrentDiseaseFull" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "DiseaseFull"
+    "listCurrentDiseaseFull": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "DiseaseFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-current-disease-full"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-current-disease-full"
     },
-    "enterDisease" : {
-      "request" : [ {
-        "name" : "diseaseNew",
-        "type" : "DiseaseNew",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-disease",
+    "enterDisease": {
+      "request": [
+        {
+          "name": "diseaseNew",
+          "type": "DiseaseNew",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-disease",
       "backendMethodName": "enterNewDisease"
     },
-    "getCharge" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "Charge",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-charge"
+    "getCharge": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "Charge",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-charge"
     },
-    "batchCopyShinryou" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      }, {
-        "name" : "srcList",
-        "type" : "array",
-        "items" : "Shinryou",
-        "isBody" : true
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "int"
+    "batchCopyShinryou": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        },
+        {
+          "name": "srcList",
+          "type": "array",
+          "items": "Shinryou",
+          "isBody": true
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "int"
       },
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-copy-shinryou"
+      "doc": "",
+      "httpMethod": "post",
+      "url": "batch-copy-shinryou"
     },
-    "enterConductShinryou" : {
-      "request" : [ {
-        "name" : "conductShinryou",
-        "type" : "ConductShinryou",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-conduct-shinryou"
+    "enterConductShinryou": {
+      "request": [
+        {
+          "name": "conductShinryou",
+          "type": "ConductShinryou",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-conduct-shinryou"
     },
-    "enterKouhi" : {
-      "request" : [ {
-        "name" : "kouhi",
-        "type" : "Kouhi",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-kouhi"
+    "enterKouhi": {
+      "request": [
+        {
+          "name": "kouhi",
+          "type": "Kouhi",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-kouhi"
     },
-    "listAllPrescExample" : {
-      "request" : [ ],
-      "response" : {
-        "type" : "array",
-        "items" : "PrescExampleFull"
+    "listAllPrescExample": {
+      "request": [],
+      "response": {
+        "type": "array",
+        "items": "PrescExampleFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-all-presc-example"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-all-presc-example"
     },
-    "finishCashier" : {
-      "request" : [ {
-        "name" : "payment",
-        "type" : "Payment",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "finish-cashier",
+    "finishCashier": {
+      "request": [
+        {
+          "name": "payment",
+          "type": "Payment",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "finish-cashier",
       "backendMethodReturnsVoid": true
     },
-    "enterDrugAttr" : {
-      "request" : [ {
-        "name" : "attr",
-        "type" : "DrugAttr",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-drug-attr",
+    "enterDrugAttr": {
+      "request": [
+        {
+          "name": "attr",
+          "type": "DrugAttr",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-drug-attr",
       "backendMethodReturnsVoid": true
     },
-    "enterDrug" : {
-      "request" : [ {
-        "name" : "drug",
-        "type" : "Drug",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-drug"
+    "enterDrug": {
+      "request": [
+        {
+          "name": "drug",
+          "type": "Drug",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-drug"
     },
-    "deletePharmaDrug" : {
-      "request" : [ {
-        "name" : "iyakuhincode",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-pharma-drug",
+    "deletePharmaDrug": {
+      "request": [
+        {
+          "name": "iyakuhincode",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-pharma-drug",
       "backendMethodReturnsVoid": true
     },
-    "updatePatient" : {
-      "request" : [ {
-        "name" : "patient",
-        "type" : "Patient",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-patient",
+    "updatePatient": {
+      "request": [
+        {
+          "name": "patient",
+          "type": "Patient",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-patient",
       "backendMethodReturnsVoid": true
     },
-    "deleteText" : {
-      "request" : [ {
-        "name" : "text-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-text",
+    "deleteText": {
+      "request": [
+        {
+          "name": "text-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-text",
       "backendMethodReturnsVoid": true
     },
-    "modifyCharge" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      }, {
-        "name" : "charge",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "modify-charge",
+    "modifyCharge": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        },
+        {
+          "name": "charge",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "modify-charge",
       "backendMethodReturnsVoid": true
     },
-    "listAvailableHoken" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : "Hoken",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-available-hoken"
+    "listAvailableHoken": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": "Hoken",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-available-hoken"
     },
-    "updateDrug" : {
-      "request" : [ {
-        "name" : "drug",
-        "type" : "Drug",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-drug",
+    "updateDrug": {
+      "request": [
+        {
+          "name": "drug",
+          "type": "Drug",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-drug",
       "backendMethodReturnsVoid": true
     },
-    "findGazouLabel" : {
-      "request" : [ {
-        "name" : "conduct-id",
-        "type" : "int"
-      } ],
-      "response" : "GazouLabel",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-find-label"
+    "findGazouLabel": {
+      "request": [
+        {
+          "name": "conduct-id",
+          "type": "int"
+        }
+      ],
+      "response": "GazouLabel",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-find-label"
     },
-    "deleteConductShinryou" : {
-      "request" : [ {
-        "name" : "conduct-shinryou-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-conduct-shinryou",
+    "deleteConductShinryou": {
+      "request": [
+        {
+          "name": "conduct-shinryou-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-conduct-shinryou",
       "backendMethodReturnsVoid": true
     },
-    "listPharmaQueueForToday" : {
-      "request" : [ ],
-      "response" : {
-        "type" : "array",
-        "items" : "PharmaQueueFull"
+    "listPharmaQueueForToday": {
+      "request": [],
+      "response": {
+        "type": "array",
+        "items": "PharmaQueueFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-pharma-queue-full-for-today"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-pharma-queue-full-for-today"
     },
-    "deleteKouhi" : {
-      "request" : [ {
-        "name" : "kouhi",
-        "type" : "Kouhi",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-kouhi",
+    "deleteKouhi": {
+      "request": [
+        {
+          "name": "kouhi",
+          "type": "Kouhi",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-kouhi",
       "backendMethodReturnsVoid": true,
       "backendMethodName": "deleteKouhiSafely"
     },
-    "enterHotline" : {
-      "request" : [ {
-        "name" : "hotline",
-        "type" : "Hotline",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-hotline"
+    "enterHotline": {
+      "request": [
+        {
+          "name": "hotline",
+          "type": "Hotline",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-hotline"
     },
-    "listRecentVisits" : {
-      "request" : [ {
-        "name" : "page",
-        "type" : [ "null", "int" ],
-        "defaultValue": 0
-      }, {
-        "name" : "items-per-page",
-        "type" : [ "null", "int" ],
-        "defaultValue": 30
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "VisitPatient"
+    "listRecentVisits": {
+      "request": [
+        {
+          "name": "page",
+          "type": [
+            "null",
+            "int"
+          ],
+          "defaultValue": 0
+        },
+        {
+          "name": "items-per-page",
+          "type": [
+            "null",
+            "int"
+          ],
+          "defaultValue": 30
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "VisitPatient"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-visit-with-patient"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-visit-with-patient"
     },
-    "deleteConduct" : {
-      "request" : [ {
-        "name" : "conduct-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-conduct",
+    "deleteConduct": {
+      "request": [
+        {
+          "name": "conduct-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-conduct",
       "backendMethodReturnsVoid": true,
       "backendMethodName": "deleteConductFull"
     },
-    "listPharmaQueueForPrescription" : {
-      "request" : [ ],
-      "response" : {
-        "type" : "array",
-        "items" : "PharmaQueueFull"
+    "listPharmaQueueForPrescription": {
+      "request": [],
+      "response": {
+        "type": "array",
+        "items": "PharmaQueueFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-pharma-queue-full-for-prescription"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-pharma-queue-full-for-prescription"
     },
-    "getDrug" : {
-      "request" : [ {
-        "name" : "drug-id",
-        "type" : "int"
-      } ],
-      "response" : "Drug",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-drug"
+    "getDrug": {
+      "request": [
+        {
+          "name": "drug-id",
+          "type": "int"
+        }
+      ],
+      "response": "Drug",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-drug"
     },
-    "enterKoukikourei" : {
-      "request" : [ {
-        "name" : "koukikourei",
-        "type" : "Koukikourei",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-koukikourei"
+    "enterKoukikourei": {
+      "request": [
+        {
+          "name": "koukikourei",
+          "type": "Koukikourei",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-koukikourei"
     },
-    "findShinryouMasterByName" : {
-      "request" : [ {
-        "name" : "name",
-        "type" : "string"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : "ShinryouMaster",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "find-shinryou-master-by-name"
+    "findShinryouMasterByName": {
+      "request": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": "ShinryouMaster",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "find-shinryou-master-by-name"
     },
-    "updateShinryou" : {
-      "request" : [ {
-        "name" : "shinryou",
-        "type" : "Shinryou",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-shinryou",
+    "updateShinryou": {
+      "request": [
+        {
+          "name": "shinryou",
+          "type": "Shinryou",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-shinryou",
       "backendMethodReturnsVoid": true
     },
-    "getPatient" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      } ],
-      "response" : "Patient",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-patient"
+    "getPatient": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        }
+      ],
+      "response": "Patient",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-patient"
     },
-    "pageDiseaseFull" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "page",
-        "type" : "int"
-      }, {
-        "name" : "items-per-page",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "DiseaseFull"
+    "pageDiseaseFull": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "page",
+          "type": [
+            "null",
+            "int"
+          ],
+          "defaultValue": 0
+        },
+        {
+          "name": "items-per-page",
+          "type": [
+            "null",
+            "int"
+          ],
+          "defaultValue": 10
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "DiseaseFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "page-disease-full"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "page-disease-full"
     },
-    "batchGetShinryouAttr" : {
-      "request" : [ {
-        "name" : "shinryou-ids",
-        "type" : "array",
-        "items" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "ShinryouAttr"
+    "batchGetShinryouAttr": {
+      "request": [
+        {
+          "name": "shinryou-ids",
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "ShinryouAttr"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "batch-get-shinryou-attr"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "batch-get-shinryou-attr"
     },
-    "batchGetShouki" : {
-      "request" : [ {
-        "name" : "visit-ids",
-        "type" : "array",
-        "items" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "Shouki"
+    "batchGetShouki": {
+      "request": [
+        {
+          "name": "visit-ids",
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "Shouki"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "batchy-get-shouki"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "batchy-get-shouki"
     },
-    "getConduct" : {
-      "request" : [ {
-        "name" : "conduct-id",
-        "type" : "int"
-      } ],
-      "response" : "Conduct",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-conduct"
+    "getConduct": {
+      "request": [
+        {
+          "name": "conduct-id",
+          "type": "int"
+        }
+      ],
+      "response": "Conduct",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-conduct"
     },
-    "enterInject" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      }, {
-        "name" : "kind",
-        "type" : "int"
-      }, {
-        "name" : "iyakuhincode",
-        "type" : "int"
-      }, {
-        "name" : "amount",
-        "type" : "float"
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-inject"
+    "enterInject": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        },
+        {
+          "name": "kind",
+          "type": "int"
+        },
+        {
+          "name": "iyakuhincode",
+          "type": "int"
+        },
+        {
+          "name": "amount",
+          "type": "float"
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-inject"
     },
-    "deleteConductDrug" : {
-      "request" : [ {
-        "name" : "conduct-drug-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-conduct-drug",
+    "deleteConductDrug": {
+      "request": [
+        {
+          "name": "conduct-drug-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-conduct-drug",
       "backendMethodReturnsVoid": true
     },
-    "searchPrescExample" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : "string"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "PrescExampleFull"
+    "searchPrescExample": {
+      "request": [
+        {
+          "name": "text",
+          "type": "string"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "PrescExampleFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "search-presc-example-full-by-name"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "search-presc-example-full-by-name"
     },
-    "searchPatient" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : "string"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "Patient"
+    "searchPatient": {
+      "request": [
+        {
+          "name": "text",
+          "type": "string"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "Patient"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "search-patient"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "search-patient"
     },
-    "updateKoukikourei" : {
-      "request" : [ {
-        "name" : "koukikourei",
-        "type" : "Koukikourei",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-koukikourei",
+    "updateKoukikourei": {
+      "request": [
+        {
+          "name": "koukikourei",
+          "type": "Koukikourei",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-koukikourei",
       "backendMethodReturnsVoid": true
     },
-    "deleteRoujin" : {
-      "request" : [ {
-        "name" : "roujin",
-        "type" : "Roujin",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-roujin",
+    "deleteRoujin": {
+      "request": [
+        {
+          "name": "roujin",
+          "type": "Roujin",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-roujin",
       "backendMethodReturnsVoid": true,
       "backendMethodName": "deleteRoujinSafely"
     },
-    "deleteDrugTekiyou" : {
-      "request" : [ {
-        "name" : "drug-id",
-        "type" : "int"
-      } ],
-      "response" : "DrugAttr",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-drug-tekiyou"
+    "deleteDrugTekiyou": {
+      "request": [
+        {
+          "name": "drug-id",
+          "type": "int"
+        }
+      ],
+      "response": "DrugAttr",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-drug-tekiyou"
     },
-    "getMasterMapConfigFilePath" : {
-      "request" : [ ],
-      "noDatabase" : true,
-      "response" : "StringResult",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-master-map-config-file-path"
+    "getMasterMapConfigFilePath": {
+      "request": [],
+      "noDatabase": true,
+      "response": "StringResult",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-master-map-config-file-path"
     },
-    "findPharmaDrug" : {
-      "request" : [ {
-        "name" : "iyakuhincode",
-        "type" : "int"
-      } ],
-      "response" : "PharmaDrug",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "find-pharma-drug",
+    "findPharmaDrug": {
+      "request": [
+        {
+          "name": "iyakuhincode",
+          "type": "int"
+        }
+      ],
+      "response": "PharmaDrug",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "find-pharma-drug",
       "backendMethodName": "getPharmaDrug"
     },
-    "resolveShinryoucode" : {
-      "request" : [ {
-        "name" : "shinryoucode",
-        "type" : "int"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "resolve-shinryoucode"
-    },
-    "resolveIyakuhinMaster" : {
-      "request" : [ {
-        "name" : "iyakuhincode",
-        "type" : "int"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : "IyakuhinMaster",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "resolve-iyakuhin-master"
-    },
-    "listDrugFull" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "DrugFull"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-drug-full"
-    },
-    "listWqueueFullForExam" : {
-      "request" : [ ],
-      "response" : {
-        "type" : "array",
-        "items" : "WqueueFull"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-wqueue-full-for-exam"
-    },
-    "updateShouki" : {
-      "request" : [ {
-        "name" : "shouki",
-        "type" : "Shouki",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-shouki",
-      "backendMethodReturnsVoid": true
-    },
-    "batchResolveByoumeiNames" : {
-      "request" : [ {
-        "name" : "at",
-        "typeHints" : [ "date" ],
-        "type" : "string"
-      }, {
-        "name" : "args",
-        "type" : "array",
-        "items" : {
-          "type" : "array",
-          "items" : "string"
+    "resolveShinryoucode": {
+      "request": [
+        {
+          "name": "shinryoucode",
+          "type": "int"
         },
-        "isBody" : true
-      } ],
-      "response" : {
-        "keys" : "string",
-        "values" : "int",
-        "type" : "map"
-      },
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-resolve-byoumei-names"
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "resolve-shinryoucode"
     },
-    "prescDone" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "presc-done",
+    "resolveIyakuhinMaster": {
+      "request": [
+        {
+          "name": "iyakuhincode",
+          "type": "int"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": "IyakuhinMaster",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "resolve-iyakuhin-master"
+    },
+    "listDrugFull": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "DrugFull"
+      },
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-drug-full"
+    },
+    "listWqueueFullForExam": {
+      "request": [],
+      "response": {
+        "type": "array",
+        "items": "WqueueFull"
+      },
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-wqueue-full-for-exam"
+    },
+    "updateShouki": {
+      "request": [
+        {
+          "name": "shouki",
+          "type": "Shouki",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-shouki",
       "backendMethodReturnsVoid": true
     },
-    "searchTextGlobally" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : "string"
-      }, {
-        "name" : "page",
-        "type" : "int"
-      } ],
-      "response" : "TextVisitPatientPage",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "search-text-globally"
+    "batchResolveByoumeiNames": {
+      "request": [
+        {
+          "name": "at",
+          "typeHints": [
+            "date"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "args",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": "string"
+          },
+          "isBody": true
+        }
+      ],
+      "response": {
+        "keys": "string",
+        "values": "int",
+        "type": "map"
+      },
+      "doc": "",
+      "httpMethod": "post",
+      "url": "batch-resolve-byoumei-names"
     },
-    "enterShinryou" : {
-      "request" : [ {
-        "name" : "shinryou",
-        "type" : "Shinryou",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-shinryou"
-    },
-    "setDrugTekiyou" : {
-      "request" : [ {
-        "name" : "drug-id",
-        "type" : "int"
-      }, {
-        "name" : "tekiyou",
-        "type" : "string"
-      } ],
-      "response" : "DrugAttr",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "set-drug-tekiyou"
-    },
-    "enterPharmaDrug" : {
-      "request" : [ {
-        "name" : "pharmaDrug",
-        "type" : "PharmaDrug",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-pharma-drug",
+    "prescDone": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "presc-done",
       "backendMethodReturnsVoid": true
     },
-    "listDiseaseByPatientAt" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "year",
-        "type" : "int"
-      }, {
-        "name" : "month",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "DiseaseFull"
+    "searchTextGlobally": {
+      "request": [
+        {
+          "name": "text",
+          "type": "string"
+        },
+        {
+          "name": "page",
+          "type": "int"
+        }
+      ],
+      "response": "TextVisitPatientPage",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "search-text-globally"
+    },
+    "enterShinryou": {
+      "request": [
+        {
+          "name": "shinryou",
+          "type": "Shinryou",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-shinryou"
+    },
+    "setDrugTekiyou": {
+      "request": [
+        {
+          "name": "drug-id",
+          "type": "int"
+        },
+        {
+          "name": "tekiyou",
+          "type": "string"
+        }
+      ],
+      "response": "DrugAttr",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "set-drug-tekiyou"
+    },
+    "enterPharmaDrug": {
+      "request": [
+        {
+          "name": "pharmaDrug",
+          "type": "PharmaDrug",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-pharma-drug",
+      "backendMethodReturnsVoid": true
+    },
+    "listDiseaseByPatientAt": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "year",
+          "type": "int"
+        },
+        {
+          "name": "month",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "DiseaseFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-disease-by-patient-at"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-disease-by-patient-at"
     },
-    "getConductFull" : {
-      "request" : [ {
-        "name" : "conduct-id",
-        "type" : "int"
-      } ],
-      "response" : "ConductFull",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-conduct-full"
+    "getConductFull": {
+      "request": [
+        {
+          "name": "conduct-id",
+          "type": "int"
+        }
+      ],
+      "response": "ConductFull",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-conduct-full"
     },
-    "listIyakuhinForPatient" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "IyakuhincodeName"
+    "listIyakuhinForPatient": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "IyakuhincodeName"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-iyakuhin-for-patient"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-iyakuhin-for-patient"
     },
-    "searchShuushokugoMaster" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : "string"
-      }, {
-        "name": "at",
-        "type": [ "null", "string" ],
-        "typeHints": [ "date" ]
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "ShuushokugoMaster"
+    "searchShuushokugoMaster": {
+      "request": [
+        {
+          "name": "text",
+          "type": "string"
+        },
+        {
+          "name": "at",
+          "type": [
+            "null",
+            "string"
+          ],
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "ShuushokugoMaster"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "search-shuushokugo-master"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "search-shuushokugo-master"
     },
-    "deleteShahokokuho" : {
-      "request" : [ {
-        "name" : "shahokokuho",
-        "type" : "Shahokokuho",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-shahokokuho",
+    "deleteShahokokuho": {
+      "request": [
+        {
+          "name": "shahokokuho",
+          "type": "Shahokokuho",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-shahokokuho",
       "backendMethodReturnsVoid": true,
       "backendMethodName": "deleteShahokokuhoSafely"
     },
-    "listVisitChargePatientAt" : {
-      "request" : [ {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "VisitChargePatient"
+    "listVisitChargePatientAt": {
+      "request": [
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "VisitChargePatient"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-visit-charge-patient-at"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-visit-charge-patient-at"
     },
-    "deleteDuplicateShinryou" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "int"
+    "deleteDuplicateShinryou": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "int"
       },
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-duplicate-shinryou"
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-duplicate-shinryou"
     },
-    "getKoukikourei" : {
-      "request" : [ {
-        "name" : "koukikourei-id",
-        "type" : "int"
-      } ],
-      "response" : "Koukikourei",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-koukikourei"
+    "getKoukikourei": {
+      "request": [
+        {
+          "name": "koukikourei-id",
+          "type": "int"
+        }
+      ],
+      "response": "Koukikourei",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-koukikourei"
     },
-    "getShinryouByoumeiMapConfigFilePath" : {
-      "request" : [ ],
-      "noDatabase" : true,
-      "response" : "StringResult",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-shinryou-byoumei-map-config-file-path"
+    "getShinryouByoumeiMapConfigFilePath": {
+      "request": [],
+      "noDatabase": true,
+      "response": "StringResult",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-shinryou-byoumei-map-config-file-path"
     },
-    "searchIyakuhinMaster" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : "string"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "IyakuhinMaster"
+    "searchIyakuhinMaster": {
+      "request": [
+        {
+          "name": "text",
+          "type": "string"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "IyakuhinMaster"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "search-iyakuhin-master-by-name"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "search-iyakuhin-master-by-name"
     },
-    "resolveShinryouMaster" : {
-      "request" : [ {
-        "name" : "shinryoucode",
-        "type" : "int"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : "ShinryouMaster",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "resolve-shinryou-master"
+    "resolveShinryouMaster": {
+      "request": [
+        {
+          "name": "shinryoucode",
+          "type": "int"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": "ShinryouMaster",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "resolve-shinryou-master"
     },
-    "getHokensho" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "file",
-        "type" : "string"
-      } ],
-      "noDatabase" : true,
-      "isStreaming" : true,
-      "response" : "ResponseBody",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-hokensho"
+    "getHokensho": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "file",
+          "type": "string"
+        }
+      ],
+      "noDatabase": true,
+      "isStreaming": true,
+      "response": "ResponseBody",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-hokensho"
     },
-    "deleteShinryouTekiyou" : {
-      "request" : [ {
-        "name" : "shinryou-id",
-        "type" : "int"
-      } ],
-      "response" : "ShinryouAttr",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-shinryou-tekiyou"
+    "deleteShinryouTekiyou": {
+      "request": [
+        {
+          "name": "shinryou-id",
+          "type": "int"
+        }
+      ],
+      "response": "ShinryouAttr",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-shinryou-tekiyou"
     },
-    "searchTextByPage" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "text",
-        "type" : "string"
-      }, {
-        "name" : "page",
-        "type" : "int"
-      } ],
-      "response" : "TextVisitPage",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "search-text-by-page"
+    "searchTextByPage": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "text",
+          "type": "string"
+        },
+        {
+          "name": "page",
+          "type": "int"
+        }
+      ],
+      "response": "TextVisitPage",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "search-text-by-page"
     },
-    "pageVisitDrug" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "page",
-        "type" : "int"
-      } ],
-      "response" : "VisitDrugPage",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "page-visit-drug"
+    "pageVisitDrug": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "page",
+          "type": "int"
+        }
+      ],
+      "response": "VisitDrugPage",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "page-visit-drug"
     },
-    "getConductDrugFull" : {
-      "request" : [ {
-        "name" : "conduct-drug-id",
-        "type" : "int"
-      } ],
-      "response" : "ConductDrugFull",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-conduct-drug-full"
+    "getConductDrugFull": {
+      "request": [
+        {
+          "name": "conduct-drug-id",
+          "type": "int"
+        }
+      ],
+      "response": "ConductDrugFull",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-conduct-drug-full"
     },
-    "getVisitMeisai" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "Meisai",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-visit-meisai"
+    "getVisitMeisai": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "Meisai",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-visit-meisai"
     },
-    "countPageOfDiseaseByPatient" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "items-per-page",
-        "type" : "int"
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "count-page-of-disease-by-patient"
+    "countPageOfDiseaseByPatient": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "items-per-page",
+          "type": "int"
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "count-page-of-disease-by-patient"
     },
-    "startExam" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "start-exam",
+    "startExam": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "start-exam",
       "backendMethodReturnsVoid": true
     },
-    "getShinryouMaster" : {
-      "request" : [ {
-        "name" : "shinryoucode",
-        "type" : "int"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : "ShinryouMaster",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-shinryou-master"
+    "getShinryouMaster": {
+      "request": [
+        {
+          "name": "shinryoucode",
+          "type": "int"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": "ShinryouMaster",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-shinryou-master"
     },
-    "searchPrevDrug" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : [ "null", "string" ],
-        "defaultValue": ""
-      }, {
-        "name" : "patient-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "DrugFull"
+    "searchPrevDrug": {
+      "request": [
+        {
+          "name": "text",
+          "type": [
+            "null",
+            "string"
+          ],
+          "defaultValue": ""
+        },
+        {
+          "name": "patient-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "DrugFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "search-prev-drug"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "search-prev-drug"
     },
-    "listShinryouFullByIds" : {
-      "request" : [ {
-        "name" : "shinryou-id",
-        "type" : "array",
-        "items" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "ShinryouFull"
+    "listShinryouFullByIds": {
+      "request": [
+        {
+          "name": "shinryou-id",
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "ShinryouFull"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-shinryou-full-by-ids"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-shinryou-full-by-ids"
     },
-    "startVisit" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "start-visit"
+    "startVisit": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "start-visit"
     },
-    "modifyDisease" : {
-      "request" : [ {
-        "name" : "diseaseModify",
-        "type" : "DiseaseModify",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "modify-disease",
+    "modifyDisease": {
+      "request": [
+        {
+          "name": "diseaseModify",
+          "type": "DiseaseModify",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "modify-disease",
       "backendMethodReturnsVoid": true
     },
-    "deleteShinryou" : {
-      "request" : [ {
-        "name" : "shinryou-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-shinryou",
+    "deleteShinryou": {
+      "request": [
+        {
+          "name": "shinryou-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-shinryou",
       "backendMethodReturnsVoid": true,
       "backendMethodName": "deleteShinryouWithAttr"
     },
-    "listVisitTextDrugForPatient" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "page",
-        "type" : "int"
-      } ],
-      "response" : "VisitTextDrugPage",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-visit-text-drug-for-patient"
+    "listVisitTextDrugForPatient": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "page",
+          "type": "int"
+        }
+      ],
+      "response": "VisitTextDrugPage",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-visit-text-drug-for-patient"
     },
-    "getReferList" : {
-      "request" : [ ],
-      "noDatabase" : true,
-      "response" : {
-        "type" : "array",
-        "items" : "ReferItem"
+    "getReferList": {
+      "request": [],
+      "noDatabase": true,
+      "response": {
+        "type": "array",
+        "items": "ReferItem"
       },
       "noDatabase": true,
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-refer-list"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-refer-list"
     },
-    "endExam" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      }, {
-        "name" : "charge",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "end-exam",
-      "backendMethodReturnsVoid": true
-    },
-    "searchKizaiMaster" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : "string"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "KizaiMaster"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "search-kizai-master-by-name"
-    },
-    "batchResolveShuushokugoNames" : {
-      "request" : [ {
-        "name" : "at",
-        "typeHints" : [ "date" ],
-        "type" : "string"
-      }, {
-        "name" : "args",
-        "type" : "array",
-        "items" : {
-          "type" : "array",
-          "items" : "string"
+    "endExam": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
         },
-        "isBody" : true
-      } ],
-      "response" : {
-        "keys" : "string",
-        "values" : "int",
-        "type" : "map"
-      },
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-resolve-shuushokugo-names"
-    },
-    "batchUpdateDiseaseEndReason" : {
-      "request" : [ {
-        "name" : "args",
-        "type" : "array",
-        "items" : "DiseaseModifyEndReason",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-update-disease-end-reason",
+        {
+          "name": "charge",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "end-exam",
       "backendMethodReturnsVoid": true
     },
-    "listPracticeLogInRange" : {
-      "request" : [ {
-        "name" : "date",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      }, {
-        "name" : "after-id",
-        "type" : "int"
-      }, {
-        "name" : "before-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "PracticeLog"
+    "searchKizaiMaster": {
+      "request": [
+        {
+          "name": "text",
+          "type": "string"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "KizaiMaster"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-practice-log-in-range"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "search-kizai-master-by-name"
     },
-    "getNameMapConfigFilePath" : {
-      "request" : [ ],
-      "noDatabase" : true,
-      "response" : "StringResult",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-name-map-config-file-path"
+    "batchResolveShuushokugoNames": {
+      "request": [
+        {
+          "name": "at",
+          "typeHints": [
+            "date"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "args",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": "string"
+          },
+          "isBody": true
+        }
+      ],
+      "response": {
+        "keys": "string",
+        "values": "int",
+        "type": "map"
+      },
+      "doc": "",
+      "httpMethod": "post",
+      "url": "batch-resolve-shuushokugo-names"
     },
-    "getHoken" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "Hoken",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-hoken"
-    },
-    "updateKouhi" : {
-      "request" : [ {
-        "name" : "kouhi",
-        "type" : "Kouhi",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-kouhi",
+    "batchUpdateDiseaseEndReason": {
+      "request": [
+        {
+          "name": "args",
+          "type": "array",
+          "items": "DiseaseModifyEndReason",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "batch-update-disease-end-reason",
       "backendMethodReturnsVoid": true
     },
-    "suspendExam" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "suspend-exam",
+    "listPracticeLogInRange": {
+      "request": [
+        {
+          "name": "date",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        },
+        {
+          "name": "after-id",
+          "type": "int"
+        },
+        {
+          "name": "before-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "PracticeLog"
+      },
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-practice-log-in-range"
+    },
+    "getNameMapConfigFilePath": {
+      "request": [],
+      "noDatabase": true,
+      "response": "StringResult",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-name-map-config-file-path"
+    },
+    "getHoken": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "Hoken",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-hoken"
+    },
+    "updateKouhi": {
+      "request": [
+        {
+          "name": "kouhi",
+          "type": "Kouhi",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-kouhi",
       "backendMethodReturnsVoid": true
     },
-    "listPaymentByPatient" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      }, {
-        "name" : "n",
-        "type" : [ "null", "int" ],
-        "defaultValue": 30
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "PaymentVisitPatient"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-payment-by-patient"
-    },
-    "listVisitingPatientIdHavingHoken" : {
-      "request" : [ {
-        "name" : "year",
-        "type" : "int"
-      }, {
-        "name" : "month",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "int"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-visiting-patient-id-having-hoken"
-    },
-    "updateText" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : "Text",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-text",
+    "suspendExam": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "suspend-exam",
       "backendMethodReturnsVoid": true
     },
-    "resolveKizaiMasterByName" : {
-      "request" : [ {
-        "name" : "name",
-        "type" : "string"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : "KizaiMaster",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "resolve-kizai-master-by-name"
-    },
-    "listVisitIdByPatient" : {
-      "request" : [ {
-        "name" : "patient-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "int"
+    "listPaymentByPatient": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        },
+        {
+          "name": "n",
+          "type": [
+            "null",
+            "int"
+          ],
+          "defaultValue": 30
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "PaymentVisitPatient"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-visit-id-for-patient"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-payment-by-patient"
     },
-    "getPharmaDrug" : {
-      "request" : [ {
-        "name" : "iyakuhincode",
-        "type" : "int"
-      } ],
-      "response" : "PharmaDrug",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-pharma-drug"
+    "listVisitingPatientIdHavingHoken": {
+      "request": [
+        {
+          "name": "year",
+          "type": "int"
+        },
+        {
+          "name": "month",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "int"
+      },
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-visiting-patient-id-having-hoken"
     },
-    "batchUpdateDrugDays" : {
-      "request" : [ {
-        "name" : "drug-id",
-        "type" : "array",
-        "items" : "int"
-      }, {
-        "name" : "days",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-update-drug-days",
+    "updateText": {
+      "request": [
+        {
+          "name": "text",
+          "type": "Text",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-text",
       "backendMethodReturnsVoid": true
     },
-    "deleteDrug" : {
-      "request" : [ {
-        "name" : "drug-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-drug",
+    "resolveKizaiMasterByName": {
+      "request": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": "KizaiMaster",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "resolve-kizai-master-by-name"
+    },
+    "listVisitIdByPatient": {
+      "request": [
+        {
+          "name": "patient-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "int"
+      },
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-visit-id-for-patient"
+    },
+    "getPharmaDrug": {
+      "request": [
+        {
+          "name": "iyakuhincode",
+          "type": "int"
+        }
+      ],
+      "response": "PharmaDrug",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-pharma-drug"
+    },
+    "batchUpdateDrugDays": {
+      "request": [
+        {
+          "name": "drug-id",
+          "type": "array",
+          "items": "int"
+        },
+        {
+          "name": "days",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "batch-update-drug-days",
+      "backendMethodReturnsVoid": true
+    },
+    "deleteDrug": {
+      "request": [
+        {
+          "name": "drug-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-drug",
       "backendMethodName": "deleteDrugWithAttr",
       "backendMethodReturnsVoid": true
     },
-    "getConductShinryouFull" : {
-      "request" : [ {
-        "name" : "conduct-shinryou-id",
-        "type" : "int"
-      } ],
-      "response" : "ConductShinryouFull",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-conduct-shinryou-full"
+    "getConductShinryouFull": {
+      "request": [
+        {
+          "name": "conduct-shinryou-id",
+          "type": "int"
+        }
+      ],
+      "response": "ConductShinryouFull",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-conduct-shinryou-full"
     },
-    "enterConductDrug" : {
-      "request" : [ {
-        "name" : "conductDrug",
-        "type" : "ConductDrug",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-conduct-drug"
+    "enterConductDrug": {
+      "request": [
+        {
+          "name": "conductDrug",
+          "type": "ConductDrug",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-conduct-drug"
     },
-    "deleteVisitFromReception" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-visit-from-reception",
+    "deleteVisitFromReception": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-visit-from-reception",
       "backendMethodReturnsVoid": true
     },
-    "copyAllConducts" : {
-      "request" : [ {
-        "name" : "target-visit-id",
-        "type" : "int"
-      }, {
-        "name" : "source-visit-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "int"
+    "copyAllConducts": {
+      "request": [
+        {
+          "name": "target-visit-id",
+          "type": "int"
+        },
+        {
+          "name": "source-visit-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "int"
       },
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "copy-all-conducts"
+      "doc": "",
+      "httpMethod": "post",
+      "url": "copy-all-conducts"
     },
-    "enterPrescExample" : {
-      "request" : [ {
-        "name" : "presc-example",
-        "type" : "PrescExample",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-presc-example"
+    "enterPrescExample": {
+      "request": [
+        {
+          "name": "presc-example",
+          "type": "PrescExample",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-presc-example"
     },
-    "deletePrescExample" : {
-      "request" : [ {
-        "name" : "presc-example-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-presc-example",
+    "deletePrescExample": {
+      "request": [
+        {
+          "name": "presc-example-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-presc-example",
       "backendMethodReturnsVoid": true
     },
-    "getShuushokugoMasterByName" : {
-      "request" : [ {
-        "name" : "name",
-        "type" : "string"
-      } ],
-      "response" : "ShuushokugoMaster",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "find-shuushokugo-master-by-name"
+    "getShuushokugoMasterByName": {
+      "request": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "response": "ShuushokugoMaster",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "find-shuushokugo-master-by-name"
     },
-    "getNameOfIyakuhin" : {
-      "request" : [ {
-        "name" : "iyakuhincode",
-        "type" : "int"
-      } ],
-      "response" : "string",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-name-of-iyakuhin"
+    "getNameOfIyakuhin": {
+      "request": [
+        {
+          "name": "iyakuhincode",
+          "type": "int"
+        }
+      ],
+      "response": "string",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-name-of-iyakuhin"
     },
-    "setShinryouTekiyou" : {
-      "request" : [ {
-        "name" : "shinryou-id",
-        "type" : "int"
-      }, {
-        "name" : "tekiyou",
-        "type" : "string"
-      } ],
-      "response" : "ShinryouAttr",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "set-shinryou-tekiyou"
+    "setShinryouTekiyou": {
+      "request": [
+        {
+          "name": "shinryou-id",
+          "type": "int"
+        },
+        {
+          "name": "tekiyou",
+          "type": "string"
+        }
+      ],
+      "response": "ShinryouAttr",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "set-shinryou-tekiyou"
     },
-    "getVisit" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "Visit",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-visit"
+    "getVisit": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "Visit",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-visit"
     },
-    "resolveKizaiMaster" : {
-      "request" : [ {
-        "name" : "kizaicode",
-        "type" : "int"
-      }, {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      } ],
-      "response" : "KizaiMaster",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "resolve-kizai-master"
+    "resolveKizaiMaster": {
+      "request": [
+        {
+          "name": "kizaicode",
+          "type": "int"
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        }
+      ],
+      "response": "KizaiMaster",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "resolve-kizai-master"
     },
-    "modifyGazouLabel" : {
-      "request" : [ {
-        "name" : "conduct-id",
-        "type" : "int"
-      }, {
-        "name" : "label",
-        "type" : "string"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "modify-gazou-label",
+    "modifyGazouLabel": {
+      "request": [
+        {
+          "name": "conduct-id",
+          "type": "int"
+        },
+        {
+          "name": "label",
+          "type": "string"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "modify-gazou-label",
       "backendMethodName": "setGazouLabel",
       "backendMethodReturnsVoid": true
     },
-    "updatePharmaDrug" : {
-      "request" : [ {
-        "name" : "pharmaDrug",
-        "type" : "PharmaDrug",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-pharma-drug",
+    "updatePharmaDrug": {
+      "request": [
+        {
+          "name": "pharmaDrug",
+          "type": "PharmaDrug",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-pharma-drug",
       "backendMethodReturnsVoid": true
     },
-    "getPowderDrugConfigFilePath" : {
-      "request" : [ ],
-      "noDatabase" : true,
-      "response" : "StringResult",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-powder-drug-config-file-path"
+    "getPowderDrugConfigFilePath": {
+      "request": [],
+      "noDatabase": true,
+      "response": "StringResult",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-powder-drug-config-file-path"
     },
-    "listRecentHotline" : {
-      "request" : [ {
-        "name" : "threshold-hotline-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "Hotline"
+    "listRecentHotline": {
+      "request": [
+        {
+          "name": "threshold-hotline-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "Hotline"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-recent-hotline"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-recent-hotline"
     },
-    "listText" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "Text"
+    "listText": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "Text"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-text"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-text"
     },
-    "getRoujin" : {
-      "request" : [ {
-        "name" : "roujin-id",
-        "type" : "int"
-      } ],
-      "response" : "Roujin",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-roujin"
+    "getRoujin": {
+      "request": [
+        {
+          "name": "roujin-id",
+          "type": "int"
+        }
+      ],
+      "response": "Roujin",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-roujin"
     },
-    "listAllPracticeLog" : {
-      "request" : [ {
-        "name" : "date",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      }, {
-        "name" : "last-id",
-        "type" : "int"
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "PracticeLog"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-practice-log-after"
-    },
-    "listRecentPayment" : {
-      "request" : [ {
-        "name" : "n",
-        "type" : [ "null", "int" ],
-        "defaultValue": 30
-      } ],
-      "response" : {
-        "type" : "array",
-        "items" : "PaymentVisitPatient"
-      },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-recent-payment"
-    },
-    "batchResolveKizaiNames" : {
-      "request" : [ {
-        "name" : "at",
-        "typeHints" : [ "date" ],
-        "type" : "string"
-      }, {
-        "name" : "args",
-        "type" : "array",
-        "items" : {
-          "type" : "array",
-          "items" : "string"
+    "listAllPracticeLog": {
+      "request": [
+        {
+          "name": "date",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
         },
-        "isBody" : true
-      } ],
-      "response" : {
-        "keys" : "string",
-        "values" : "int",
-        "type" : "map"
+        {
+          "name": "last-id",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "PracticeLog"
       },
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "batch-resolve-kizai-names"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-practice-log-after"
     },
-    "listTodaysHotline" : {
-      "request" : [ ],
-      "response" : {
-        "type" : "array",
-        "items" : "Hotline"
+    "listRecentPayment": {
+      "request": [
+        {
+          "name": "n",
+          "type": [
+            "null",
+            "int"
+          ],
+          "defaultValue": 30
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "PaymentVisitPatient"
       },
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "list-todays-hotline"
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-recent-payment"
     },
-    "resolveShinryouMasterByName" : {
-      "request" : [ {
-        "name" : "name",
-        "type" : "string"
-      }, {
-        "name" : "at",
-        "type" : "string"
-      } ],
-      "response" : "ShinryouMaster",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "resolve-shinryou-master-by-name"
+    "batchResolveKizaiNames": {
+      "request": [
+        {
+          "name": "at",
+          "typeHints": [
+            "date"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "args",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": "string"
+          },
+          "isBody": true
+        }
+      ],
+      "response": {
+        "keys": "string",
+        "values": "int",
+        "type": "map"
+      },
+      "doc": "",
+      "httpMethod": "post",
+      "url": "batch-resolve-kizai-names"
     },
-    "enterXp" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      }, {
-        "name" : "label",
-        "type" : "string"
-      }, {
-        "name" : "film",
-        "type" : "string"
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-xp"
+    "listTodaysHotline": {
+      "request": [],
+      "response": {
+        "type": "array",
+        "items": "Hotline"
+      },
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-todays-hotline"
     },
-    "enterShahokokuho" : {
-      "request" : [ {
-        "name" : "shahokokuho",
-        "type" : "Shahokokuho",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-shahokokuho"
+    "resolveShinryouMasterByName": {
+      "request": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "at",
+          "type": "string"
+        }
+      ],
+      "response": "ShinryouMaster",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "resolve-shinryou-master-by-name"
     },
-    "updatePrescExample" : {
-      "request" : [ {
-        "name" : "presc-example",
-        "type" : "PrescExample",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-presc-example",
+    "enterXp": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        },
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "film",
+          "type": "string"
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-xp"
+    },
+    "enterShahokokuho": {
+      "request": [
+        {
+          "name": "shahokokuho",
+          "type": "Shahokokuho",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-shahokokuho"
+    },
+    "updatePrescExample": {
+      "request": [
+        {
+          "name": "presc-example",
+          "type": "PrescExample",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-presc-example",
       "backendMethodReturnsVoid": true
     },
-    "getPracticeConfig" : {
-      "request" : [ ],
-      "noDatabase" : true,
-      "response" : "PracticeConfig",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-practice-config"
+    "getPracticeConfig": {
+      "request": [],
+      "noDatabase": true,
+      "response": "PracticeConfig",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-practice-config"
     },
-    "modifyConductKind" : {
-      "request" : [ {
-        "name" : "conduct-id",
-        "type" : "int"
-      }, {
-        "name" : "kind",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "modify-conduct-kind",
+    "modifyConductKind": {
+      "request": [
+        {
+          "name": "conduct-id",
+          "type": "int"
+        },
+        {
+          "name": "kind",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "modify-conduct-kind",
       "backendMethodReturnsVoid": true
     },
-    "enterPatient" : {
-      "request" : [ {
-        "name" : "patient",
-        "type" : "Patient",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-patient"
+    "enterPatient": {
+      "request": [
+        {
+          "name": "patient",
+          "type": "Patient",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-patient"
     },
-    "pageVisitFullWithPatientAt" : {
-      "request" : [ {
-        "name" : "at",
-        "type" : "string",
-        "typeHints": [ "date" ]
-      }, {
-        "name" : "page",
-        "type" : "int"
-      } ],
-      "response" : "VisitFull2PatientPage",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "page-visit-full2-with-patient-at"
+    "pageVisitFullWithPatientAt": {
+      "request": [
+        {
+          "name": "at",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
+        },
+        {
+          "name": "page",
+          "type": "int"
+        }
+      ],
+      "response": "VisitFull2PatientPage",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "page-visit-full2-with-patient-at"
     },
-    "updateShahokokuho" : {
-      "request" : [ {
-        "name" : "shahokokuho",
-        "type" : "Shahokokuho",
-        "isBody" : true
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "update-shahokokuho",
+    "updateShahokokuho": {
+      "request": [
+        {
+          "name": "shahokokuho",
+          "type": "Shahokokuho",
+          "isBody": true
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "update-shahokokuho",
       "backendMethodReturnsVoid": true
     },
-    "enterText" : {
-      "request" : [ {
-        "name" : "text",
-        "type" : "Text",
-        "isBody" : true
-      } ],
-      "response" : "int",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "enter-text"
+    "enterText": {
+      "request": [
+        {
+          "name": "text",
+          "type": "Text",
+          "isBody": true
+        }
+      ],
+      "response": "int",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "enter-text"
     },
-    "deleteVisit" : {
-      "request" : [ {
-        "name" : "visit-id",
-        "type" : "int"
-      } ],
-      "response" : "boolean",
-      "doc" : "",
-      "httpMethod" : "post",
-      "url" : "delete-visit",
+    "deleteVisit": {
+      "request": [
+        {
+          "name": "visit-id",
+          "type": "int"
+        }
+      ],
+      "response": "boolean",
+      "doc": "",
+      "httpMethod": "post",
+      "url": "delete-visit",
       "backendMethodName": "deleteVisitSafely",
       "backendMethodReturnsVoid": true
     },
-    "getDiseaseFull" : {
-      "request" : [ {
-        "name" : "disease-id",
-        "type" : "int"
-      } ],
-      "response" : "DiseaseFull",
-      "doc" : "",
-      "httpMethod" : "get",
-      "url" : "get-disease-full"
+    "getDiseaseFull": {
+      "request": [
+        {
+          "name": "disease-id",
+          "type": "int"
+        }
+      ],
+      "response": "DiseaseFull",
+      "doc": "",
+      "httpMethod": "get",
+      "url": "get-disease-full"
     }
   }
 }
+
