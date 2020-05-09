@@ -1303,44 +1303,6 @@
       "url": "find-pharma-drug",
       "backendMethodName": "getPharmaDrug"
     },
-    "resolveShinryoucode": {
-      "request": [
-        {
-          "name": "shinryoucode",
-          "type": "int"
-        },
-        {
-          "name": "at",
-          "type": "string",
-          "typeHints": [
-            "date"
-          ]
-        }
-      ],
-      "response": "int",
-      "doc": "",
-      "httpMethod": "get",
-      "url": "resolve-shinryoucode"
-    },
-    "resolveIyakuhinMaster": {
-      "request": [
-        {
-          "name": "iyakuhincode",
-          "type": "int"
-        },
-        {
-          "name": "at",
-          "type": "string",
-          "typeHints": [
-            "date"
-          ]
-        }
-      ],
-      "response": "IyakuhinMaster",
-      "doc": "",
-      "httpMethod": "get",
-      "url": "resolve-iyakuhin-master"
-    },
     "listDrugFull": {
       "request": [
         {
