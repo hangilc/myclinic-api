@@ -1342,34 +1342,6 @@
       "url": "update-shouki",
       "backendMethodReturnsVoid": true
     },
-    "batchResolveByoumeiNames": {
-      "request": [
-        {
-          "name": "at",
-          "typeHints": [
-            "date"
-          ],
-          "type": "string"
-        },
-        {
-          "name": "args",
-          "type": "array",
-          "items": {
-            "type": "array",
-            "items": "string"
-          },
-          "isBody": true
-        }
-      ],
-      "response": {
-        "keys": "string",
-        "values": "int",
-        "type": "map"
-      },
-      "doc": "",
-      "httpMethod": "post",
-      "url": "batch-resolve-byoumei-names"
-    },
     "prescDone": {
       "request": [
         {
@@ -1606,25 +1578,6 @@
       "doc": "",
       "httpMethod": "get",
       "url": "search-iyakuhin-master-by-name"
-    },
-    "resolveShinryouMaster": {
-      "request": [
-        {
-          "name": "shinryoucode",
-          "type": "int"
-        },
-        {
-          "name": "at",
-          "type": "string",
-          "typeHints": [
-            "date"
-          ]
-        }
-      ],
-      "response": "ShinryouMaster",
-      "doc": "",
-      "httpMethod": "get",
-      "url": "resolve-shinryou-master"
     },
     "getHokensho": {
       "request": [
