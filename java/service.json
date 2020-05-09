@@ -1198,30 +1198,6 @@
       "httpMethod": "get",
       "url": "get-conduct"
     },
-    "enterInject": {
-      "request": [
-        {
-          "name": "visit-id",
-          "type": "int"
-        },
-        {
-          "name": "kind",
-          "type": "int"
-        },
-        {
-          "name": "iyakuhincode",
-          "type": "int"
-        },
-        {
-          "name": "amount",
-          "type": "float"
-        }
-      ],
-      "response": "int",
-      "doc": "",
-      "httpMethod": "post",
-      "url": "enter-inject"
-    },
     "deleteConductDrug": {
       "request": [
         {
