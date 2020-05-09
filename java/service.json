@@ -1851,34 +1851,6 @@
       "httpMethod": "get",
       "url": "search-kizai-master-by-name"
     },
-    "batchResolveShuushokugoNames": {
-      "request": [
-        {
-          "name": "at",
-          "typeHints": [
-            "date"
-          ],
-          "type": "string"
-        },
-        {
-          "name": "args",
-          "type": "array",
-          "items": {
-            "type": "array",
-            "items": "string"
-          },
-          "isBody": true
-        }
-      ],
-      "response": {
-        "keys": "string",
-        "values": "int",
-        "type": "map"
-      },
-      "doc": "",
-      "httpMethod": "post",
-      "url": "batch-resolve-shuushokugo-names"
-    },
     "batchUpdateDiseaseEndReason": {
       "request": [
         {
