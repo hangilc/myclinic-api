@@ -1657,18 +1657,6 @@
       "httpMethod": "get",
       "url": "get-conduct-drug-full"
     },
-    "getVisitMeisai": {
-      "request": [
-        {
-          "name": "visit-id",
-          "type": "int"
-        }
-      ],
-      "response": "Meisai",
-      "doc": "",
-      "httpMethod": "get",
-      "url": "get-visit-meisai"
-    },
     "countPageOfDiseaseByPatient": {
       "request": [
         {
