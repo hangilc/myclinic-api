@@ -2349,22 +2349,6 @@
       "httpMethod": "get",
       "url": "list-todays-hotline"
     },
-    "resolveShinryouMasterByName": {
-      "request": [
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "at",
-          "type": "string"
-        }
-      ],
-      "response": "ShinryouMaster",
-      "doc": "",
-      "httpMethod": "get",
-      "url": "resolve-shinryou-master-by-name"
-    },
     "enterXp": {
       "request": [
         {
