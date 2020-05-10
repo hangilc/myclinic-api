@@ -2170,25 +2170,6 @@
       "httpMethod": "get",
       "url": "get-visit"
     },
-    "resolveKizaiMaster": {
-      "request": [
-        {
-          "name": "kizaicode",
-          "type": "int"
-        },
-        {
-          "name": "at",
-          "type": "string",
-          "typeHints": [
-            "date"
-          ]
-        }
-      ],
-      "response": "KizaiMaster",
-      "doc": "",
-      "httpMethod": "get",
-      "url": "resolve-kizai-master"
-    },
     "modifyGazouLabel": {
       "request": [
         {
