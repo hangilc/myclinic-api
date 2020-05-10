@@ -2092,25 +2092,6 @@
       "url": "delete-visit-from-reception",
       "backendMethodReturnsVoid": true
     },
-    "copyAllConducts": {
-      "request": [
-        {
-          "name": "target-visit-id",
-          "type": "int"
-        },
-        {
-          "name": "source-visit-id",
-          "type": "int"
-        }
-      ],
-      "response": {
-        "type": "array",
-        "items": "int"
-      },
-      "doc": "",
-      "httpMethod": "post",
-      "url": "copy-all-conducts"
-    },
     "enterPrescExample": {
       "request": [
         {
