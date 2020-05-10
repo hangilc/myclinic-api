@@ -2268,7 +2268,7 @@
       },
       "doc": "",
       "httpMethod": "get",
-      "url": "list-practice-log-after"
+      "url": "list-practice-at"
     },
     "listAllPracticeLogAfter": {
       "request": [
@@ -2280,7 +2280,7 @@
           ]
         },
         {
-          "name": "after-this-id",
+          "name": "after-id",
           "type": [ "null", "int"]
         }
       ],
