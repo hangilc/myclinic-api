@@ -2349,26 +2349,6 @@
       "httpMethod": "get",
       "url": "list-todays-hotline"
     },
-    "enterXp": {
-      "request": [
-        {
-          "name": "visit-id",
-          "type": "int"
-        },
-        {
-          "name": "label",
-          "type": "string"
-        },
-        {
-          "name": "film",
-          "type": "string"
-        }
-      ],
-      "response": "int",
-      "doc": "",
-      "httpMethod": "post",
-      "url": "enter-xp"
-    },
     "enterShahokokuho": {
       "request": [
         {
