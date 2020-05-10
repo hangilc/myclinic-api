@@ -1995,25 +1995,6 @@
       "url": "update-text",
       "backendMethodReturnsVoid": true
     },
-    "resolveKizaiMasterByName": {
-      "request": [
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "at",
-          "type": "string",
-          "typeHints": [
-            "date"
-          ]
-        }
-      ],
-      "response": "KizaiMaster",
-      "doc": "",
-      "httpMethod": "get",
-      "url": "resolve-kizai-master-by-name"
-    },
     "listVisitIdByPatient": {
       "request": [
         {
