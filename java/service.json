@@ -2260,9 +2260,27 @@
           "typeHints": [
             "date"
           ]
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "PracticeLog"
+      },
+      "doc": "",
+      "httpMethod": "get",
+      "url": "list-practice-log-after"
+    },
+    "listAllPracticeLogAfter": {
+      "request": [
+        {
+          "name": "date",
+          "type": "string",
+          "typeHints": [
+            "date"
+          ]
         },
         {
-          "name": "last-id",
+          "name": "after-this-id",
           "type": [ "null", "int"]
         }
       ],
