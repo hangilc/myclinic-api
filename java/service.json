@@ -2263,7 +2263,7 @@
         },
         {
           "name": "last-id",
-          "type": "int"
+          "type": [ "null", "int"]
         }
       ],
       "response": {
