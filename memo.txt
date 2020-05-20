@@ -11,5 +11,13 @@ f-page-size A5 --pdf-shrink 2
 pharma letter example:
 > python presc.py pharma-letter -i DATA-FILE -o OUT-FILE
 
-pharma letter pdf example:
-java -jar myclinic-spring\multi-drawer-cli\target\multi-drawer-cli-1.0.0-SNAPSHOT.jar text -i PHARMA-LETTER.txt -o work\temp.txt
+pharma letter dawer example:
+> java -jar myclinic-spring\multi-drawer-cli\target\multi-drawer-cli-1.0.0-SNAPSHOT.jar text -i PHARMA-LETTER.txt -o work\temp.txt
+> java -jar myclinic-spring\drawer-printer\target\drawer-printer-1.0.0-SNAPSHOT.jar --pdf PDF-FILE -i work\temp.txt
+
+pharma label:
+* pharma-addr.json is read from %MYCLINIC_CONFIG% directory
+* update for pharma-addr.json can be created by `python presc.py pharma-addr -i DATA-FILE --missing`
+> python presc.py pharma-label -i DATA-FILE -o TEMP-FILE
+> java -jar myclinic-spring\multi-drawer-cli\target\multi-drawer-cli-1.0.0-SNAPSHOT.jar seal8x3 -r START-ROW -c START-COL -i TEMP-FILE -o OUT-FILE
+> java -jar myclinic-spring\drawer-printer\target\drawer-printer-1.0.0-SNAPSHOT.jar --pdf PDF-FILE -i TEMP-FILE

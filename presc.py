@@ -552,12 +552,16 @@ def run_pharma_label(input_file=None, output=None, fax=None) -> None:
     do_output(json_rep, output)
 
 
-def run_pharma_addr(input_file=None, output=None) -> None:
+def run_pharma_addr(input_file=None, output=None, missing=False) -> None:
     dict_data = do_input(input_file)
     bundle: ShohousenBundle = ShohousenBundle.from_dict(dict_data)
+    if missing:
+        addr_map = pharmacy.pharma_addr_map
     data = {}
     for g in bundle.groups:
         pharma = g.pharmacy
+        if missing and pharma.fax in addr_map:
+            continue
         postal_code = "〒" + pharma.addr[0]
         addr = pharma.addr[1].replace("東京都", "").strip()
         data[pharma.fax] = f"{postal_code}\n{addr}\n{pharma.name} 御中"
@@ -616,9 +620,10 @@ def run():
     parser_pharma_label.add_argument("--fax", help="process only pharmacies with these fax numbers (comma separated)")
     parser_pharma_label.set_defaults(func=run_pharma_label)
     # pharma-addr
-    parser_pharma_addr = sub_parsers.add_parser("pharma-addr")
+    parser_pharma_addr = sub_parsers.add_parser("pharma-addr", help="create pharma-addr.json from basic data")
     parser_pharma_addr.add_argument("-i", "--input", dest="input_file")
     parser_pharma_addr.add_argument("-o", "--output")
+    parser_pharma_addr.add_argument("--missing", action="store_true", help="output only missing pharmacies")
     parser_pharma_addr.set_defaults(func=run_pharma_addr)
     # clinic-label
     parser_clinic_label = sub_parsers.add_parser("clinic-label")
