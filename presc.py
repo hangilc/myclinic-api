@@ -584,13 +584,13 @@ def run():
     parser = argparse.ArgumentParser(description="Processes prescripton")
     sub_parsers = parser.add_subparsers()
     # data
-    parser_data = sub_parsers.add_parser("data")
+    parser_data = sub_parsers.add_parser("data", help="creates basic data")
     parser_data.add_argument("date_from", metavar="DATE-FROM")
     parser_data.add_argument("date_upto", metavar="DATE-UPTO")
     parser_data.add_argument("-o", "--output")
     parser_data.set_defaults(func=run_data)
     # print
-    parser_print = sub_parsers.add_parser("print")
+    parser_print = sub_parsers.add_parser("print", help="creates shohousen text from basic data file")
     parser_print.add_argument("-i", "--input", dest="input_file")
     parser_print.add_argument("-o", "--output")
     parser_print.set_defaults(func=run_print)
@@ -605,15 +605,15 @@ def run():
     parser_comparison.add_argument("-o", "--output")
     parser_comparison.set_defaults(func=run_comparison)
     # pharma-letter
-    parser_pharma_letter = sub_parsers.add_parser("pharma-letter")
+    parser_pharma_letter = sub_parsers.add_parser("pharma-letter", help="creates pharma letter text from basic data")
     parser_pharma_letter.add_argument("-i", "--input", dest="input_file")
     parser_pharma_letter.add_argument("-o", "--output")
     parser_pharma_letter.set_defaults(func=run_pharma_letter)
     # pharma-label
-    parser_pharma_label = sub_parsers.add_parser("pharma-label")
+    parser_pharma_label = sub_parsers.add_parser("pharma-label", help="create pharma label text from basic data")
     parser_pharma_label.add_argument("-i", "--input", dest="input_file")
     parser_pharma_label.add_argument("-o", "--output")
-    parser_pharma_label.add_argument("--fax", help="choose by fax numbers (comma separated)")
+    parser_pharma_label.add_argument("--fax", help="process only pharmacies with these fax numbers (comma separated)")
     parser_pharma_label.set_defaults(func=run_pharma_label)
     # pharma-addr
     parser_pharma_addr = sub_parsers.add_parser("pharma-addr")

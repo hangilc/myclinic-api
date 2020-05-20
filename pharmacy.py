@@ -4,6 +4,9 @@ from typing import List, Dict
 import re
 
 
+CONFIG_DIR = os.getenv("MYCLINIC_CONFIG")
+
+
 def remove_u3000_blank(s: str) -> str:
     return s.replace("\u3000", "")
 
@@ -83,7 +86,7 @@ def get_pharmacy_list():
 
 
 def read_pharma_addr():
-    addr_file = "work/pharma-addr.json"
+    addr_file = os.path.join(CONFIG_DIR, "pharma-addr.json")
     with open(addr_file, "r", encoding="UTF-8") as f:
         return json.load(f)
 

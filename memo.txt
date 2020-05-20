@@ -7,3 +7,9 @@ shohousen print example:
 > python presc.py print -i work\shohousen-data-20200326-20200419.json | java -jar C:\Users\hangil\work\learn-java\myclinic-spring\shohousen-drawer\target\shohousen
 -drawer-1.0.0-SNAPSHOT.jar | java -jar C:\Users\hangil\work\learn-java\myclinic-spring\drawer-printer\target\drawer-printer-1.0.0-SNAPSHOT.jar --pdf work\shohousen-20200326-20200419.pdf --pd
 f-page-size A5 --pdf-shrink 2
+
+pharma letter example:
+> python presc.py pharma-letter -i DATA-FILE -o OUT-FILE
+
+pharma letter pdf example:
+java -jar myclinic-spring\multi-drawer-cli\target\multi-drawer-cli-1.0.0-SNAPSHOT.jar text -i PHARMA-LETTER.txt -o work\temp.txt
