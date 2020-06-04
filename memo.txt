@@ -21,3 +21,8 @@ pharma label:
 > python presc.py pharma-label -i DATA-FILE -o TEMP-FILE
 > java -jar myclinic-spring\multi-drawer-cli\target\multi-drawer-cli-1.0.0-SNAPSHOT.jar seal8x3 -r START-ROW -c START-COL -i TEMP-FILE -o OUT-FILE
 > java -jar myclinic-spring\drawer-printer\target\drawer-printer-1.0.0-SNAPSHOT.jar --pdf PDF-FILE -i TEMP-FILE
+
+clinic label:
+> python presc.py clinic-label -n 20 -o TEMPFILE
+> java -jar myclinic-spring\multi-drawer-cli\target\multi-drawer-cli-1.0.0-SNAPSHOT.jar seal8x3 -r START-ROW -c START-COL -i TEMPFILE -o OUT-FILE
+> java -jar myclinic-spring\drawer-printer\target\drawer-printer-1.0.0-SNAPSHOT.jar --pdf PDF-FILE -i TEMP-FILE

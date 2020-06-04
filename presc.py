@@ -564,7 +564,7 @@ def run_pharma_addr(input_file=None, output=None, missing=False) -> None:
             continue
         postal_code = "〒" + pharma.addr[0]
         addr = pharma.addr[1].replace("東京都", "").strip()
-        data[pharma.fax] = f"{postal_code}\n{addr}\n{pharma.name} 御中"
+        data[pharma.fax] = f"{postal_code}\n{addr}\n{pharma.name}"
     json_rep = json.dumps(data, indent=2, ensure_ascii=False)
     do_output(json_rep, output)
 
